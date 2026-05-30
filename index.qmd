@@ -1,0 +1,140 @@
+---
+title: ""
+page-layout: full
+toc: false
+body-class: homepage
+---
+
+::: {.hero-banner}
+
+# Biostatistics with Python
+
+## Learning Statistics Through Cardiovascular Data
+
+Using the UCI Cleveland Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.
+
+We will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models.
+
+:::
+
+::: {.callout-note title="Core question"}
+How can we use statistics to turn patient-level cardiovascular data into evidence?
+:::
+
+## Module Overview
+
+::: {.grid}
+
+::: {.g-col-4}
+### Part I  
+## Descriptive Statistics
+
+Explore the dataset, summarise patient variables, and visualise distributions.
+:::
+
+::: {.g-col-4}
+### Part II  
+## Hypothesis Testing
+
+Compare patient groups and decide whether observed differences are likely to reflect meaningful effects.
+:::
+
+::: {.g-col-4}
+### Part III  
+## Correlation and Regression
+
+Study relationships between clinical variables and learn how simple models support interpretation.
+:::
+
+:::
+
+---
+
+## Dataset at a Glance
+
+The module uses the **processed Cleveland database** from the UCI Heart Disease dataset. The UCI repository describes the Heart Disease dataset as containing four databases, with Cleveland being the processed database most commonly used in machine learning studies.
+
+```{python}
+#| echo: false
+#| fig-cap: "Summary of the processed Cleveland Heart Disease dataset used throughout the module."
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+OXFORD_BLUE = "#002147"
+CLINICAL_RED = "#C73E3A"
+ACCENT_BLUE = "#3A7CA5"
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
+
+columns = [
+    "age", "sex", "cp", "trestbps", "chol", "fbs", "restecg",
+    "thalach", "exang", "oldpeak", "slope", "ca", "thal", "num"
+]
+
+df = pd.read_csv(url, header=None, names=columns, na_values="?")
+df["heart_disease"] = np.where(df["num"] == 0, "No heart disease", "Heart disease")
+
+n_patients = df.shape[0]
+n_features = df.shape[1] - 1
+n_disease = int((df["num"] > 0).sum())
+n_no_disease = int((df["num"] == 0).sum())
+
+fig, ax = plt.subplots(figsize=(10, 5))
+ax.axis("off")
+
+metrics = [
+    ("Patients", n_patients, OXFORD_BLUE),
+    ("Clinical variables", n_features, ACCENT_BLUE),
+    ("Heart disease", n_disease, CLINICAL_RED),
+    ("No heart disease", n_no_disease, ACCENT_BLUE),
+]
+
+x_positions = [0.13, 0.38, 0.63, 0.88]
+
+for (label, value, colour), x in zip(metrics, x_positions):
+    ax.text(
+        x, 0.62, str(value),
+        ha="center", va="center",
+        fontsize=26, fontweight="bold",
+        color=colour
+    )
+    ax.text(
+        x, 0.43, label,
+        ha="center", va="center",
+        fontsize=12,
+        bbox=dict(boxstyle="round,pad=0.45", fc="white", ec=colour, lw=1.6)
+    )
+
+ax.text(
+    0.5, 0.9,
+    "Processed Cleveland Heart Disease Dataset",
+    ha="center", va="center",
+    fontsize=16, fontweight="bold", color=OXFORD_BLUE
+)
+
+plt.show()
+```
+
+---
+
+## Learning Workflow
+
+Throughout the module, we will follow the same analysis pattern:
+
+1. Ask a clinical question.
+2. Inspect and visualise the data.
+3. Compute an appropriate statistical summary or test.
+4. Interpret the result.
+5. Relate the finding back to the biomedical context.
+
+::: {.callout-tip title="Course philosophy"}
+The aim is not to memorise statistical tests. The aim is to learn how to reason carefully with biomedical data.
+:::
+
+---
+
+## Next
+
+[Why Biostatistics? →](why-biostatistics.qmd)

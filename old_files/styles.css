@@ -1,0 +1,12 @@
+.navbar-brand::after {
+    content: "";
+    display: inline-block;
+    width: 180px;
+    height: 45px;
+    margin-left: 20px;
+    background-image: url("image/logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+}

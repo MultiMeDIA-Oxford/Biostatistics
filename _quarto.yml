@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Biostatistics with Python"
+  site-url: "https://multimedia-oxford.github.io/Biostatistics/"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: why-biostatistics.qmd
+        text: Why Biostatistics?
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    execute:
+      warning: false
+      message: false

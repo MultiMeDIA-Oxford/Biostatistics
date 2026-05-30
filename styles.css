@@ -1,0 +1,89 @@
+.hero-banner {
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #eaf1f8 100%);
+  margin-bottom: 2rem;
+}
+
+.hero-banner h1 {
+  color: #002147;
+  font-size: 3rem;
+  font-weight: 750;
+}
+
+.hero-banner h2 {
+  color: #3A7CA5;
+  font-weight: 500;
+}
+
+.homepage #title-block-header {
+  display: none;
+}
+
+.callout-note {
+  border-left-color: #002147;
+}
+
+.callout-tip {
+  border-left-color: #3A7CA5;
+}
+
+.callout-important {
+  border-left-color: #C73E3A;
+}
+
+.callout-warning {
+  border-left-color: #C73E3A;
+}
+
+.quarto-title-block .title {
+  color: #002147;
+}
+
+table {
+  width: 100%;
+}
+
+.figure-caption {
+  font-size: 0.95rem;
+  color: #555555;
+}
+
+img {
+  border-radius: 0.35rem;
+}
+
+.subtitle {
+  color: #3A7CA5;
+}
+
+/* Department/IBME/Oxford logo on the top-right of every page. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0.55rem;
+  right: 4.5rem;
+  width: 360px;
+  height: 58px;
+  background-image: url("image/logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right center;
+  z-index: 1050;
+  pointer-events: none;
+}
+
+.navbar {
+  min-height: 76px;
+}
+
+/* Hide the large logo on narrower screens to avoid overlap. */
+@media (max-width: 1250px) {
+  body::before {
+    display: none;
+  }
+
+  .navbar {
+    min-height: 56px;
+  }
+}

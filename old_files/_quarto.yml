@@ -1,0 +1,13 @@
+website:
+  title: "Biostatistics with Python"
+
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: why-biostatistics.qmd
+        text: Why Biostatistics?
+
+    right:
+      - text: ""
+        href: "#"

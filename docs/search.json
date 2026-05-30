@@ -1,0 +1,254 @@
+[
+  {
+    "objectID": "why-biostatistics.html",
+    "href": "why-biostatistics.html",
+    "title": "Why Biostatistics?",
+    "section": "",
+    "text": "NoteClinical Question\n\n\n\nWhen we collect measurements from patients, how do we turn those measurements into evidence?"
+  },
+  {
+    "objectID": "why-biostatistics.html#from-data-to-evidence",
+    "href": "why-biostatistics.html#from-data-to-evidence",
+    "title": "Why Biostatistics?",
+    "section": "From Data to Evidence",
+    "text": "From Data to Evidence\nBiostatistics provides a framework for transforming raw clinical measurements into evidence that can support scientific understanding and clinical decision-making.\n\n\n\n\n\nBiostatistics transforms raw measurements into evidence.\n\n\n\n\nModern biomedical engineering generates enormous amounts of data from clinical records, physiological measurements, medical imaging, wearable sensors, laboratory biomarkers, and electronic health records.\nHowever, collecting data is only the first step. We need statistical methods to understand patterns, quantify uncertainty, compare groups, and identify meaningful relationships."
+  },
+  {
+    "objectID": "why-biostatistics.html#from-patients-to-data",
+    "href": "why-biostatistics.html#from-patients-to-data",
+    "title": "Why Biostatistics?",
+    "section": "From Patients to Data",
+    "text": "From Patients to Data\nA clinical dataset is usually organised as a table. Each row corresponds to a patient, and each column corresponds to a variable measured for that patient.\n\n\n\nPatient\nAge\nCholesterol\nBlood Pressure\nHeart Disease\n\n\n\n\n1\n63\n233\n145\nYes\n\n\n2\n37\n250\n130\nNo\n\n\n3\n56\n236\n120\nYes\n\n\n…\n…\n…\n…\n…\n\n\n\n\n\n\n\n\n\nTipKey Idea\n\n\n\nBiostatistics helps us move from individual patient measurements to statements about populations, disease processes, and clinical outcomes."
+  },
+  {
+    "objectID": "why-biostatistics.html#visualising-a-clinical-dataset",
+    "href": "why-biostatistics.html#visualising-a-clinical-dataset",
+    "title": "Why Biostatistics?",
+    "section": "Visualising a Clinical Dataset",
+    "text": "Visualising a Clinical Dataset\nThe table format is useful because it makes the structure of the data explicit: patients, variables, and outcomes.\n\n\n\n\n\nA clinical dataset links patients, variables, and outcomes."
+  },
+  {
+    "objectID": "why-biostatistics.html#why-raw-data-are-not-enough",
+    "href": "why-biostatistics.html#why-raw-data-are-not-enough",
+    "title": "Why Biostatistics?",
+    "section": "Why Raw Data Are Not Enough",
+    "text": "Why Raw Data Are Not Enough\nSuppose we collect the ages of ten patients:\n63, 67, 67, 37, 41, 56, 57, 62, 54, 59\nAlthough these measurements contain useful information, it is difficult to understand the overall population simply by looking at a list of numbers.\nStatistics allows us to summarise information efficiently.\n\nFrom Raw Data to Summary\n\n\n\n\n\nStatistics compresses many observations into a smaller number of interpretable quantities."
+  },
+  {
+    "objectID": "why-biostatistics.html#statistics-compresses-information",
+    "href": "why-biostatistics.html#statistics-compresses-information",
+    "title": "Why Biostatistics?",
+    "section": "Statistics Compresses Information",
+    "text": "Statistics Compresses Information\nOne of the most common summary statistics is the sample mean:\n[ {x} = _{i=1}^{n} x_i ]\nwhere:\n\n(x_i) is an observation,\n(n) is the number of observations.\n\nThe mean provides a useful description of the centre of a dataset. However, averages do not tell the whole story."
+  },
+  {
+    "objectID": "why-biostatistics.html#why-averages-are-not-enough",
+    "href": "why-biostatistics.html#why-averages-are-not-enough",
+    "title": "Why Biostatistics?",
+    "section": "Why Averages Are Not Enough",
+    "text": "Why Averages Are Not Enough\nConsider two datasets:\n\n\n\nDataset\nValues\nMean\n\n\n\n\nA\n50, 50, 50, 50, 50\n50\n\n\nB\n10, 30, 50, 70, 90\n50\n\n\n\nBoth datasets have the same mean, yet they clearly describe very different populations.\n\nSame Mean, Different Variability\n\n\n\n\n\nDifferent datasets can have identical means but very different variability.\n\n\n\n\nThis observation motivates the need for measures of variability such as range, variance, standard deviation, and interquartile range."
+  },
+  {
+    "objectID": "why-biostatistics.html#from-description-to-evidence",
+    "href": "why-biostatistics.html#from-description-to-evidence",
+    "title": "Why Biostatistics?",
+    "section": "From Description to Evidence",
+    "text": "From Description to Evidence\nSuppose we observe:\n\n\n\nGroup\nMean Age\n\n\n\n\nHeart Disease\n58 years\n\n\nNo Heart Disease\n54 years\n\n\n\nA natural question arises:\n\nIs this difference meaningful?\n\nOr:\n\nCould it simply have occurred by chance?\n\n\nComparing Two Groups\n\n\n\n\n\nVisual differences between groups motivate statistical hypothesis testing.\n\n\n\n\nVisual inspection alone is rarely sufficient. We therefore need formal statistical methods to determine whether observed differences are likely to represent genuine effects."
+  },
+  {
+    "objectID": "why-biostatistics.html#a-preview-of-the-cleveland-dataset",
+    "href": "why-biostatistics.html#a-preview-of-the-cleveland-dataset",
+    "title": "Why Biostatistics?",
+    "section": "A Preview of the Cleveland Dataset",
+    "text": "A Preview of the Cleveland Dataset\nFrom this point onwards, the module will use the processed Cleveland Heart Disease dataset as the running example.\nThe following figures are generated directly from the Cleveland data.\n\n\n\n\n\nAge distribution in the processed Cleveland Heart Disease dataset.\n\n\n\n\n\n\n\n\n\nHeart disease prevalence in the processed Cleveland dataset.\n\n\n\n\nEven these simple plots already raise useful questions:\n\nWhat is the typical age of patients in this dataset?\nAre some age groups overrepresented?\nHow balanced are the disease and non-disease groups?\nHow might cohort composition affect statistical interpretation?\n\nThe remainder of the module will teach us how to answer such questions systematically."
+  },
+  {
+    "objectID": "why-biostatistics.html#three-levels-of-statistical-reasoning",
+    "href": "why-biostatistics.html#three-levels-of-statistical-reasoning",
+    "title": "Why Biostatistics?",
+    "section": "Three Levels of Statistical Reasoning",
+    "text": "Three Levels of Statistical Reasoning\n\n1. Describe\nWhat does the dataset look like?\nExamples:\n\nmeans,\nmedians,\nstandard deviations,\nhistograms,\nboxplots.\n\n\n\n2. Compare\nAre groups different?\nExamples:\n\nconfidence intervals,\np-values,\nt-tests,\nnon-parametric tests.\n\n\n\n3. Model\nHow are variables related?\nExamples:\n\ncorrelation,\nregression,\nprediction.\n\n\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nStatistics transforms measurements into evidence.\nClinical datasets consist of patients, variables, and outcomes.\nSummary statistics help us understand large amounts of data.\nDifferent datasets can have the same mean but very different variability.\nStatistical methods help us determine whether observed differences are meaningful.\nThe rest of this module uses the processed Cleveland Heart Disease dataset as the main running example."
+  },
+  {
+    "objectID": "why-biostatistics.html#next",
+    "href": "why-biostatistics.html#next",
+    "title": "Why Biostatistics?",
+    "section": "Next",
+    "text": "Next\nMeet the Dataset"
+  },
+  {
+    "objectID": "old_files/index.html",
+    "href": "old_files/index.html",
+    "title": "Biostatistics with Python",
+    "section": "",
+    "text": "Using the UCI Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.\nWe will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models."
+  },
+  {
+    "objectID": "old_files/index.html#learning-statistics-through-cardiovascular-data",
+    "href": "old_files/index.html#learning-statistics-through-cardiovascular-data",
+    "title": "Biostatistics with Python",
+    "section": "",
+    "text": "Using the UCI Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.\nWe will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models."
+  },
+  {
+    "objectID": "old_files/index.html#module-overview",
+    "href": "old_files/index.html#module-overview",
+    "title": "Biostatistics with Python",
+    "section": "Module Overview",
+    "text": "Module Overview\n\n\n\nPart I\n\n\nDescriptive Statistics\nExplore the dataset, summarise patient variables, and visualise distributions.\n\n\n\n\nPart II\n\n\nHypothesis Testing\nCompare patient groups and decide whether observed differences are likely to reflect meaningful effects.\n\n\n\n\nPart III\n\n\nCorrelation and Regression\nStudy relationships between clinical variables and learn how simple models support interpretation."
+  },
+  {
+    "objectID": "old_files/index.html#descriptive-statistics",
+    "href": "old_files/index.html#descriptive-statistics",
+    "title": "Biostatistics with Python",
+    "section": "Descriptive Statistics",
+    "text": "Descriptive Statistics\nExplore the dataset, summarise patient variables, and visualise distributions."
+  },
+  {
+    "objectID": "old_files/index.html#hypothesis-testing",
+    "href": "old_files/index.html#hypothesis-testing",
+    "title": "Biostatistics with Python",
+    "section": "Hypothesis Testing",
+    "text": "Hypothesis Testing\nCompare patient groups and decide whether observed differences are likely to reflect meaningful effects."
+  },
+  {
+    "objectID": "old_files/index.html#correlation-and-regression",
+    "href": "old_files/index.html#correlation-and-regression",
+    "title": "Biostatistics with Python",
+    "section": "Correlation and Regression",
+    "text": "Correlation and Regression\nStudy relationships between clinical variables and learn how simple models support interpretation."
+  },
+  {
+    "objectID": "old_files/index.html#dataset-at-a-glance",
+    "href": "old_files/index.html#dataset-at-a-glance",
+    "title": "Biostatistics with Python",
+    "section": "Dataset at a Glance",
+    "text": "Dataset at a Glance\nThe module uses the UCI Heart Disease dataset, a classic cardiovascular dataset containing clinical measurements, symptoms, and diagnostic information from patients investigated for heart disease.\n\n\n\n\n\nA simplified view of the dataset used throughout the module."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Biostatistics with Python",
+    "section": "",
+    "text": "Using the UCI Cleveland Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.\nWe will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models."
+  },
+  {
+    "objectID": "index.html#learning-statistics-through-cardiovascular-data",
+    "href": "index.html#learning-statistics-through-cardiovascular-data",
+    "title": "Biostatistics with Python",
+    "section": "",
+    "text": "Using the UCI Cleveland Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.\nWe will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models."
+  },
+  {
+    "objectID": "index.html#module-overview",
+    "href": "index.html#module-overview",
+    "title": "Biostatistics with Python",
+    "section": "Module Overview",
+    "text": "Module Overview\n\n\n\nPart I\n\n\nDescriptive Statistics\nExplore the dataset, summarise patient variables, and visualise distributions.\n\n\n\n\nPart II\n\n\nHypothesis Testing\nCompare patient groups and decide whether observed differences are likely to reflect meaningful effects.\n\n\n\n\nPart III\n\n\nCorrelation and Regression\nStudy relationships between clinical variables and learn how simple models support interpretation."
+  },
+  {
+    "objectID": "index.html#descriptive-statistics",
+    "href": "index.html#descriptive-statistics",
+    "title": "Biostatistics with Python",
+    "section": "Descriptive Statistics",
+    "text": "Descriptive Statistics\nExplore the dataset, summarise patient variables, and visualise distributions."
+  },
+  {
+    "objectID": "index.html#hypothesis-testing",
+    "href": "index.html#hypothesis-testing",
+    "title": "Biostatistics with Python",
+    "section": "Hypothesis Testing",
+    "text": "Hypothesis Testing\nCompare patient groups and decide whether observed differences are likely to reflect meaningful effects."
+  },
+  {
+    "objectID": "index.html#correlation-and-regression",
+    "href": "index.html#correlation-and-regression",
+    "title": "Biostatistics with Python",
+    "section": "Correlation and Regression",
+    "text": "Correlation and Regression\nStudy relationships between clinical variables and learn how simple models support interpretation."
+  },
+  {
+    "objectID": "index.html#dataset-at-a-glance",
+    "href": "index.html#dataset-at-a-glance",
+    "title": "Biostatistics with Python",
+    "section": "Dataset at a Glance",
+    "text": "Dataset at a Glance\nThe module uses the processed Cleveland database from the UCI Heart Disease dataset. The UCI repository describes the Heart Disease dataset as containing four databases, with Cleveland being the processed database most commonly used in machine learning studies.\n\n\n\n\n\nSummary of the processed Cleveland Heart Disease dataset used throughout the module."
+  },
+  {
+    "objectID": "index.html#learning-workflow",
+    "href": "index.html#learning-workflow",
+    "title": "Biostatistics with Python",
+    "section": "Learning Workflow",
+    "text": "Learning Workflow\nThroughout the module, we will follow the same analysis pattern:\n\nAsk a clinical question.\nInspect and visualise the data.\nCompute an appropriate statistical summary or test.\nInterpret the result.\nRelate the finding back to the biomedical context.\n\n\n\n\n\n\n\nTipCourse philosophy\n\n\n\nThe aim is not to memorise statistical tests. The aim is to learn how to reason carefully with biomedical data."
+  },
+  {
+    "objectID": "index.html#next",
+    "href": "index.html#next",
+    "title": "Biostatistics with Python",
+    "section": "Next",
+    "text": "Next\nWhy Biostatistics? →"
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html",
+    "href": "old_files/why-biostatistics.html",
+    "title": "Why Biostatistics?",
+    "section": "",
+    "text": "NoteClinical Question\n\n\n\nWhen we collect measurements from patients, how do we turn those measurements into evidence?"
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#from-data-to-evidence",
+    "href": "old_files/why-biostatistics.html#from-data-to-evidence",
+    "title": "Why Biostatistics?",
+    "section": "From Data to Evidence",
+    "text": "From Data to Evidence\nBiostatistics provides a framework for transforming raw clinical measurements into evidence that can support scientific understanding and clinical decision-making.\n\n\n\n\n\nBiostatistics transforms raw measurements into evidence.\n\n\n\n\nModern biomedical engineering generates enormous amounts of data from:\n\nclinical records,\nphysiological measurements,\nmedical imaging,\nwearable sensors,\nlaboratory biomarkers,\nelectronic health records.\n\nHowever, collecting data is only the first step. We need statistical methods to understand patterns, quantify uncertainty, compare groups, and identify meaningful relationships."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#from-patients-to-data",
+    "href": "old_files/why-biostatistics.html#from-patients-to-data",
+    "title": "Why Biostatistics?",
+    "section": "From Patients to Data",
+    "text": "From Patients to Data\nA clinical dataset is usually organised as a table.\nEach row corresponds to a patient.\nEach column corresponds to a variable measured for that patient.\n\n\n\nPatient\nAge\nCholesterol\nBlood Pressure\nHeart Disease\n\n\n\n\n1\n63\n233\n145\nYes\n\n\n2\n37\n250\n130\nNo\n\n\n3\n56\n236\n120\nYes\n\n\n…\n…\n…\n…\n…\n\n\n\n\n\n\n\n\n\nTipKey Idea\n\n\n\nBiostatistics helps us move from individual patient measurements to statements about populations, disease processes, and clinical outcomes.\n\n\n\nVisualising a Clinical Dataset\n\n\n\n\n\nA clinical dataset links patients, variables, and outcomes."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#why-raw-data-are-not-enough",
+    "href": "old_files/why-biostatistics.html#why-raw-data-are-not-enough",
+    "title": "Why Biostatistics?",
+    "section": "Why Raw Data Are Not Enough",
+    "text": "Why Raw Data Are Not Enough\nSuppose we collect the ages of ten patients:\n63, 67, 67, 37, 41, 56, 57, 62, 54, 59\nAlthough these measurements contain useful information, it is difficult to understand the overall population simply by looking at a list of numbers.\nStatistics allows us to summarise information efficiently.\n\nFrom Raw Data to Summary\n\n\n\n\n\nStatistics compresses many observations into a smaller number of interpretable quantities."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#statistics-compresses-information",
+    "href": "old_files/why-biostatistics.html#statistics-compresses-information",
+    "title": "Why Biostatistics?",
+    "section": "Statistics Compresses Information",
+    "text": "Statistics Compresses Information\nOne of the most common summary statistics is the sample mean:\n[ {x} = _{i=1}^{n} x_i ]\nwhere:\n\n(x_i) is an observation,\n(n) is the number of observations.\n\nThe mean provides a useful description of the centre of a dataset.\nHowever, averages do not tell the whole story."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#why-averages-are-not-enough",
+    "href": "old_files/why-biostatistics.html#why-averages-are-not-enough",
+    "title": "Why Biostatistics?",
+    "section": "Why Averages Are Not Enough",
+    "text": "Why Averages Are Not Enough\nConsider two datasets:\n\nDataset A\n50, 50, 50, 50, 50\n\n\nDataset B\n10, 30, 50, 70, 90\nBoth datasets have the same mean:\nMean = 50\nYet they clearly describe very different populations.\n\n\nSame Mean, Different Variability\n\n\n\n\n\nDifferent datasets can have identical means but very different variability.\n\n\n\n\nThis observation motivates the need for measures of variability such as:\n\nrange,\nvariance,\nstandard deviation,\ninterquartile range."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#from-description-to-evidence",
+    "href": "old_files/why-biostatistics.html#from-description-to-evidence",
+    "title": "Why Biostatistics?",
+    "section": "From Description to Evidence",
+    "text": "From Description to Evidence\nSuppose we observe:\n\n\n\nGroup\nMean Age\n\n\n\n\nHeart Disease\n58 years\n\n\nNo Heart Disease\n54 years\n\n\n\nA natural question arises:\n\nIs this difference meaningful?\n\nOr:\n\nCould it simply have occurred by chance?\n\n\nComparing Two Groups\n\n\n\n\n\nVisual differences between groups motivate statistical hypothesis testing.\n\n\n\n\nVisual inspection alone is rarely sufficient.\nWe therefore need formal statistical methods to determine whether observed differences are likely to represent genuine effects."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#three-levels-of-statistical-reasoning",
+    "href": "old_files/why-biostatistics.html#three-levels-of-statistical-reasoning",
+    "title": "Why Biostatistics?",
+    "section": "Three Levels of Statistical Reasoning",
+    "text": "Three Levels of Statistical Reasoning\n\n1. Describe\nWhat does the dataset look like?\nExamples:\n\nmeans,\nmedians,\nstandard deviations,\nhistograms,\nboxplots.\n\n\n\n2. Compare\nAre groups different?\nExamples:\n\nconfidence intervals,\np-values,\nt-tests,\nnon-parametric tests.\n\n\n\n3. Model\nHow are variables related?\nExamples:\n\ncorrelation,\nregression,\nprediction.\n\n\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nStatistics transforms measurements into evidence.\nClinical datasets consist of patients, variables, and outcomes.\nSummary statistics help us understand large amounts of data.\nDifferent datasets can have the same mean but very different variability.\nStatistical methods help us determine whether observed differences are meaningful."
+  },
+  {
+    "objectID": "old_files/why-biostatistics.html#next",
+    "href": "old_files/why-biostatistics.html#next",
+    "title": "Why Biostatistics?",
+    "section": "Next",
+    "text": "Next\nMeet the Dataset →"
+  }
+]

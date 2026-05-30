@@ -1,0 +1,477 @@
+---
+title: "Why Biostatistics?"
+subtitle: "From clinical measurements to evidence"
+toc: true
+toc-depth: 2
+---
+
+::: {.callout-note title="Clinical Question"}
+When we collect measurements from patients, how do we turn those measurements into evidence?
+:::
+
+## From Data to Evidence
+
+Biostatistics provides a framework for transforming raw clinical measurements into evidence that can support scientific understanding and clinical decision-making.
+
+```{python}
+#| echo: false
+#| fig-cap: "Biostatistics transforms raw measurements into evidence."
+
+import matplotlib.pyplot as plt
+
+OXFORD_BLUE = "#002147"
+CLINICAL_RED = "#C73E3A"
+ACCENT_BLUE = "#3A7CA5"
+
+fig, ax = plt.subplots(figsize=(8, 2.5))
+ax.axis("off")
+
+steps = [
+    (0.10, "Raw Data"),
+    (0.35, "Statistics"),
+    (0.60, "Evidence"),
+    (0.85, "Decision")
+]
+
+for x, label in steps:
+    ax.text(
+        x, 0.5, label,
+        ha="center", va="center",
+        fontsize=14,
+        bbox=dict(
+            boxstyle="round,pad=0.55",
+            fc="white",
+            ec=OXFORD_BLUE,
+            lw=1.8
+        )
+    )
+
+for i in range(len(steps) - 1):
+    ax.annotate(
+        "",
+        xy=(steps[i + 1][0] - 0.08, 0.5),
+        xytext=(steps[i][0] + 0.08, 0.5),
+        arrowprops=dict(
+            arrowstyle="->",
+            lw=1.8,
+            color=ACCENT_BLUE
+        )
+    )
+
+plt.show()
+```
+
+Modern biomedical engineering generates enormous amounts of data from clinical records, physiological measurements, medical imaging, wearable sensors, laboratory biomarkers, and electronic health records.
+
+However, collecting data is only the first step. We need statistical methods to understand patterns, quantify uncertainty, compare groups, and identify meaningful relationships.
+
+---
+
+## From Patients to Data
+
+A clinical dataset is usually organised as a table. Each **row** corresponds to a patient, and each **column** corresponds to a variable measured for that patient.
+
+| Patient | Age | Cholesterol | Blood Pressure | Heart Disease |
+|----------|----------:|----------:|----------:|----------|
+| 1 | 63 | 233 | 145 | Yes |
+| 2 | 37 | 250 | 130 | No |
+| 3 | 56 | 236 | 120 | Yes |
+| ... | ... | ... | ... | ... |
+
+::: {.callout-tip title="Key Idea"}
+Biostatistics helps us move from individual patient measurements to statements about populations, disease processes, and clinical outcomes.
+:::
+
+---
+
+## Visualising a Clinical Dataset
+
+The table format is useful because it makes the structure of the data explicit: patients, variables, and outcomes.
+
+```{python}
+#| echo: false
+#| fig-cap: "A clinical dataset links patients, variables, and outcomes."
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.axis("off")
+
+boxes = [
+    (0.15, 0.50, "Patients"),
+    (0.50, 0.75, "Variables\nAge\nBP\nCholesterol"),
+    (0.50, 0.50, "Symptoms\nChest Pain\nECG"),
+    (0.50, 0.25, "Outcome\nHeart Disease")
+]
+
+for x, y, text in boxes:
+    ax.text(
+        x, y, text,
+        ha="center",
+        va="center",
+        fontsize=12,
+        bbox=dict(
+            boxstyle="round,pad=0.5",
+            fc="white",
+            ec=OXFORD_BLUE,
+            lw=1.6
+        )
+    )
+
+for y in [0.75, 0.50, 0.25]:
+    ax.annotate(
+        "",
+        xy=(0.38, y),
+        xytext=(0.23, 0.50),
+        arrowprops=dict(
+            arrowstyle="->",
+            lw=1.6,
+            color=ACCENT_BLUE
+        )
+    )
+
+plt.show()
+```
+
+---
+
+## Why Raw Data Are Not Enough
+
+Suppose we collect the ages of ten patients:
+
+```text
+63, 67, 67, 37, 41, 56, 57, 62, 54, 59
+```
+
+Although these measurements contain useful information, it is difficult to understand the overall population simply by looking at a list of numbers.
+
+Statistics allows us to summarise information efficiently.
+
+### From Raw Data to Summary
+
+```{python}
+#| echo: false
+#| fig-cap: "Statistics compresses many observations into a smaller number of interpretable quantities."
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+ages = np.array([63, 67, 67, 37, 41, 56, 57, 62, 54, 59])
+
+fig, ax = plt.subplots(figsize=(8, 2.5))
+ax.axis("off")
+
+ax.text(
+    0.08,
+    0.5,
+    ", ".join(map(str, ages)),
+    fontsize=12
+)
+
+ax.annotate(
+    "",
+    xy=(0.68, 0.5),
+    xytext=(0.50, 0.5),
+    arrowprops=dict(
+        arrowstyle="->",
+        lw=1.8,
+        color=ACCENT_BLUE
+    )
+)
+
+ax.text(
+    0.84,
+    0.5,
+    f"Mean Age\n{ages.mean():.1f} years",
+    ha="center",
+    va="center",
+    fontsize=13,
+    bbox=dict(
+        boxstyle="round,pad=0.55",
+        fc="white",
+        ec=CLINICAL_RED,
+        lw=1.8
+    )
+)
+
+plt.show()
+```
+
+---
+
+## Statistics Compresses Information
+
+One of the most common summary statistics is the sample mean:
+
+\[
+\bar{x}
+=
+\frac{1}{n}
+\sum_{i=1}^{n}
+x_i
+\]
+
+where:
+
+- \(x_i\) is an observation,
+- \(n\) is the number of observations.
+
+The mean provides a useful description of the centre of a dataset. However, averages do not tell the whole story.
+
+---
+
+## Why Averages Are Not Enough
+
+Consider two datasets:
+
+| Dataset | Values | Mean |
+|----------|----------|----------:|
+| A | 50, 50, 50, 50, 50 | 50 |
+| B | 10, 30, 50, 70, 90 | 50 |
+
+Both datasets have the same mean, yet they clearly describe very different populations.
+
+### Same Mean, Different Variability
+
+```{python}
+#| echo: false
+#| fig-cap: "Different datasets can have identical means but very different variability."
+
+import matplotlib.pyplot as plt
+
+A = [50, 50, 50, 50, 50]
+B = [10, 30, 50, 70, 90]
+
+fig, ax = plt.subplots(figsize=(8, 3.5))
+
+ax.scatter(
+    A, [1] * len(A),
+    s=110,
+    color=OXFORD_BLUE,
+    label="Dataset A"
+)
+
+ax.scatter(
+    B, [0] * len(B),
+    s=110,
+    color=CLINICAL_RED,
+    label="Dataset B"
+)
+
+ax.axvline(
+    50,
+    linestyle="--",
+    linewidth=1.8,
+    color=ACCENT_BLUE
+)
+
+ax.text(
+    52,
+    1.2,
+    "Mean = 50",
+    color=ACCENT_BLUE,
+    fontsize=11
+)
+
+ax.set_yticks([0, 1])
+ax.set_yticklabels(["Dataset B", "Dataset A"])
+ax.set_xlabel("Observed Value")
+ax.set_xlim(0, 100)
+
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+
+plt.show()
+```
+
+This observation motivates the need for measures of variability such as range, variance, standard deviation, and interquartile range.
+
+---
+
+## From Description to Evidence
+
+Suppose we observe:
+
+| Group | Mean Age |
+|----------|----------:|
+| Heart Disease | 58 years |
+| No Heart Disease | 54 years |
+
+A natural question arises:
+
+> Is this difference meaningful?
+
+Or:
+
+> Could it simply have occurred by chance?
+
+### Comparing Two Groups
+
+```{python}
+#| echo: false
+#| fig-cap: "Visual differences between groups motivate statistical hypothesis testing."
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(7)
+
+group1 = np.random.normal(58, 8, 250)
+group2 = np.random.normal(54, 8, 250)
+
+bins = np.linspace(30, 85, 25)
+
+plt.figure(figsize=(8, 3.5))
+
+plt.hist(
+    group2,
+    bins=bins,
+    alpha=0.6,
+    color=ACCENT_BLUE,
+    label="No Heart Disease"
+)
+
+plt.hist(
+    group1,
+    bins=bins,
+    alpha=0.6,
+    color=CLINICAL_RED,
+    label="Heart Disease"
+)
+
+plt.xlabel("Age")
+plt.ylabel("Frequency")
+plt.legend(frameon=False)
+
+plt.show()
+```
+
+Visual inspection alone is rarely sufficient. We therefore need formal statistical methods to determine whether observed differences are likely to represent genuine effects.
+
+---
+
+## A Preview of the Cleveland Dataset
+
+From this point onwards, the module will use the **processed Cleveland Heart Disease dataset** as the running example.
+
+The following figures are generated directly from the Cleveland data.
+
+```{python}
+#| echo: false
+#| fig-cap: "Age distribution in the processed Cleveland Heart Disease dataset."
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
+
+columns = [
+    "age", "sex", "cp", "trestbps", "chol", "fbs", "restecg",
+    "thalach", "exang", "oldpeak", "slope", "ca", "thal", "num"
+]
+
+df = pd.read_csv(url, header=None, names=columns, na_values="?")
+df["heart_disease"] = np.where(df["num"] == 0, "No heart disease", "Heart disease")
+
+plt.figure(figsize=(8, 3.5))
+
+plt.hist(
+    df["age"],
+    bins=15,
+    color=ACCENT_BLUE,
+    edgecolor="white"
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Number of patients")
+
+plt.show()
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Heart disease prevalence in the processed Cleveland dataset."
+
+import matplotlib.pyplot as plt
+
+counts = df["heart_disease"].value_counts().reindex(["No heart disease", "Heart disease"])
+
+plt.figure(figsize=(7, 3.5))
+
+plt.bar(
+    counts.index,
+    counts.values,
+    color=[ACCENT_BLUE, CLINICAL_RED]
+)
+
+plt.ylabel("Number of patients")
+plt.xticks(rotation=0)
+
+plt.show()
+```
+
+Even these simple plots already raise useful questions:
+
+- What is the typical age of patients in this dataset?
+- Are some age groups overrepresented?
+- How balanced are the disease and non-disease groups?
+- How might cohort composition affect statistical interpretation?
+
+The remainder of the module will teach us how to answer such questions systematically.
+
+---
+
+## Three Levels of Statistical Reasoning
+
+### 1. Describe
+
+What does the dataset look like?
+
+Examples:
+
+- means,
+- medians,
+- standard deviations,
+- histograms,
+- boxplots.
+
+### 2. Compare
+
+Are groups different?
+
+Examples:
+
+- confidence intervals,
+- p-values,
+- t-tests,
+- non-parametric tests.
+
+### 3. Model
+
+How are variables related?
+
+Examples:
+
+- correlation,
+- regression,
+- prediction.
+
+---
+
+::: {.callout-important title="Key Takeaways"}
+
+- Statistics transforms measurements into evidence.
+- Clinical datasets consist of patients, variables, and outcomes.
+- Summary statistics help us understand large amounts of data.
+- Different datasets can have the same mean but very different variability.
+- Statistical methods help us determine whether observed differences are meaningful.
+- The rest of this module uses the processed Cleveland Heart Disease dataset as the main running example.
+
+:::
+
+---
+
+## Next
+
+Meet the Dataset

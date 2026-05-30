@@ -1,0 +1,91 @@
+---
+title: "Biostatistics with Python"
+page-layout: full
+toc: false
+---
+
+::: {.hero-banner}
+
+# Biostatistics with Python
+
+## Learning Statistics Through Cardiovascular Data
+
+Using the UCI Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.
+
+We will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models.
+
+:::
+
+::: {.callout-note title="Core question"}
+How can we use statistics to turn patient-level cardiovascular data into evidence?
+:::
+
+## Module Overview
+
+::: {.grid}
+
+::: {.g-col-4}
+### Part I  
+## Descriptive Statistics
+
+Explore the dataset, summarise patient variables, and visualise distributions.
+
+:::
+
+::: {.g-col-4}
+### Part II  
+## Hypothesis Testing
+
+Compare patient groups and decide whether observed differences are likely to reflect meaningful effects.
+
+:::
+
+::: {.g-col-4}
+### Part III  
+## Correlation and Regression
+
+Study relationships between clinical variables and learn how simple models support interpretation.
+
+:::
+
+:::
+
+---
+
+## Dataset at a Glance
+
+The module uses the UCI Heart Disease dataset, a classic cardiovascular dataset containing clinical measurements, symptoms, and diagnostic information from patients investigated for heart disease.
+
+```{python}
+#| echo: false
+#| fig-cap: "A simplified view of the dataset used throughout the module."
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(9, 4.5))
+ax.axis("off")
+
+items = [
+    (0.15, 0.55, "Patients\n303 records"),
+    (0.42, 0.75, "Demographics\nage, sex"),
+    (0.42, 0.55, "Clinical measures\nBP, cholesterol"),
+    (0.42, 0.35, "Symptoms & tests\nchest pain, ECG"),
+    (0.75, 0.55, "Outcome\nheart disease")
+]
+
+for x, y, label in items:
+    ax.text(
+        x, y, label,
+        ha="center", va="center", fontsize=13,
+        bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="black", lw=1.2)
+    )
+
+ax.annotate("", xy=(0.30, 0.55), xytext=(0.22, 0.55),
+            arrowprops=dict(arrowstyle="->", lw=1.4))
+
+for y in [0.75, 0.55, 0.35]:
+    ax.annotate("", xy=(0.66, y), xytext=(0.52, y),
+                arrowprops=dict(arrowstyle="->", lw=1.4))
+
+plt.show()
+```
