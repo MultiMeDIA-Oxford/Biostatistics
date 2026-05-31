@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Hypothesis Testing – Biostatistics with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Biostatistics with Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./why-biostatistics.html"> 
+<span class="menu-text">Why Biostatistics?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./meet-the-dataset.html"> 
+<span class="menu-text">The Dataset</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./descriptive-statistics.html"> 
+<span class="menu-text">Descriptive Statistics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./hypothesis-testing.html" aria-current="page"> 
+<span class="menu-text">Hypothesis Testing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./correlation-regression.html"> 
+<span class="menu-text">Correlation and Regression</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./meet-the-team.html"> 
+<span class="menu-text">Meet the Team</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://eng.ox.ac.uk/multimedia" target="_blank"> <i class="bi bi-globe" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#why-do-we-need-hypothesis-testing" id="toc-why-do-we-need-hypothesis-testing" class="nav-link" data-scroll-target="#why-do-we-need-hypothesis-testing">Why Do We Need Hypothesis Testing?</a></li>
+  <li><a href="#null-and-alternative-hypotheses" id="toc-null-and-alternative-hypotheses" class="nav-link" data-scroll-target="#null-and-alternative-hypotheses">Null and Alternative Hypotheses</a>
+  <ul class="collapse">
+  <li><a href="#null-hypothesis-h_0" id="toc-null-hypothesis-h_0" class="nav-link" data-scroll-target="#null-hypothesis-h_0">Null Hypothesis (<span class="math inline">\(H_0\)</span>)</a></li>
+  <li><a href="#alternative-hypothesis-h_a" id="toc-alternative-hypothesis-h_a" class="nav-link" data-scroll-target="#alternative-hypothesis-h_a">Alternative Hypothesis (<span class="math inline">\(H_A\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#cleveland-dataset-example" id="toc-cleveland-dataset-example" class="nav-link" data-scroll-target="#cleveland-dataset-example">Cleveland Dataset Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sampling-variability" id="toc-sampling-variability" class="nav-link" data-scroll-target="#sampling-variability">Sampling Variability</a>
+  <ul class="collapse">
+  <li><a href="#why-does-sampling-variability-matter" id="toc-why-does-sampling-variability-matter" class="nav-link" data-scroll-target="#why-does-sampling-variability-matter">Why Does Sampling Variability Matter?</a></li>
+  <li><a href="#sampling-distribution-simulator" id="toc-sampling-distribution-simulator" class="nav-link" data-scroll-target="#sampling-distribution-simulator">Sampling Distribution Simulator</a></li>
+  </ul></li>
+  <li><a href="#the-p-value" id="toc-the-p-value" class="nav-link" data-scroll-target="#the-p-value">The p-value</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-p-value" id="toc-what-is-a-p-value" class="nav-link" data-scroll-target="#what-is-a-p-value">What Is a p-value?</a></li>
+  <li><a href="#what-a-p-value-is-not" id="toc-what-a-p-value-is-not" class="nav-link" data-scroll-target="#what-a-p-value-is-not">What a p-value Is NOT</a></li>
+  <li><a href="#interpreting-p-values" id="toc-interpreting-p-values" class="nav-link" data-scroll-target="#interpreting-p-values">Interpreting p-values</a></li>
+  <li><a href="#statistical-significance" id="toc-statistical-significance" class="nav-link" data-scroll-target="#statistical-significance">Statistical Significance</a></li>
+  </ul></li>
+  <li><a href="#type-i-and-type-ii-errors" id="toc-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#type-i-and-type-ii-errors">Type I and Type II Errors</a>
+  <ul class="collapse">
+  <li><a href="#type-i-error" id="toc-type-i-error" class="nav-link" data-scroll-target="#type-i-error">Type I Error</a></li>
+  <li><a href="#type-ii-error" id="toc-type-ii-error" class="nav-link" data-scroll-target="#type-ii-error">Type II Error</a></li>
+  <li><a href="#statistical-power" id="toc-statistical-power" class="nav-link" data-scroll-target="#statistical-power">Statistical Power</a></li>
+  </ul></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#visualising-a-confidence-interval" id="toc-visualising-a-confidence-interval" class="nav-link" data-scroll-target="#visualising-a-confidence-interval">Visualising a Confidence Interval</a></li>
+  <li><a href="#why-confidence-intervals-are-useful" id="toc-why-confidence-intervals-are-useful" class="nav-link" data-scroll-target="#why-confidence-intervals-are-useful">Why Confidence Intervals Are Useful</a></li>
+  <li><a href="#confidence-intervals-and-statistical-significance" id="toc-confidence-intervals-and-statistical-significance" class="nav-link" data-scroll-target="#confidence-intervals-and-statistical-significance">Confidence Intervals and Statistical Significance</a></li>
+  </ul></li>
+  <li><a href="#choosing-the-correct-statistical-test" id="toc-choosing-the-correct-statistical-test" class="nav-link" data-scroll-target="#choosing-the-correct-statistical-test">Choosing the Correct Statistical Test</a>
+  <ul class="collapse">
+  <li><a href="#understanding-variable-types" id="toc-understanding-variable-types" class="nav-link" data-scroll-target="#understanding-variable-types">Understanding Variable Types</a>
+  <ul class="collapse">
+  <li><a href="#numerical-variables" id="toc-numerical-variables" class="nav-link" data-scroll-target="#numerical-variables">Numerical Variables</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables">Categorical Variables</a></li>
+  <li><a href="#why-does-this-matter" id="toc-why-does-this-matter" class="nav-link" data-scroll-target="#why-does-this-matter">Why Does This Matter?</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#a-simple-decision-tree" id="toc-a-simple-decision-tree" class="nav-link" data-scroll-target="#a-simple-decision-tree">A Simple Decision Tree</a>
+  <ul class="collapse">
+  <li><a href="#interactive-decision-tool" id="toc-interactive-decision-tool" class="nav-link" data-scroll-target="#interactive-decision-tool">Interactive Decision Tool</a></li>
+  </ul></li>
+  <li><a href="#checking-assumptions" id="toc-checking-assumptions" class="nav-link" data-scroll-target="#checking-assumptions">Checking Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#visual-assessment" id="toc-visual-assessment" class="nav-link" data-scroll-target="#visual-assessment">Visual Assessment</a></li>
+  <li><a href="#q-q-plots" id="toc-q-q-plots" class="nav-link" data-scroll-target="#q-q-plots">Q-Q Plots</a>
+  <ul class="collapse">
+  <li><a href="#how-to-interpret-a-q-q-plot" id="toc-how-to-interpret-a-q-q-plot" class="nav-link" data-scroll-target="#how-to-interpret-a-q-q-plot">How to Interpret a Q-Q Plot</a></li>
+  </ul></li>
+  <li><a href="#shapirowilk-test" id="toc-shapirowilk-test" class="nav-link" data-scroll-target="#shapirowilk-test">Shapiro–Wilk Test</a>
+  <ul class="collapse">
+  <li><a href="#null-hypothesis" id="toc-null-hypothesis" class="nav-link" data-scroll-target="#null-hypothesis">Null Hypothesis</a></li>
+  <li><a href="#alternative-hypothesis" id="toc-alternative-hypothesis" class="nav-link" data-scroll-target="#alternative-hypothesis">Alternative Hypothesis</a></li>
+  <li><a href="#example-age" id="toc-example-age" class="nav-link" data-scroll-target="#example-age">Example: Age</a></li>
+  </ul></li>
+  <li><a href="#equal-variance" id="toc-equal-variance" class="nav-link" data-scroll-target="#equal-variance">Equal Variance</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1">Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#parametric-and-non-parametric-tests" id="toc-parametric-and-non-parametric-tests" class="nav-link" data-scroll-target="#parametric-and-non-parametric-tests">Parametric and Non-Parametric Tests</a>
+  <ul class="collapse">
+  <li><a href="#when-should-non-parametric-tests-be-considered" id="toc-when-should-non-parametric-tests-be-considered" class="nav-link" data-scroll-target="#when-should-non-parametric-tests-be-considered">When Should Non-Parametric Tests Be Considered?</a></li>
+  </ul></li>
+  <li><a href="#summary-table" id="toc-summary-table" class="nav-link" data-scroll-target="#summary-table">Summary Table</a>
+  <ul class="collapse">
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself">Try It Yourself</a></li>
+  </ul></li>
+  <li><a href="#applying-statistical-tests" id="toc-applying-statistical-tests" class="nav-link" data-scroll-target="#applying-statistical-tests">Applying Statistical Tests</a></li>
+  <li><a href="#independent-t-test" id="toc-independent-t-test" class="nav-link" data-scroll-target="#independent-t-test">Independent t-Test</a>
+  <ul class="collapse">
+  <li><a href="#when-should-we-use-an-independent-t-test" id="toc-when-should-we-use-an-independent-t-test" class="nav-link" data-scroll-target="#when-should-we-use-an-independent-t-test">When Should We Use an Independent t-Test?</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions">Assumptions</a></li>
+  <li><a href="#cleveland-dataset-example-1" id="toc-cleveland-dataset-example-1" class="nav-link" data-scroll-target="#cleveland-dataset-example-1">Cleveland Dataset Example</a>
+  <ul class="collapse">
+  <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question">Research Question</a></li>
+  <li><a href="#step-1-state-the-hypotheses" id="toc-step-1-state-the-hypotheses" class="nav-link" data-scroll-target="#step-1-state-the-hypotheses">Step 1: State the Hypotheses</a></li>
+  <li><a href="#visual-comparison" id="toc-visual-comparison" class="nav-link" data-scroll-target="#visual-comparison">Visual Comparison</a></li>
+  <li><a href="#performing-the-test" id="toc-performing-the-test" class="nav-link" data-scroll-target="#performing-the-test">Performing the Test</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#why-the-confidence-interval-matters" id="toc-why-the-confidence-interval-matters" class="nav-link" data-scroll-target="#why-the-confidence-interval-matters">Why the Confidence Interval Matters</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#analysis-of-variance-anova" id="toc-analysis-of-variance-anova" class="nav-link" data-scroll-target="#analysis-of-variance-anova">Analysis of Variance (ANOVA)</a>
+  <ul class="collapse">
+  <li><a href="#when-should-we-use-anova" id="toc-when-should-we-use-anova" class="nav-link" data-scroll-target="#when-should-we-use-anova">When Should We Use ANOVA?</a></li>
+  <li><a href="#cleveland-dataset-example-2" id="toc-cleveland-dataset-example-2" class="nav-link" data-scroll-target="#cleveland-dataset-example-2">Cleveland Dataset Example</a>
+  <ul class="collapse">
+  <li><a href="#research-question-1" id="toc-research-question-1" class="nav-link" data-scroll-target="#research-question-1">Research Question</a></li>
+  <li><a href="#step-1-state-the-hypotheses-1" id="toc-step-1-state-the-hypotheses-1" class="nav-link" data-scroll-target="#step-1-state-the-hypotheses-1">Step 1: State the Hypotheses</a></li>
+  <li><a href="#visual-comparison-1" id="toc-visual-comparison-1" class="nav-link" data-scroll-target="#visual-comparison-1">Visual Comparison</a></li>
+  <li><a href="#performing-anova" id="toc-performing-anova" class="nav-link" data-scroll-target="#performing-anova">Performing ANOVA</a></li>
+  <li><a href="#interpretation-1" id="toc-interpretation-1" class="nav-link" data-scroll-target="#interpretation-1">Interpretation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#chi-square-test" id="toc-chi-square-test" class="nav-link" data-scroll-target="#chi-square-test">Chi-Square Test</a>
+  <ul class="collapse">
+  <li><a href="#when-should-we-use-a-chi-square-test" id="toc-when-should-we-use-a-chi-square-test" class="nav-link" data-scroll-target="#when-should-we-use-a-chi-square-test">When Should We Use a Chi-Square Test?</a></li>
+  <li><a href="#cleveland-dataset-example-3" id="toc-cleveland-dataset-example-3" class="nav-link" data-scroll-target="#cleveland-dataset-example-3">Cleveland Dataset Example</a>
+  <ul class="collapse">
+  <li><a href="#research-question-2" id="toc-research-question-2" class="nav-link" data-scroll-target="#research-question-2">Research Question</a></li>
+  <li><a href="#step-1-state-the-hypotheses-2" id="toc-step-1-state-the-hypotheses-2" class="nav-link" data-scroll-target="#step-1-state-the-hypotheses-2">Step 1: State the Hypotheses</a></li>
+  <li><a href="#contingency-table" id="toc-contingency-table" class="nav-link" data-scroll-target="#contingency-table">Contingency Table</a></li>
+  <li><a href="#performing-the-test-1" id="toc-performing-the-test-1" class="nav-link" data-scroll-target="#performing-the-test-1">Performing the Test</a></li>
+  <li><a href="#interpretation-2" id="toc-interpretation-2" class="nav-link" data-scroll-target="#interpretation-2">Interpretation</a></li>
+  <li><a href="#visualising-the-data" id="toc-visualising-the-data" class="nav-link" data-scroll-target="#visualising-the-data">Visualising the Data</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#try-it-yourself-1" id="toc-try-it-yourself-1" class="nav-link" data-scroll-target="#try-it-yourself-1">Try It Yourself</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Statistical Hypothesis Testing</h1>
+<p class="subtitle lead">From observation to evidence</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this section, you should be able to:</p>
+<ul>
+<li>Explain the purpose of statistical hypothesis testing.</li>
+<li>Distinguish between null and alternative hypotheses.</li>
+<li>Understand sampling variability.</li>
+<li>Interpret p-values correctly.</li>
+<li>Explain statistical significance.</li>
+<li>Understand confidence intervals.</li>
+<li>Apply these concepts to real clinical datasets.</li>
+</ul>
+<hr>
+</section>
+<section id="why-do-we-need-hypothesis-testing" class="level1">
+<h1>Why Do We Need Hypothesis Testing?</h1>
+<p>In the previous section, we used descriptive statistics and visualisations to explore the Cleveland Heart Disease dataset.</p>
+<p>For example, we observed that patients with heart disease appear to be older than patients without heart disease.</p>
+<p>However, visual differences alone are not enough.</p>
+<p>The observed difference could reflect:</p>
+<ul>
+<li>a genuine difference in the population, or</li>
+<li>random variation within the sample.</li>
+</ul>
+<p>Statistical hypothesis testing provides a formal framework for distinguishing between these possibilities.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Key Question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Key Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Are the patterns we observe likely to represent real effects, or could they simply be due to chance?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="null-and-alternative-hypotheses" class="level1">
+<h1>Null and Alternative Hypotheses</h1>
+<p>Every statistical test begins with two competing explanations.</p>
+<section id="null-hypothesis-h_0" class="level2">
+<h2 class="anchored" data-anchor-id="null-hypothesis-h_0">Null Hypothesis (<span class="math inline">\(H_0\)</span>)</h2>
+<p>The null hypothesis assumes that there is <strong>no effect</strong>, <strong>no association</strong>, or <strong>no difference</strong>.</p>
+<p>Examples:</p>
+<ul>
+<li>Mean age is the same in both groups.</li>
+<li>Cholesterol levels do not differ between groups.</li>
+<li>Sex is not associated with heart disease.</li>
+</ul>
+<hr>
+</section>
+<section id="alternative-hypothesis-h_a" class="level2">
+<h2 class="anchored" data-anchor-id="alternative-hypothesis-h_a">Alternative Hypothesis (<span class="math inline">\(H_A\)</span>)</h2>
+<p>The alternative hypothesis assumes that an effect or difference exists.</p>
+<p>Examples:</p>
+<ul>
+<li>Mean age differs between groups.</li>
+<li>Cholesterol differs between groups.</li>
+<li>Sex is associated with heart disease.</li>
+</ul>
+<hr>
+<section id="cleveland-dataset-example" class="level3">
+<h3 class="anchored" data-anchor-id="cleveland-dataset-example">Cleveland Dataset Example</h3>
+<p>Suppose we wish to investigate whether age differs between patients with and without heart disease.</p>
+<p>We could define:</p>
+<p><span class="math display">\[
+H_0: \mu_{HD} = \mu_{NoHD}
+\]</span></p>
+<p><span class="math display">\[
+H_A: \mu_{HD} \neq \mu_{NoHD}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\mu_{HD}\)</span> = mean age of patients with heart disease</li>
+<li><span class="math inline">\(\mu_{NoHD}\)</span> = mean age of patients without heart disease</li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled" title="Remember">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Remember
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Hypothesis testing does not prove a hypothesis true or false.</p>
+<p>Instead, it evaluates how compatible the observed data are with the null hypothesis.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="sampling-variability" class="level1">
+<h1>Sampling Variability</h1>
+<p>Imagine repeatedly drawing samples from the same population.</p>
+<p>Even if the population never changes, different samples will produce slightly different results.</p>
+<p>This phenomenon is known as <strong>sampling variability</strong>.</p>
+<p>For example:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sample</th>
+<th>Mean Age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sample 1</td>
+<td>53.8</td>
+</tr>
+<tr class="even">
+<td>Sample 2</td>
+<td>55.1</td>
+</tr>
+<tr class="odd">
+<td>Sample 3</td>
+<td>54.4</td>
+</tr>
+<tr class="even">
+<td>Sample 4</td>
+<td>56.0</td>
+</tr>
+</tbody>
+</table>
+<p>Each sample provides a slightly different estimate of the population mean.</p>
+<hr>
+<section id="why-does-sampling-variability-matter" class="level2">
+<h2 class="anchored" data-anchor-id="why-does-sampling-variability-matter">Why Does Sampling Variability Matter?</h2>
+<p>Because differences between groups may arise simply due to random sampling.</p>
+<p>Before concluding that a difference is real, we need to determine whether it is larger than we would expect by chance alone.</p>
+<hr>
+</section>
+<section id="sampling-distribution-simulator" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-distribution-simulator">Sampling Distribution Simulator</h2>
+<p>Move the sample size slider and observe how the sampling distribution changes.</p>
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+<p>
+<b>Sample size:</b> <span id="sampleSizeValue">30</span>
+</p>
+<p><input id="sampleSizeSlider" type="range" min="5" max="100" value="30" step="5" style="width:100%;"></p>
+<p>
+<b>Mean of sample means:</b> <span id="meanOfMeans"></span><br> <b>Standard deviation of sample means:</b> <span id="sdOfMeans"></span>
+</p>
+<canvas id="samplingCanvas" width="700" height="320">
+</canvas>
+</div>
+<script>
+function normalRandom(mean, sd) {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random();
+  while(v === 0) v = Math.random();
+  return mean + sd * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function updateSamplingDemo() {
+  const n = Number(document.getElementById("sampleSizeSlider").value);
+  document.getElementById("sampleSizeValue").textContent = n;
+
+  const sampleMeans = [];
+
+  for (let i = 0; i < 1000; i++) {
+    let sampleSum = 0;
+    for (let j = 0; j < n; j++) {
+      sampleSum += normalRandom(55, 10);
+    }
+    sampleMeans.push(sampleSum / n);
+  }
+
+  const mean = sampleMeans.reduce((a,b) => a+b, 0) / sampleMeans.length;
+  const variance = sampleMeans.reduce((a,b) => a + Math.pow(b-mean, 2), 0) / (sampleMeans.length - 1);
+  const sd = Math.sqrt(variance);
+
+  document.getElementById("meanOfMeans").textContent = mean.toFixed(2);
+  document.getElementById("sdOfMeans").textContent = sd.toFixed(2);
+
+  const canvas = document.getElementById("samplingCanvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const minX = 45;
+  const maxX = 65;
+  const bins = 30;
+  const counts = Array(bins).fill(0);
+
+  sampleMeans.forEach(x => {
+    const idx = Math.min(Math.max(Math.floor((x - minX) / (maxX - minX) * bins), 0), bins - 1);
+    counts[idx]++;
+  });
+
+  const maxCount = Math.max(...counts);
+
+  counts.forEach((c, i) => {
+    const x = 50 + i * (600 / bins);
+    const w = (600 / bins) - 2;
+    const h = (c / maxCount) * 230;
+
+    ctx.fillStyle = "#2C7FB8";
+    ctx.fillRect(x, 270 - h, w, h);
+  });
+
+  ctx.beginPath();
+  ctx.moveTo(50, 270);
+  ctx.lineTo(650, 270);
+  ctx.strokeStyle = "#333";
+  ctx.stroke();
+
+  ctx.fillStyle = "#333";
+  ctx.font = "14px sans-serif";
+  ctx.fillText("Sample Mean", 310, 305);
+}
+
+document.getElementById("sampleSizeSlider").addEventListener("input", updateSamplingDemo);
+updateSamplingDemo();
+</script>
+<div class="callout callout-style-default callout-tip callout-titled" title="What to notice">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What to notice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As the sample size increases, the sampling distribution becomes narrower. Larger samples usually give more stable estimates.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="the-p-value" class="level1">
+<h1>The p-value</h1>
+<p>The p-value is one of the most widely used concepts in statistics.</p>
+<p>Unfortunately, it is also one of the most misunderstood.</p>
+<hr>
+<section id="what-is-a-p-value" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-p-value">What Is a p-value?</h2>
+<p>A p-value quantifies how unusual the observed data would be if the null hypothesis were true.</p>
+<p>Small p-values indicate that the observed result would be unlikely under the null hypothesis.</p>
+<p>Large p-values indicate that the observed result is reasonably compatible with the null hypothesis.</p>
+<hr>
+</section>
+<section id="what-a-p-value-is-not" class="level2">
+<h2 class="anchored" data-anchor-id="what-a-p-value-is-not">What a p-value Is NOT</h2>
+<p>A p-value is <strong>not</strong>:</p>
+<ul>
+<li>the probability that the null hypothesis is true;</li>
+<li>the probability that the alternative hypothesis is true;</li>
+<li>the probability that the result occurred “by chance”.</li>
+</ul>
+<p>These interpretations are incorrect.</p>
+<hr>
+</section>
+<section id="interpreting-p-values" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-p-values">Interpreting p-values</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>p-value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&gt; 0.05</td>
+<td>Data are reasonably compatible with the null hypothesis</td>
+</tr>
+<tr class="even">
+<td>&lt; 0.05</td>
+<td>Evidence against the null hypothesis</td>
+</tr>
+<tr class="odd">
+<td>&lt; 0.01</td>
+<td>Stronger evidence against the null hypothesis</td>
+</tr>
+<tr class="even">
+<td>&lt; 0.001</td>
+<td>Very strong evidence against the null hypothesis</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="statistical-significance" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-significance">Statistical Significance</h2>
+<p>A commonly used threshold is:</p>
+<p><span class="math display">\[
+\alpha = 0.05
+\]</span></p>
+<p>If</p>
+<p><span class="math display">\[
+p &lt; 0.05
+\]</span></p>
+<p>we often describe the result as <strong>statistically significant</strong>.</p>
+<p>If</p>
+<p><span class="math display">\[
+p \ge 0.05
+\]</span></p>
+<p>we generally fail to reject the null hypothesis.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Important">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Statistical significance does not necessarily imply clinical significance.</p>
+<p>A very small effect may be statistically significant in a large dataset.</p>
+<p>Conversely, an important clinical effect may fail to reach statistical significance in a small study.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="type-i-and-type-ii-errors" class="level1">
+<h1>Type I and Type II Errors</h1>
+<p>Statistical decisions are not perfect.</p>
+<p>Whenever we make a decision based on a sample, there is a possibility of making an error.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Reality</th>
+<th>Statistical Decision</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No effect exists</td>
+<td>Reject <span class="math inline">\(H_0\)</span></td>
+<td>Type I Error</td>
+</tr>
+<tr class="even">
+<td>Effect exists</td>
+<td>Fail to reject <span class="math inline">\(H_0\)</span></td>
+<td>Type II Error</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<section id="type-i-error" class="level2">
+<h2 class="anchored" data-anchor-id="type-i-error">Type I Error</h2>
+<p>A Type I error occurs when we conclude that an effect exists when it does not.</p>
+<p>This is often called a:</p>
+<p><strong>False Positive</strong></p>
+<p>Clinical example:</p>
+<p>A diagnostic test incorrectly identifies a healthy patient as having a disease.</p>
+<hr>
+</section>
+<section id="type-ii-error" class="level2">
+<h2 class="anchored" data-anchor-id="type-ii-error">Type II Error</h2>
+<p>A Type II error occurs when we fail to detect a genuine effect.</p>
+<p>This is often called a:</p>
+<p><strong>False Negative</strong></p>
+<p>Clinical example:</p>
+<p>A diagnostic test fails to identify a patient who truly has the disease.</p>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled" title="Remember">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Remember
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Type I Error = False Positive</p>
+<p>Type II Error = False Negative</p>
+</div>
+</div>
+</section>
+<section id="statistical-power" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-power">Statistical Power</h2>
+<p>When performing a hypothesis test, we would like to detect genuine effects whenever they exist.</p>
+<p><strong>Statistical power</strong> is the probability of correctly rejecting the null hypothesis when the alternative hypothesis is true.</p>
+<p>Mathematically,</p>
+<p><span class="math display">\[
+\text{Power} = 1 - \beta
+\]</span></p>
+<p>where <span class="math inline">\(\beta\)</span> is the probability of a Type II error.</p>
+<p>Higher statistical power means a greater chance of detecting a real effect.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Practical Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Practical Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A study with low statistical power may fail to detect a genuine difference, even when one truly exists.</p>
+<p>Increasing the sample size is one of the most common ways to improve statistical power.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="confidence-intervals" class="level1">
+<h1>Confidence Intervals</h1>
+<p>P-values tell us whether a result is statistically significant.</p>
+<p>Confidence intervals tell us the range of plausible values for the true population parameter.</p>
+<hr>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>Suppose we estimate that patients with heart disease are, on average, 4.5 years older.</p>
+<p>A 95% confidence interval might be:</p>
+<p><span class="math display">\[
+(2.1,\ 6.9)
+\]</span></p>
+<p>This interval suggests that the true age difference is plausibly between 2.1 and 6.9 years.</p>
+<hr>
+</section>
+<section id="visualising-a-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-a-confidence-interval">Visualising a Confidence Interval</h2>
+<div id="a763bbd4" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="hypothesis-testing_files/figure-html/cell-3-output-1.png" width="614" height="208" class="figure-img"></p>
+<figcaption>Example confidence interval for an age difference estimate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The point estimate represents our best estimate of the effect size.</p>
+<p>The confidence interval reflects the uncertainty around that estimate.</p>
+<hr>
+</section>
+<section id="why-confidence-intervals-are-useful" class="level2">
+<h2 class="anchored" data-anchor-id="why-confidence-intervals-are-useful">Why Confidence Intervals Are Useful</h2>
+<p>Confidence intervals provide information about:</p>
+<ul>
+<li>direction of the effect;</li>
+<li>magnitude of the effect;</li>
+<li>precision of the estimate.</li>
+</ul>
+<p>They are often more informative than p-values alone.</p>
+<hr>
+</section>
+<section id="confidence-intervals-and-statistical-significance" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervals-and-statistical-significance">Confidence Intervals and Statistical Significance</h2>
+<p>For differences between groups:</p>
+<ul>
+<li>If the confidence interval includes 0, the result is often not statistically significant.</li>
+<li>If the confidence interval excludes 0, the result is often statistically significant.</li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled" title="What Comes Next?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What Comes Next?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now that we understand:</p>
+<ul>
+<li>null and alternative hypotheses,</li>
+<li>sampling variability,</li>
+<li>p-values,</li>
+<li>statistical significance,</li>
+<li>confidence intervals,</li>
+</ul>
+<p>we can begin selecting and applying statistical tests.</p>
+<p>Next we will learn:</p>
+<ul>
+<li>how to choose the correct statistical test,</li>
+<li>how to check assumptions,</li>
+<li>when to use t-tests,</li>
+<li>when to use ANOVA,</li>
+<li>when to use Chi-square tests.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="choosing-the-correct-statistical-test" class="level1">
+<h1>Choosing the Correct Statistical Test</h1>
+<p>A common question in biostatistics is:</p>
+<blockquote class="blockquote">
+<p>Which statistical test should I use?</p>
+</blockquote>
+<p>The answer depends on:</p>
+<ul>
+<li>the type of variable being analysed;</li>
+<li>the number of groups being compared;</li>
+<li>whether observations are independent;</li>
+<li>whether important assumptions are satisfied.</li>
+</ul>
+<p>Choosing an inappropriate test can lead to misleading conclusions.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Key Principle">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Key Principle
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Always understand your data before selecting a statistical test.</p>
+</div>
+</div>
+<hr>
+<section id="understanding-variable-types" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-variable-types">Understanding Variable Types</h2>
+<p>Before selecting a statistical test, we must identify the type of variable being analysed.</p>
+<section id="numerical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-variables">Numerical Variables</h3>
+<p>Numerical variables represent measurable quantities.</p>
+<p>Examples from the Cleveland dataset include:</p>
+<ul>
+<li>Age</li>
+<li>Cholesterol</li>
+<li>Resting blood pressure</li>
+<li>Maximum heart rate</li>
+</ul>
+<p>These variables can be summarised using means, medians, standard deviations, and confidence intervals.</p>
+<hr>
+</section>
+<section id="categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variables">Categorical Variables</h3>
+<p>Categorical variables represent groups or categories.</p>
+<p>Examples from the Cleveland dataset include:</p>
+<ul>
+<li>Sex</li>
+<li>Chest pain type</li>
+<li>Presence of heart disease</li>
+</ul>
+<p>These variables are typically summarised using counts and percentages.</p>
+<hr>
+</section>
+<section id="why-does-this-matter" class="level3">
+<h3 class="anchored" data-anchor-id="why-does-this-matter">Why Does This Matter?</h3>
+<p>The type of variable largely determines which statistical tests are appropriate.</p>
+<p>For example:</p>
+<ul>
+<li>Comparing mean age between groups requires a different test from comparing proportions of males and females.</li>
+<li>Comparing two groups requires a different test from comparing four groups.</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="a-simple-decision-tree" class="level1">
+<h1>A Simple Decision Tree</h1>
+<p>The following framework provides a useful starting point.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Research Question</th>
+<th>Recommended Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Compare one group against a known value</td>
+<td>One-sample t-test</td>
+</tr>
+<tr class="even">
+<td>Compare two independent groups</td>
+<td>Independent t-test</td>
+</tr>
+<tr class="odd">
+<td>Compare paired measurements</td>
+<td>Paired t-test</td>
+</tr>
+<tr class="even">
+<td>Compare more than two groups</td>
+<td>ANOVA</td>
+</tr>
+<tr class="odd">
+<td>Compare categorical variables</td>
+<td>Chi-square test</td>
+</tr>
+</tbody>
+</table>
+<p>We will explore each of these tests shortly.</p>
+<hr>
+<section id="interactive-decision-tool" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-decision-tool">Interactive Decision Tool</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Quick Guide">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick Guide
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ask yourself:</p>
+<section id="step-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-1">Step 1</h3>
+<p>What type of outcome are you analysing?</p>
+<ul>
+<li>Numerical</li>
+<li>Categorical</li>
+</ul>
+</section>
+<section id="step-2" class="level3">
+<h3 class="anchored" data-anchor-id="step-2">Step 2</h3>
+<p>How many groups are being compared?</p>
+<ul>
+<li>One</li>
+<li>Two</li>
+<li>More than two</li>
+</ul>
+</section>
+<section id="step-3" class="level3">
+<h3 class="anchored" data-anchor-id="step-3">Step 3</h3>
+<p>Are the observations independent or paired?</p>
+<p>The answers will usually determine the appropriate statistical test.</p>
+</section>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="checking-assumptions" class="level1">
+<h1>Checking Assumptions</h1>
+<p>Many statistical tests rely on assumptions about the data.</p>
+<p>Common assumptions include:</p>
+<ul>
+<li>independence of observations;</li>
+<li>approximate normality;</li>
+<li>similar variability across groups.</li>
+</ul>
+<p>Before performing a statistical test, we should evaluate whether these assumptions are reasonable.</p>
+<hr>
+<section id="visual-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="visual-assessment">Visual Assessment</h2>
+<p>Before performing formal tests, it is often helpful to inspect the data visually.</p>
+<p>Useful visualisations include:</p>
+<ul>
+<li>Histograms</li>
+<li>Density plots</li>
+<li>Boxplots</li>
+<li>Q-Q plots</li>
+</ul>
+<p>Visualisation often reveals patterns that numerical tests may miss.</p>
+<hr>
+</section>
+<section id="q-q-plots" class="level2">
+<h2 class="anchored" data-anchor-id="q-q-plots">Q-Q Plots</h2>
+<p>A Quantile–Quantile (Q-Q) plot compares the observed data against the theoretical quantiles of a normal distribution.</p>
+<p>If the points approximately follow a straight line, the data are reasonably consistent with normality.</p>
+<div id="61d2cd9b" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="hypothesis-testing_files/figure-html/cell-4-output-1.png" width="510" height="523" class="figure-img"></p>
+<figcaption>Q-Q plot of age in the Cleveland dataset.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="how-to-interpret-a-q-q-plot" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-a-q-q-plot">How to Interpret a Q-Q Plot</h3>
+<ul>
+<li>Points close to the line suggest approximate normality.</li>
+<li>Curved patterns may indicate skewness.</li>
+<li>Large departures from the line suggest non-normality.</li>
+<li>Extreme deviations at the ends may indicate outliers.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="shapirowilk-test" class="level2">
+<h2 class="anchored" data-anchor-id="shapirowilk-test">Shapiro–Wilk Test</h2>
+<p>The Shapiro–Wilk test formally assesses whether a variable appears normally distributed.</p>
+<section id="null-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="null-hypothesis">Null Hypothesis</h3>
+<p>The data follow a normal distribution.</p>
+</section>
+<section id="alternative-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="alternative-hypothesis">Alternative Hypothesis</h3>
+<p>The data do not follow a normal distribution.</p>
+<hr>
+</section>
+<section id="example-age" class="level3">
+<h3 class="anchored" data-anchor-id="example-age">Example: Age</h3>
+<div id="1878ba48" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> shapiro</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stat, p <span class="op">=</span> shapiro(df[<span class="st">"age"</span>].dropna())</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shapiro-Wilk statistic = </span><span class="sc">{</span>stat<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shapiro-Wilk statistic = 0.986
+p-value = 0.006</code></pre>
+</div>
+</div>
+<p>Interpretation:</p>
+<ul>
+<li>If p ≥ 0.05, the data are broadly consistent with normality.</li>
+<li>If p &lt; 0.05, there is evidence against normality.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Clinical Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Clinical Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For age in the Cleveland dataset:</p>
+<ul>
+<li>The Shapiro–Wilk test produces a statistically significant result (p = 0.006).</li>
+<li>Strictly speaking, this suggests that age is not perfectly normally distributed.</li>
+</ul>
+<p>However, the Q-Q plot shows only modest departures from normality.</p>
+<p>With a sample size of more than 300 patients, many parametric tests (such as the t-test) remain robust to these small deviations.</p>
+<p>In practice, statistical decisions should be based on both visual inspection and formal testing.</p>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning callout-titled" title="Important">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normality tests should not be used mechanically.</p>
+<p>In large datasets, very small deviations from normality may produce statistically significant results.</p>
+<p>In small datasets, substantial deviations may go undetected.</p>
+<p>Always combine formal tests with visual inspection.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="equal-variance" class="level2">
+<h2 class="anchored" data-anchor-id="equal-variance">Equal Variance</h2>
+<p>Many parametric tests assume that groups have similar variability.</p>
+<p>This assumption can be evaluated using Levene’s test.</p>
+<section id="example-1" class="level3">
+<h3 class="anchored" data-anchor-id="example-1">Example</h3>
+<p>Suppose we wish to compare age between patients with and without heart disease.</p>
+<div id="f445110a" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> levene</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> df[df[<span class="st">"heart_disease"</span>] <span class="op">==</span> <span class="st">"Heart Disease"</span>][<span class="st">"age"</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>group2 <span class="op">=</span> df[df[<span class="st">"heart_disease"</span>] <span class="op">==</span> <span class="st">"No Heart Disease"</span>][<span class="st">"age"</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>stat, p <span class="op">=</span> levene(group1, group2)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Levene statistic = </span><span class="sc">{</span>stat<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene statistic = 7.936
+p-value = 0.005</code></pre>
+</div>
+</div>
+<p>Interpretation:</p>
+<ul>
+<li>Large p-values suggest similar variability.</li>
+<li>Small p-values suggest unequal variability.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Common Beginner Mistakes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common Beginner Mistakes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Avoid these common errors:</p>
+<ul>
+<li>Selecting a statistical test before understanding the variable types.</li>
+<li>Using a t-test without checking assumptions.</li>
+<li>Automatically switching to non-parametric tests whenever a normality test is significant.</li>
+<li>Confusing statistical significance with clinical importance.</li>
+<li>Interpreting p-values as the probability that the null hypothesis is true.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="parametric-and-non-parametric-tests" class="level1">
+<h1>Parametric and Non-Parametric Tests</h1>
+<p>When assumptions are approximately satisfied, parametric tests are often preferred because they are statistically efficient.</p>
+<p>When assumptions are strongly violated, non-parametric alternatives may be more appropriate.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parametric Test</th>
+<th>Non-Parametric Alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Independent t-test</td>
+<td>Mann–Whitney U</td>
+</tr>
+<tr class="even">
+<td>Paired t-test</td>
+<td>Wilcoxon Signed-Rank</td>
+</tr>
+<tr class="odd">
+<td>ANOVA</td>
+<td>Kruskal–Wallis</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<section id="when-should-non-parametric-tests-be-considered" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-non-parametric-tests-be-considered">When Should Non-Parametric Tests Be Considered?</h2>
+<p>Non-parametric tests may be useful when:</p>
+<ul>
+<li>distributions are highly skewed;</li>
+<li>substantial outliers are present;</li>
+<li>sample sizes are very small;</li>
+<li>assumptions are clearly violated.</li>
+</ul>
+<p>However, they are not automatically superior and should not be used simply because a normality test is statistically significant.</p>
+<hr>
+</section>
+</section>
+<section id="summary-table" class="level1">
+<h1>Summary Table</h1>
+<p>The table below provides a practical guide for selecting common statistical tests.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Recommended Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One numerical group vs known value</td>
+<td>One-sample t-test</td>
+</tr>
+<tr class="even">
+<td>Two independent numerical groups</td>
+<td>Independent t-test</td>
+</tr>
+<tr class="odd">
+<td>Paired numerical measurements</td>
+<td>Paired t-test</td>
+</tr>
+<tr class="even">
+<td>More than two numerical groups</td>
+<td>ANOVA</td>
+</tr>
+<tr class="odd">
+<td>Two categorical variables</td>
+<td>Chi-square test</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<section id="try-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself">Try It Yourself</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercises">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercises
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the Cleveland dataset:</p>
+<ol type="1">
+<li>Identify three numerical variables.</li>
+<li>Identify three categorical variables.</li>
+<li>Create a Q-Q plot for cholesterol.</li>
+<li>Perform a Shapiro–Wilk test on age.</li>
+<li>Which test would you use to compare age between patients with and without heart disease?</li>
+<li>Which test would you use to compare age across chest pain categories?</li>
+<li>Which test would you use to investigate whether sex is associated with heart disease?</li>
+</ol>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="applying-statistical-tests" class="level1">
+<h1>Applying Statistical Tests</h1>
+<p>We are now ready to perform statistical analyses using the Cleveland Heart Disease dataset.</p>
+<p>In this section we will learn how to:</p>
+<ul>
+<li>compare two groups using an independent t-test;</li>
+<li>compare multiple groups using ANOVA;</li>
+<li>investigate associations between categorical variables using a Chi-square test;</li>
+<li>interpret results in a clinical context.</li>
+</ul>
+<hr>
+</section>
+<section id="independent-t-test" class="level1">
+<h1>Independent t-Test</h1>
+<section id="when-should-we-use-an-independent-t-test" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-we-use-an-independent-t-test">When Should We Use an Independent t-Test?</h2>
+<p>An independent t-test is used to compare the means of a numerical variable between two independent groups.</p>
+<p>Examples include:</p>
+<ul>
+<li>Age in patients with and without heart disease.</li>
+<li>Cholesterol in males and females.</li>
+<li>Blood pressure in treatment and control groups.</li>
+</ul>
+<hr>
+</section>
+<section id="assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
+<p>The independent t-test assumes:</p>
+<ul>
+<li>observations are independent;</li>
+<li>the outcome variable is numerical;</li>
+<li>the distributions are approximately normal;</li>
+<li>variability is reasonably similar between groups.</li>
+</ul>
+<hr>
+</section>
+<section id="cleveland-dataset-example-1" class="level2">
+<h2 class="anchored" data-anchor-id="cleveland-dataset-example-1">Cleveland Dataset Example</h2>
+<section id="research-question" class="level3">
+<h3 class="anchored" data-anchor-id="research-question">Research Question</h3>
+<p>Are patients with heart disease older than patients without heart disease?</p>
+</section>
+<section id="step-1-state-the-hypotheses" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-state-the-hypotheses">Step 1: State the Hypotheses</h3>
+<p>Null hypothesis:</p>
+<p><span class="math display">\[
+H_0:\mu_{HD}=\mu_{NoHD}
+\]</span></p>
+<p>Alternative hypothesis:</p>
+<p><span class="math display">\[
+H_A:\mu_{HD}\neq\mu_{NoHD}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\mu_{HD}\)</span> is the mean age of patients with heart disease;</li>
+<li><span class="math inline">\(\mu_{NoHD}\)</span> is the mean age of patients without heart disease.</li>
+</ul>
+<hr>
+</section>
+<section id="visual-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="visual-comparison">Visual Comparison</h3>
+<div id="56505029" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="hypothesis-testing_files/figure-html/cell-7-output-1.png" width="585" height="411" class="figure-img"></p>
+<figcaption>Age distribution by heart disease status.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The boxplot suggests that patients with heart disease tend to be older.</p>
+<p>But is this difference statistically significant?</p>
+<hr>
+</section>
+<section id="performing-the-test" class="level3">
+<h3 class="anchored" data-anchor-id="performing-the-test">Performing the Test</h3>
+<div id="c720c8e5" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_ind</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    g[<span class="st">"age"</span>].dropna()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, g <span class="kw">in</span> df.groupby(<span class="st">"heart_disease"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> groups[<span class="dv">0</span>]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>group2 <span class="op">=</span> groups[<span class="dv">1</span>]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> ttest_ind(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    group1,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    group2,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    equal_var<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>mean_diff <span class="op">=</span> group1.mean() <span class="op">-</span> group2.mean()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> np.sqrt(</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    group1.var(ddof<span class="op">=</span><span class="dv">1</span>)<span class="op">/</span><span class="bu">len</span>(group1)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> group2.var(ddof<span class="op">=</span><span class="dv">1</span>)<span class="op">/</span><span class="bu">len</span>(group2)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>ci_low <span class="op">=</span> mean_diff <span class="op">-</span> <span class="fl">1.96</span><span class="op">*</span>se</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>ci_high <span class="op">=</span> mean_diff <span class="op">+</span> <span class="fl">1.96</span><span class="op">*</span>se</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t statistic = </span><span class="sc">{</span>t_stat<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p_value<span class="sc">:.5f}</span><span class="ss">"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean age difference = </span><span class="sc">{</span>mean_diff<span class="sc">:.2f}</span><span class="ss"> years"</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"95% CI = (</span><span class="sc">{</span>ci_low<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>ci_high<span class="sc">:.2f}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>t statistic = 4.030
+p-value = 0.00007
+Mean age difference = 4.04 years
+95% CI = (2.08, 6.01)</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>If the p-value is below 0.05:</p>
+<ul>
+<li>we reject the null hypothesis;</li>
+<li>the age difference is statistically significant.</li>
+</ul>
+<p>If the p-value is above 0.05:</p>
+<ul>
+<li>we fail to reject the null hypothesis;</li>
+<li>there is insufficient evidence for an age difference.</li>
+</ul>
+</section>
+<section id="why-the-confidence-interval-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-the-confidence-interval-matters">Why the Confidence Interval Matters</h3>
+<p>The p-value tells us whether there is evidence for a difference.</p>
+<p>The confidence interval tells us how large that difference may be.</p>
+<p>For example:</p>
+<ul>
+<li>a statistically significant difference of 0.2 years may have little clinical importance;</li>
+<li>a statistically significant difference of 10 years could be clinically meaningful.</li>
+</ul>
+<p>Whenever possible, report both the p-value and the confidence interval.</p>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled" title="Clinical Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Clinical Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even when a result is statistically significant, we should also consider:</p>
+<ul>
+<li>the magnitude of the effect;</li>
+<li>whether the difference is clinically meaningful;</li>
+<li>uncertainty around the estimate.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="analysis-of-variance-anova" class="level1">
+<h1>Analysis of Variance (ANOVA)</h1>
+<section id="when-should-we-use-anova" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-we-use-anova">When Should We Use ANOVA?</h2>
+<p>ANOVA is used when comparing a numerical variable across more than two groups.</p>
+<p>Examples include:</p>
+<ul>
+<li>Age across chest pain categories.</li>
+<li>Cholesterol across disease severity groups.</li>
+<li>Blood pressure across treatment groups.</li>
+</ul>
+<hr>
+</section>
+<section id="cleveland-dataset-example-2" class="level2">
+<h2 class="anchored" data-anchor-id="cleveland-dataset-example-2">Cleveland Dataset Example</h2>
+<section id="research-question-1" class="level3">
+<h3 class="anchored" data-anchor-id="research-question-1">Research Question</h3>
+<p>Does age differ across chest pain categories?</p>
+</section>
+<section id="step-1-state-the-hypotheses-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-state-the-hypotheses-1">Step 1: State the Hypotheses</h3>
+<p>Null hypothesis: All chest pain groups have the same mean age.</p>
+<p><span class="math display">\[
+H_0:\mu_1=\mu_2=\mu_3=\mu_4
+\]</span></p>
+<p>Alternative hypothesis:</p>
+<p><span class="math display">\[
+H_A:\text{Not all means are equal}
+\]</span></p>
+<hr>
+</section>
+<section id="visual-comparison-1" class="level3">
+<h3 class="anchored" data-anchor-id="visual-comparison-1">Visual Comparison</h3>
+<div id="5b968cae" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="hypothesis-testing_files/figure-html/cell-9-output-1.png" width="659" height="429" class="figure-img"></p>
+<figcaption>Age distribution across chest pain categories.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="performing-anova" class="level3">
+<h3 class="anchored" data-anchor-id="performing-anova">Performing ANOVA</h3>
+<div id="909f9bdb" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    g[<span class="st">"age"</span>].dropna()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, g <span class="kw">in</span> df.groupby(<span class="st">"cp"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>f_stat, p_value <span class="op">=</span> f_oneway(<span class="op">*</span>groups)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"F statistic = </span><span class="sc">{</span>f_stat<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p_value<span class="sc">:.5f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>F statistic = 3.364
+p-value = 0.01908</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="interpretation-1" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-1">Interpretation</h3>
+<p>If p &lt; 0.05:</p>
+<ul>
+<li>at least one group differs from the others.</li>
+</ul>
+<p>If p ≥ 0.05:</p>
+<ul>
+<li>there is insufficient evidence that age differs across chest pain categories.</li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-important callout-titled" title="Important">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ANOVA tells us that a difference exists somewhere among the groups.</p>
+<p>It does not identify which specific groups differ.</p>
+<p>Additional post-hoc tests are required to determine this.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="chi-square-test" class="level1">
+<h1>Chi-Square Test</h1>
+<section id="when-should-we-use-a-chi-square-test" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-we-use-a-chi-square-test">When Should We Use a Chi-Square Test?</h2>
+<p>The Chi-square test evaluates whether two categorical variables are associated.</p>
+<p>Examples include:</p>
+<ul>
+<li>Sex and heart disease.</li>
+<li>Smoking status and disease.</li>
+<li>Treatment group and outcome.</li>
+</ul>
+<hr>
+</section>
+<section id="cleveland-dataset-example-3" class="level2">
+<h2 class="anchored" data-anchor-id="cleveland-dataset-example-3">Cleveland Dataset Example</h2>
+<section id="research-question-2" class="level3">
+<h3 class="anchored" data-anchor-id="research-question-2">Research Question</h3>
+<p>Is sex associated with heart disease?</p>
+</section>
+<section id="step-1-state-the-hypotheses-2" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-state-the-hypotheses-2">Step 1: State the Hypotheses</h3>
+<p>Null hypothesis:</p>
+<p>Sex and heart disease are independent.</p>
+<p>Alternative hypothesis:</p>
+<p>Sex and heart disease are associated.</p>
+<hr>
+</section>
+<section id="contingency-table" class="level3">
+<h3 class="anchored" data-anchor-id="contingency-table">Contingency Table</h3>
+<div id="929ec40f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> pd.crosstab(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sex"</span>],</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"heart_disease"</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">heart_disease</th>
+<th data-quarto-table-cell-role="th">Heart Disease</th>
+<th data-quarto-table-cell-role="th">No Heart Disease</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0.0</th>
+<td>25</td>
+<td>72</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1.0</th>
+<td>114</td>
+<td>92</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="performing-the-test-1" class="level3">
+<h3 class="anchored" data-anchor-id="performing-the-test-1">Performing the Test</h3>
+<div id="6d8597dc" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2_contingency</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>chi2, p_value, dof, expected <span class="op">=</span> chi2_contingency(table)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Chi-square statistic = </span><span class="sc">{</span>chi2<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p_value<span class="sc">:.5f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Chi-square statistic = 22.043
+p-value = 0.00000</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="interpretation-2" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-2">Interpretation</h3>
+<p>If p &lt; 0.05:</p>
+<ul>
+<li>there is evidence of an association between sex and heart disease.</li>
+</ul>
+<p>If p ≥ 0.05:</p>
+<ul>
+<li>there is insufficient evidence of an association.</li>
+</ul>
+<hr>
+</section>
+<section id="visualising-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-the-data">Visualising the Data</h3>
+<div id="ea154e7b" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="hypothesis-testing_files/figure-html/cell-13-output-1.png" width="589" height="438" class="figure-img"></p>
+<figcaption>Heart disease prevalence by sex.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>In this section we learned how to:</p>
+<ul>
+<li>formulate statistical hypotheses;</li>
+<li>compare two groups using an independent t-test;</li>
+<li>compare multiple groups using ANOVA;</li>
+<li>analyse categorical variables using a Chi-square test;</li>
+<li>interpret p-values;</li>
+<li>interpret confidence intervals;</li>
+<li>assess whether findings are clinically meaningful.</li>
+</ul>
+<p>Statistical testing is not simply about obtaining a p-value. Good statistical practice requires careful consideration of assumptions, effect sizes, uncertainty, and clinical relevance.</p>
+<hr>
+<section id="try-it-yourself-1" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself-1">Try It Yourself</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercises">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercises
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the Cleveland dataset:</p>
+<ol type="1">
+<li>Compare cholesterol between patients with and without heart disease.</li>
+<li>Compare resting blood pressure between patients with and without heart disease.</li>
+<li>Perform ANOVA using maximum heart rate across chest pain categories.</li>
+<li>Investigate whether chest pain category is associated with heart disease using a Chi-square test.</li>
+<li>Interpret each result in both statistical and clinical terms.</li>
+</ol>
+</div>
+</div>
+<hr>
+<div class="page-navigation">
+<p><a class="nav-button previous" href="descriptive-statistics.html">← Previous: Descriptive Statistics</a> <a class="nav-button next" href="correlation-regression.html">Next: Correlation and Regression →</a></p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/multimedia-oxford\.github\.io\/Biostatistics\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

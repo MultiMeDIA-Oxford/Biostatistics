@@ -1,0 +1,424 @@
+---
+title: "The Dataset"
+subtitle: "The processed Cleveland Heart Disease dataset"
+toc: true
+toc-depth: 2
+---
+
+::: {.callout-note title="Clinical Question"}
+What data do we have, what do the variables mean, and what can we learn before applying formal statistical methods?
+:::
+
+## The Cleveland Heart Disease Dataset
+
+In this module, we will use the **processed Cleveland Heart Disease dataset** from the UCI Machine Learning Repository.
+
+The dataset contains patient-level clinical measurements collected from individuals investigated for heart disease. We will use it as a running example throughout the module.
+
+The original UCI Heart Disease database contains many more attributes, but most published studies use a smaller subset of 14 variables. In this teaching module, we will focus on the processed Cleveland dataset because it is the most commonly used version.
+
+```{python}
+#| echo: false
+#| fig-cap: "Summary of the processed Cleveland Heart Disease dataset."
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+OXFORD_BLUE = "#002147"
+CLINICAL_RED = "#C73E3A"
+ACCENT_BLUE = "#3A7CA5"
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
+
+columns = [
+    "age", "sex", "cp", "trestbps", "chol", "fbs", "restecg",
+    "thalach", "exang", "oldpeak", "slope", "ca", "thal", "num"
+]
+
+df = pd.read_csv(url, header=None, names=columns, na_values="?")
+
+df["heart_disease"] = np.where(
+    df["num"] == 0,
+    "No heart disease",
+    "Heart disease"
+)
+
+n_patients = df.shape[0]
+n_variables = 13
+n_disease = int((df["num"] > 0).sum())
+n_no_disease = int((df["num"] == 0).sum())
+
+fig, ax = plt.subplots(figsize=(8, 3.5))
+ax.axis("off")
+
+metrics = [
+    ("Patients", n_patients, OXFORD_BLUE),
+    ("Clinical variables", n_variables, ACCENT_BLUE),
+    ("Heart disease", n_disease, CLINICAL_RED),
+    ("No heart disease", n_no_disease, ACCENT_BLUE),
+]
+
+x_positions = [0.13, 0.38, 0.63, 0.88]
+
+for (label, value, colour), x in zip(metrics, x_positions):
+    ax.text(
+        x, 0.62, str(value),
+        ha="center",
+        va="center",
+        fontsize=24,
+        fontweight="bold",
+        color=colour
+    )
+    ax.text(
+        x, 0.38, label,
+        ha="center",
+        va="center",
+        fontsize=11,
+        bbox=dict(boxstyle="round,pad=0.4", fc="white", ec=colour, lw=1.5)
+    )
+
+plt.show()
+```
+
+---
+
+## Loading the Dataset in Python
+
+The dataset does not include column names in the raw file, so we manually assign them when loading the data.
+
+```{python}
+import pandas as pd
+import numpy as np
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
+
+columns = [
+    "age", "sex", "cp", "trestbps", "chol", "fbs", "restecg",
+    "thalach", "exang", "oldpeak", "slope", "ca", "thal", "num"
+]
+
+df = pd.read_csv(url, header=None, names=columns, na_values="?")
+
+df.head()
+```
+
+The argument `na_values="?"` tells Python that question marks in the dataset should be treated as missing values.
+
+::: {.callout-tip title="Key Idea"}
+Before analysing any biomedical dataset, we should first understand how it is structured, what each variable represents, and whether any values are missing.
+:::
+
+---
+
+## Understanding the Variables
+
+The processed Cleveland dataset contains 13 clinical variables and one outcome variable.
+
+| Variable | Description | Type |
+|----------|-------------|------|
+| `age` | Age in years | Numerical |
+| `sex` | Biological sex | Categorical |
+| `cp` | Chest pain type | Categorical |
+| `trestbps` | Resting blood pressure on admission | Numerical |
+| `chol` | Serum cholesterol | Numerical |
+| `fbs` | Fasting blood sugar > 120 mg/dl | Categorical |
+| `restecg` | Resting ECG result | Categorical |
+| `thalach` | Maximum heart rate achieved | Numerical |
+| `exang` | Exercise-induced angina | Categorical |
+| `oldpeak` | ST depression induced by exercise | Numerical |
+| `slope` | Slope of peak exercise ST segment | Categorical/ordinal |
+| `ca` | Number of major vessels coloured by fluoroscopy | Numerical/discrete |
+| `thal` | Thalassemia test result | Categorical |
+| `num` | Heart disease diagnosis | Outcome |
+
+---
+
+## Types of Data
+
+A key step in biostatistics is recognising what kind of data each variable represents.
+
+Numerical variables can be summarised using means, medians, standard deviations, and histograms. Categorical variables are usually summarised using counts, percentages, and bar charts.
+
+```{python}
+#| echo: false
+#| fig-cap: "Variables in the Cleveland dataset can be grouped into numerical and categorical variables."
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.axis("off")
+
+ax.text(
+    0.5, 0.88,
+    "Cleveland Heart Disease Variables",
+    ha="center",
+    fontsize=15,
+    fontweight="bold",
+    color=OXFORD_BLUE
+)
+
+ax.text(
+    0.28, 0.52,
+    "Numerical\n\nage\ntrestbps\nchol\nthalach\noldpeak\nca",
+    ha="center",
+    va="center",
+    fontsize=12,
+    bbox=dict(boxstyle="round,pad=0.6", fc="white", ec=ACCENT_BLUE, lw=1.8)
+)
+
+ax.text(
+    0.72, 0.52,
+    "Categorical / Ordinal\n\nsex\ncp\nfbs\nrestecg\nexang\nslope\nthal",
+    ha="center",
+    va="center",
+    fontsize=12,
+    bbox=dict(boxstyle="round,pad=0.6", fc="white", ec=CLINICAL_RED, lw=1.8)
+)
+
+plt.show()
+```
+
+::: {.callout-important title="Why this matters"}
+The type of variable determines the appropriate summary statistic, visualisation, and statistical test.
+:::
+
+---
+
+## Creating a Binary Outcome
+
+The original outcome variable is `num`.
+
+In the raw dataset:
+
+- `0` means no heart disease,
+- `1`, `2`, `3`, and `4` indicate presence of heart disease.
+
+For this module, we will use a binary outcome:
+
+```{python}
+df["heart_disease"] = np.where(
+    df["num"] == 0,
+    "No heart disease",
+    "Heart disease"
+)
+
+df[["num", "heart_disease"]].head()
+```
+
+This simplifies the clinical question to:
+
+> Does this patient have evidence of heart disease or not?
+
+---
+
+## Missing Values
+
+Real biomedical datasets are rarely perfect. Some values may be missing because a measurement was not taken, not recorded, or not available.
+
+```{python}
+df.isna().sum()
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Missing values in the processed Cleveland dataset."
+
+missing = df.isna().sum()
+missing = missing[missing > 0]
+
+fig, ax = plt.subplots(figsize=(7, 3.5))
+
+if len(missing) > 0:
+    ax.bar(missing.index, missing.values, color=CLINICAL_RED)
+    ax.set_ylabel("Number of missing values")
+    ax.set_xlabel("Variable")
+else:
+    ax.text(
+        0.5, 0.5,
+        "No missing values detected",
+        ha="center",
+        va="center",
+        fontsize=14
+    )
+    ax.axis("off")
+
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+
+plt.show()
+```
+
+::: {.callout-warning title="Important"}
+Missing values should never be ignored without thought. They can affect summary statistics, visualisations, hypothesis tests, and regression models.
+:::
+
+---
+
+## Outcome Distribution
+
+Before comparing variables between groups, we should inspect how many patients belong to each outcome group.
+
+```{python}
+df["heart_disease"].value_counts()
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Distribution of heart disease status in the processed Cleveland dataset."
+
+counts = df["heart_disease"].value_counts().reindex(
+    ["No heart disease", "Heart disease"]
+)
+
+fig, ax = plt.subplots(figsize=(7, 3.5))
+
+ax.bar(
+    counts.index,
+    counts.values,
+    color=[ACCENT_BLUE, CLINICAL_RED]
+)
+
+ax.set_ylabel("Number of patients")
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+
+plt.show()
+```
+
+The dataset contains both patients with and without heart disease, which allows us to compare the clinical measurements between these two groups.
+
+---
+
+## First Look at Numerical Variables
+
+Let us inspect several numerical variables.
+
+```{python}
+df[["age", "trestbps", "chol", "thalach", "oldpeak"]].describe()
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "First look at selected numerical variables in the Cleveland dataset."
+
+variables = {
+    "age": "Age",
+    "trestbps": "Resting BP",
+    "chol": "Cholesterol",
+    "thalach": "Max heart rate"
+}
+
+fig, axes = plt.subplots(2, 2, figsize=(8, 6))
+axes = axes.flatten()
+
+for ax, (var, label) in zip(axes, variables.items()):
+    ax.hist(
+        df[var].dropna(),
+        bins=15,
+        color=ACCENT_BLUE,
+        edgecolor="white"
+    )
+    ax.set_title(label)
+    ax.set_ylabel("Count")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+plt.tight_layout()
+plt.show()
+```
+
+These plots are not formal statistical tests. They are exploratory visualisations.
+
+They help us ask better questions, such as:
+
+- What is the age range of the cohort?
+- Are cholesterol values symmetric or skewed?
+- Does maximum heart rate vary widely between patients?
+- Are there possible outliers?
+
+---
+
+## First Look at Categorical Variables
+
+Categorical variables describe groups or classes rather than continuous measurements.
+
+```{python}
+df[["sex", "cp", "fbs", "restecg", "exang"]].head()
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "First look at selected categorical variables in the Cleveland dataset."
+
+cat_vars = {
+    "sex": "Sex",
+    "cp": "Chest pain type",
+    "fbs": "Fasting blood sugar",
+    "exang": "Exercise-induced angina"
+}
+
+fig, axes = plt.subplots(2, 2, figsize=(8, 6))
+axes = axes.flatten()
+
+for ax, (var, label) in zip(axes, cat_vars.items()):
+    counts = df[var].value_counts().sort_index()
+    ax.bar(
+        counts.index.astype(str),
+        counts.values,
+        color=OXFORD_BLUE
+    )
+    ax.set_title(label)
+    ax.set_ylabel("Count")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+plt.tight_layout()
+plt.show()
+```
+
+These plots help us understand whether categories are balanced or dominated by particular values.
+
+For example, if one category is very rare, it may be difficult to draw strong statistical conclusions about that group.
+
+---
+
+## Try It Yourself
+
+::: {.callout-tip title="Try it yourself"}
+Using the dataframe `df`, answer the following questions:
+
+1. How many patients are older than 60?
+2. What is the median cholesterol level?
+3. Which variable has missing values?
+4. How many patients have exercise-induced angina?
+:::
+
+Suggested Python commands:
+
+```{python}
+(df["age"] > 60).sum()
+df["chol"].median()
+df.isna().sum()
+df["exang"].value_counts()
+```
+
+---
+
+## Key Takeaways
+
+::: {.callout-important title="Key Takeaways"}
+
+- We will use the processed Cleveland Heart Disease dataset throughout the module.
+- The dataset contains 303 patients, 13 clinical variables, and one outcome variable.
+- Variables can be numerical, categorical, or ordinal.
+- The outcome variable can be converted into heart disease versus no heart disease.
+- Missing values must be identified before analysis.
+- Exploratory visualisation is the first step before formal statistical testing.
+
+:::
+
+---
+
+<div class="page-navigation">
+  <a class="nav-button previous" href="why-biostatistics.html">← Previous: Why Biostatistics?</a>
+  <a class="nav-button next" href="descriptive-statistics.html">Next: Descriptive Statistics →</a>
+</div>

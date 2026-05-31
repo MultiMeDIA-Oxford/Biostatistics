@@ -1,0 +1,2389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Correlation and Regression – Biostatistics with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Biostatistics with Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./why-biostatistics.html"> 
+<span class="menu-text">Why Biostatistics?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./meet-the-dataset.html"> 
+<span class="menu-text">The Dataset</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./descriptive-statistics.html"> 
+<span class="menu-text">Descriptive Statistics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./hypothesis-testing.html"> 
+<span class="menu-text">Hypothesis Testing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./correlation-regression.html" aria-current="page"> 
+<span class="menu-text">Correlation and Regression</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./meet-the-team.html"> 
+<span class="menu-text">Meet the Team</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://eng.ox.ac.uk/multimedia" target="_blank"> <i class="bi bi-globe" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#why-relationships-matter" id="toc-why-relationships-matter" class="nav-link" data-scroll-target="#why-relationships-matter">Why Relationships Matter</a></li>
+  <li><a href="#visualising-relationships" id="toc-visualising-relationships" class="nav-link" data-scroll-target="#visualising-relationships">Visualising Relationships</a></li>
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a>
+  <ul class="collapse">
+  <li><a href="#interactive-correlation-simulator" id="toc-interactive-correlation-simulator" class="nav-link" data-scroll-target="#interactive-correlation-simulator">Interactive Correlation Simulator</a></li>
+  <li><a href="#pearson-correlation" id="toc-pearson-correlation" class="nav-link" data-scroll-target="#pearson-correlation">Pearson Correlation</a>
+  <ul class="collapse">
+  <li><a href="#testing-statistical-significance" id="toc-testing-statistical-significance" class="nav-link" data-scroll-target="#testing-statistical-significance">Testing Statistical Significance</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul></li>
+  <li><a href="#spearman-correlation" id="toc-spearman-correlation" class="nav-link" data-scroll-target="#spearman-correlation">Spearman Correlation</a>
+  <ul class="collapse">
+  <li><a href="#pearson-vs-spearman" id="toc-pearson-vs-spearman" class="nav-link" data-scroll-target="#pearson-vs-spearman">Pearson vs Spearman</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#correlation-does-not-imply-causation" id="toc-correlation-does-not-imply-causation" class="nav-link" data-scroll-target="#correlation-does-not-imply-causation">Correlation Does Not Imply Causation</a>
+  <ul class="collapse">
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself">Try It Yourself</a></li>
+  </ul></li>
+  <li><a href="#simple-linear-regression" id="toc-simple-linear-regression" class="nav-link" data-scroll-target="#simple-linear-regression">Simple Linear Regression</a>
+  <ul class="collapse">
+  <li><a href="#from-correlation-to-prediction" id="toc-from-correlation-to-prediction" class="nav-link" data-scroll-target="#from-correlation-to-prediction">From Correlation to Prediction</a></li>
+  <li><a href="#the-regression-model" id="toc-the-regression-model" class="nav-link" data-scroll-target="#the-regression-model">The Regression Model</a>
+  <ul class="collapse">
+  <li><a href="#how-is-the-line-chosen" id="toc-how-is-the-line-chosen" class="nav-link" data-scroll-target="#how-is-the-line-chosen">How is the Line Chosen?</a></li>
+  </ul></li>
+  <li><a href="#interactive-regression-simulator" id="toc-interactive-regression-simulator" class="nav-link" data-scroll-target="#interactive-regression-simulator">Interactive Regression Simulator</a></li>
+  <li><a href="#fitting-a-regression-model" id="toc-fitting-a-regression-model" class="nav-link" data-scroll-target="#fitting-a-regression-model">Fitting a Regression Model</a></li>
+  <li><a href="#visualising-the-regression-line" id="toc-visualising-the-regression-line" class="nav-link" data-scroll-target="#visualising-the-regression-line">Visualising the Regression Line</a></li>
+  <li><a href="#interpreting-the-slope" id="toc-interpreting-the-slope" class="nav-link" data-scroll-target="#interpreting-the-slope">Interpreting the Slope</a></li>
+  <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals">Residuals</a></li>
+  <li><a href="#visualising-residuals" id="toc-visualising-residuals" class="nav-link" data-scroll-target="#visualising-residuals">Visualising Residuals</a></li>
+  <li><a href="#measuring-model-performance-r²" id="toc-measuring-model-performance-r²" class="nav-link" data-scroll-target="#measuring-model-performance-r²">Measuring Model Performance: R²</a></li>
+  <li><a href="#try-it-yourself-1" id="toc-try-it-yourself-1" class="nav-link" data-scroll-target="#try-it-yourself-1">Try It Yourself</a></li>
+  </ul></li>
+  <li><a href="#beyond-simple-regression" id="toc-beyond-simple-regression" class="nav-link" data-scroll-target="#beyond-simple-regression">Beyond Simple Regression</a></li>
+  <li><a href="#multiple-linear-regression" id="toc-multiple-linear-regression" class="nav-link" data-scroll-target="#multiple-linear-regression">Multiple Linear Regression</a>
+  <ul class="collapse">
+  <li><a href="#cleveland-example" id="toc-cleveland-example" class="nav-link" data-scroll-target="#cleveland-example">Cleveland Example</a></li>
+  <li><a href="#comparing-multiple-regression-models" id="toc-comparing-multiple-regression-models" class="nav-link" data-scroll-target="#comparing-multiple-regression-models">Comparing Multiple Regression Models</a>
+  <ul class="collapse">
+  <li><a href="#akaike-information-criterion-aic" id="toc-akaike-information-criterion-aic" class="nav-link" data-scroll-target="#akaike-information-criterion-aic">Akaike Information Criterion (AIC)</a></li>
+  <li><a href="#bayesian-information-criterion-bic" id="toc-bayesian-information-criterion-bic" class="nav-link" data-scroll-target="#bayesian-information-criterion-bic">Bayesian Information Criterion (BIC)</a></li>
+  </ul></li>
+  <li><a href="#comparing-several-models" id="toc-comparing-several-models" class="nav-link" data-scroll-target="#comparing-several-models">Comparing Several Models</a>
+  <ul class="collapse">
+  <li><a href="#interpreting-the-results" id="toc-interpreting-the-results" class="nav-link" data-scroll-target="#interpreting-the-results">Interpreting the Results</a></li>
+  <li><a href="#which-variables-appear-most-important" id="toc-which-variables-appear-most-important" class="nav-link" data-scroll-target="#which-variables-appear-most-important">Which Variables Appear Most Important?</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
+  <ul class="collapse">
+  <li><a href="#binary-classification" id="toc-binary-classification" class="nav-link" data-scroll-target="#binary-classification">Binary Classification</a></li>
+  <li><a href="#the-logistic-function" id="toc-the-logistic-function" class="nav-link" data-scroll-target="#the-logistic-function">The Logistic Function</a></li>
+  <li><a href="#interactive-sigmoid-simulator" id="toc-interactive-sigmoid-simulator" class="nav-link" data-scroll-target="#interactive-sigmoid-simulator">Interactive Sigmoid Simulator</a></li>
+  <li><a href="#cleveland-example-1" id="toc-cleveland-example-1" class="nav-link" data-scroll-target="#cleveland-example-1">Cleveland Example</a></li>
+  <li><a href="#evaluating-logistic-regression" id="toc-evaluating-logistic-regression" class="nav-link" data-scroll-target="#evaluating-logistic-regression">Evaluating Logistic Regression</a></li>
+  </ul></li>
+  <li><a href="#from-regression-to-predictive-modelling" id="toc-from-regression-to-predictive-modelling" class="nav-link" data-scroll-target="#from-regression-to-predictive-modelling">From Regression to Predictive Modelling</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#try-it-yourself-2" id="toc-try-it-yourself-2" class="nav-link" data-scroll-target="#try-it-yourself-2">Try It Yourself</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Correlation and Regression</h1>
+<p class="subtitle lead">From relationships to prediction</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you should be able to:</p>
+<ul>
+<li>explain why relationships between variables matter in biomedical data;</li>
+<li>interpret scatter plots;</li>
+<li>understand the concepts of covariance and correlation;</li>
+<li>distinguish between Pearson and Spearman correlation;</li>
+<li>interpret correlation coefficients and their statistical significance;</li>
+<li>explain why correlation does not imply causation;</li>
+<li>build and interpret simple linear regression models;</li>
+<li>understand the basic ideas behind multiple and logistic regression;</li>
+<li>evaluate predictive models using metrics such as R², accuracy, and AUC.</li>
+</ul>
+<hr>
+</section>
+<section id="why-relationships-matter" class="level1">
+<h1>Why Relationships Matter</h1>
+<p>In the previous chapter, we focused on comparing groups.</p>
+<p>For example, we asked whether patients with and without heart disease differed in age, cholesterol, or other clinical measurements.</p>
+<p>However, many biomedical questions are not simply about comparing groups.</p>
+<p>They are about understanding how variables change together.</p>
+<p>For example:</p>
+<ul>
+<li>Does maximum heart rate decrease with age?</li>
+<li>Is cholesterol related to blood pressure?</li>
+<li>Can clinical measurements help us predict disease risk?</li>
+</ul>
+<p>To answer these questions, we need methods for studying relationships between variables.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Key Idea">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Key Idea
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Correlation and regression help us move from describing individual variables to understanding relationships between variables.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="visualising-relationships" class="level1">
+<h1>Visualising Relationships</h1>
+<p>Before calculating any statistic, we should first look at the data.</p>
+<p>A scatter plot is one of the simplest ways to visualise the relationship between two numerical variables.</p>
+<p>Each point represents one patient.</p>
+<div id="1be55b25" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="correlation-regression_files/figure-html/cell-3-output-1.png" width="593" height="429" class="figure-img"></p>
+<figcaption>Relationship between age and maximum heart rate in the Cleveland dataset.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot suggests that maximum heart rate tends to decrease as age increases.</p>
+<p>However, the relationship is not perfect. Patients of the same age can have different maximum heart rates.</p>
+<p>This is why we need statistical tools to quantify the strength of the relationship.</p>
+<hr>
+</section>
+<section id="correlation" class="level1">
+<h1>Correlation</h1>
+<p>Correlation quantifies the strength and direction of a relationship between two variables.</p>
+<p>To understand correlation, it is useful to begin with covariance.</p>
+<p>The covariance between two variables is defined as:</p>
+<p><span class="math display">\[
+\mathrm{Cov}(X,Y)
+=
+\frac{1}{n-1}
+\sum_{i=1}^{n}
+(x_i-\bar{x})(y_i-\bar{y})
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> are individual observations;</li>
+<li><span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\bar{y}\)</span> are sample means;</li>
+<li><span class="math inline">\(n\)</span> is the number of observations.</li>
+</ul>
+<p>Positive covariance indicates that the variables tend to increase together, whereas negative covariance indicates that one variable tends to decrease as the other increases.</p>
+<p>However, covariance depends on the units of measurement and is therefore difficult to interpret directly.</p>
+<p>To overcome this limitation, we standardise covariance to obtain the correlation coefficient:</p>
+<p><span class="math display">\[
+r =
+\frac{
+\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})
+}
+{
+\sqrt{
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}
+\sqrt{
+\sum_{i=1}^{n}(y_i-\bar{y})^2
+}
+}
+\]</span></p>
+<p>This standardisation ensures that:</p>
+<p><span class="math display">\[
+-1 \le r \le 1.
+\]</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Correlation</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>+1</td>
+<td>Perfect positive relationship</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>No linear relationship</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>Perfect negative relationship</td>
+</tr>
+</tbody>
+</table>
+<p>Values closer to ±1 indicate stronger relationships.</p>
+<p>Values closer to 0 indicate weaker relationships.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Engineering Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Engineering Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The correlation coefficient can be viewed as a normalised measure of how strongly two variables vary together.</p>
+<ul>
+<li><span class="math inline">\(r = 1\)</span> indicates perfect positive alignment.</li>
+<li><span class="math inline">\(r = -1\)</span> indicates perfect negative alignment.</li>
+<li><span class="math inline">\(r = 0\)</span> indicates no linear relationship.</li>
+</ul>
+<p>In practice, biomedical data rarely exhibit correlations close to ±1 because biological systems are influenced by many interacting factors.</p>
+</div>
+</div>
+<hr>
+<section id="interactive-correlation-simulator" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-correlation-simulator">Interactive Correlation Simulator</h2>
+<p>Move the slider below and observe how the scatter plot changes.</p>
+<p>As the correlation approaches +1 or -1, the points become more tightly aligned.</p>
+<p>When the correlation approaches 0, the relationship becomes weaker.</p>
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+<p>
+<b>Correlation:</b> <span id="corrValue">0.70</span>
+</p>
+<p><input id="corrSlider" type="range" min="-0.95" max="0.95" value="0.70" step="0.05" style="width:100%;"></p>
+<canvas id="corrCanvas" width="700" height="420">
+</canvas>
+</div>
+<script>
+function generateCorrelatedData(r, n=100){
+
+  const points = [];
+
+  for(let i=0;i<n;i++){
+
+    let x = Math.random()*6 - 3;
+
+    let noise = (Math.random()*2 - 1);
+
+    let y = r*x + Math.sqrt(1-r*r)*noise*2;
+
+    points.push({x:x,y:y});
+  }
+
+  return points;
+}
+
+function drawCorrelation(){
+
+  const r = parseFloat(document.getElementById("corrSlider").value);
+
+  document.getElementById("corrValue").innerHTML = r.toFixed(2);
+
+  const canvas = document.getElementById("corrCanvas");
+  const ctx = canvas.getContext("2d");
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  const pts = generateCorrelatedData(r);
+
+  pts.forEach(p => {
+
+    const x = 350 + p.x*80;
+    const y = 210 - p.y*60;
+
+    ctx.beginPath();
+    ctx.arc(x,y,4,0,2*Math.PI);
+    ctx.fillStyle = "#2C7FB8";
+    ctx.fill();
+
+  });
+
+  ctx.strokeStyle = "#333";
+
+  ctx.beginPath();
+  ctx.moveTo(50,210);
+  ctx.lineTo(650,210);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(350,30);
+  ctx.lineTo(350,390);
+  ctx.stroke();
+}
+
+document.getElementById("corrSlider").addEventListener("input", drawCorrelation);
+
+drawCorrelation();
+</script>
+<div class="callout callout-style-default callout-tip callout-titled" title="What to Notice">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What to Notice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Positive correlations slope upwards.</li>
+<li>Negative correlations slope downwards.</li>
+<li>Stronger correlations produce tighter clusters of points.</li>
+<li>Correlation close to zero produces a diffuse cloud.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="pearson-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="pearson-correlation">Pearson Correlation</h2>
+<p>Pearson correlation measures the strength of a linear relationship between two numerical variables.</p>
+<p>Mathematically, Pearson correlation is precisely the correlation coefficient <span class="math inline">\(r\)</span> defined above.</p>
+<p>It measures how closely the data follow a straight-line relationship.</p>
+<p>For the Cleveland dataset, we can quantify the relationship between age and maximum heart rate.</p>
+<div id="c908ef94" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>r, p <span class="op">=</span> pearsonr(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"age"</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"thalach"</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Pearson correlation = </span><span class="sc">{</span>r<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p<span class="sc">:.5f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pearson correlation = -0.394
+p-value = 0.00000</code></pre>
+</div>
+</div>
+<section id="testing-statistical-significance" class="level3">
+<h3 class="anchored" data-anchor-id="testing-statistical-significance">Testing Statistical Significance</h3>
+<p>To determine whether the observed correlation could plausibly have arisen by chance, we test:</p>
+<p><span class="math display">\[
+H_0:r=0
+\]</span></p>
+<p>against:</p>
+<p><span class="math display">\[
+H_A:r\neq0.
+\]</span></p>
+<p>The test statistic is:</p>
+<p><span class="math display">\[
+t =
+r
+\sqrt{
+\frac{n-2}{1-r^2}
+}
+\]</span></p>
+<p>Under the null hypothesis, this follows a Student’s <span class="math inline">\(t\)</span> distribution with:</p>
+<p><span class="math display">\[
+n-2
+\]</span></p>
+<p>degrees of freedom.</p>
+<p>The p-value quantifies the evidence against the hypothesis of no correlation.</p>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<ul>
+<li>Positive values indicate that both variables tend to increase together.</li>
+<li>Negative values indicate that one variable tends to decrease as the other increases.</li>
+<li>Values closer to ±1 indicate stronger relationships.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="spearman-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="spearman-correlation">Spearman Correlation</h2>
+<p>Pearson correlation works well when relationships are approximately linear.</p>
+<p>However, many biomedical relationships are not perfectly linear.</p>
+<p>Spearman correlation is based on the ranks of the observations rather than their exact values.</p>
+<p>If <span class="math inline">\(R(X)\)</span> and <span class="math inline">\(R(Y)\)</span> denote the ranks of the variables, then the Spearman coefficient is simply the Pearson correlation applied to the ranks:</p>
+<p><span class="math display">\[
+\rho
+=
+\mathrm{corr}
+\left(
+R(X),
+R(Y)
+\right)
+\]</span></p>
+<p>This makes Spearman correlation less sensitive to outliers and departures from linearity.</p>
+<div id="de7948e4" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> spearmanr</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>rho, p <span class="op">=</span> spearmanr(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"age"</span>],</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"thalach"</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Spearman correlation = </span><span class="sc">{</span>rho<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value = </span><span class="sc">{</span>p<span class="sc">:.5f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spearman correlation = -0.392
+p-value = 0.00000</code></pre>
+</div>
+</div>
+<section id="pearson-vs-spearman" class="level3">
+<h3 class="anchored" data-anchor-id="pearson-vs-spearman">Pearson vs Spearman</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Pearson Correlation</th>
+<th>Spearman Correlation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Uses actual values</td>
+<td>Uses ranks</td>
+</tr>
+<tr class="even">
+<td>Measures linear relationships</td>
+<td>Measures monotonic relationships</td>
+</tr>
+<tr class="odd">
+<td>Sensitive to outliers</td>
+<td>More robust to outliers</td>
+</tr>
+<tr class="even">
+<td>Most commonly reported</td>
+<td>Useful when assumptions are violated</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="callout callout-style-default callout-important callout-titled" title="Correlation is Symmetric">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Correlation is Symmetric
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Correlation does not distinguish between inputs and outputs.</p>
+<p>The correlation between age and maximum heart rate is identical to the correlation between maximum heart rate and age.</p>
+<p>This symmetry is one of the key differences between correlation and regression, which we will study next.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="correlation-does-not-imply-causation" class="level1">
+<h1>Correlation Does Not Imply Causation</h1>
+<p>A strong correlation does not prove that one variable causes another.</p>
+<p>For example:</p>
+<ul>
+<li>Age and heart disease are correlated.</li>
+<li>However, age itself does not directly cause heart disease.</li>
+</ul>
+<p>Many biological, behavioural, environmental, and genetic factors contribute to disease development.</p>
+<p>Correlation identifies relationships.</p>
+<p>Establishing causation requires additional evidence, careful study design, and scientific reasoning.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Important">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Correlation does not imply causation.</p>
+<p>Two variables may be strongly correlated without one causing the other.</p>
+<p>Always consider alternative explanations, confounding factors, and study design before drawing causal conclusions.</p>
+</div>
+</div>
+<hr>
+<section id="try-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself">Try It Yourself</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercises">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercises
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the Cleveland dataset:</p>
+<ol type="1">
+<li>Create a scatter plot of age versus cholesterol.</li>
+<li>Compute the Pearson correlation between age and cholesterol.</li>
+<li>Compute the Spearman correlation between age and cholesterol.</li>
+<li>Which correlation coefficient is larger?</li>
+<li>Is there evidence that age causes higher cholesterol based on correlation alone?</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="simple-linear-regression" class="level1">
+<h1>Simple Linear Regression</h1>
+<p>Correlation tells us whether two variables are related.</p>
+<p>However, correlation alone cannot be used to make predictions.</p>
+<p>Regression goes one step further by modelling the relationship between variables and allowing us to predict one variable from another.</p>
+<p>For example:</p>
+<ul>
+<li>Can we predict maximum heart rate from age?</li>
+<li>Can we predict cholesterol from blood pressure?</li>
+<li>Can we predict disease risk from clinical measurements?</li>
+</ul>
+<p>These questions form the basis of predictive modelling.</p>
+<hr>
+<section id="from-correlation-to-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="from-correlation-to-prediction">From Correlation to Prediction</h2>
+<p>Suppose we wish to predict a patient’s maximum heart rate using their age.</p>
+<p>Rather than simply describing this relationship, we would like to quantify it and use it for prediction.</p>
+</section>
+<section id="the-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-regression-model">The Regression Model</h2>
+<p>The simplest regression model is called <strong>simple linear regression</strong>.</p>
+<p>It assumes that the relationship between two variables can be approximated by a straight line:</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 x + \varepsilon
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(y\)</span> is the outcome variable;</li>
+<li><span class="math inline">\(x\)</span> is the predictor variable;</li>
+<li><span class="math inline">\(\beta_0\)</span> is the intercept;</li>
+<li><span class="math inline">\(\beta_1\)</span> is the slope;</li>
+<li><span class="math inline">\(\varepsilon\)</span> represents random error.</li>
+</ul>
+<p>The goal of regression is to estimate the coefficients <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> from the data.</p>
+<section id="how-is-the-line-chosen" class="level3">
+<h3 class="anchored" data-anchor-id="how-is-the-line-chosen">How is the Line Chosen?</h3>
+<p>Many different lines could be drawn through the data.</p>
+<p>Linear regression chooses the line that minimises the sum of squared residuals:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n}
+\left(
+y_i-\beta_0 - \beta_1 x_i
+\right)^2
+\]</span></p>
+<p>This is known as the <strong>least-squares criterion</strong>.</p>
+<p>Squaring the residuals penalises large errors more heavily than small errors and ensures that positive and negative residuals do not cancel each other out.</p>
+</section>
+</section>
+<section id="interactive-regression-simulator" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-regression-simulator">Interactive Regression Simulator</h2>
+<p>The slope and intercept determine the position and orientation of the regression line.</p>
+<p>In this simulator, the data points are fixed. Only the regression line changes as you move the sliders. This helps isolate the effect of the two parameters in the model:</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 x
+\]</span></p>
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+<p>
+<b>Intercept (β₀):</b> <span id="interceptValue">140</span>
+</p>
+<p><input id="interceptSlider" type="range" min="80" max="250" value="140" step="5" style="width:100%;"></p>
+<p><br><br></p>
+<p>
+<b>Slope (β₁):</b> <span id="slopeValue">-1.0</span>
+</p>
+<p><input id="slopeSlider" type="range" min="-3" max="3" value="-1" step="0.1" style="width:100%;"></p>
+<p><br><br></p>
+<canvas id="regCanvas" width="720" height="470">
+</canvas>
+</div>
+<script>
+
+const fixedRegressionData = [
+  {x: 29, y: 171},
+  {x: 34, y: 168},
+  {x: 37, y: 165},
+  {x: 41, y: 158},
+  {x: 44, y: 162},
+  {x: 47, y: 155},
+  {x: 50, y: 150},
+  {x: 52, y: 148},
+  {x: 55, y: 145},
+  {x: 58, y: 139},
+  {x: 60, y: 142},
+  {x: 63, y: 135},
+  {x: 66, y: 130},
+  {x: 69, y: 126},
+  {x: 72, y: 122},
+  {x: 75, y: 118}
+];
+
+function drawRegression(){
+
+    const intercept =
+        parseFloat(
+            document.getElementById("interceptSlider").value
+        );
+
+    const slope =
+        parseFloat(
+            document.getElementById("slopeSlider").value
+        );
+
+    document.getElementById("interceptValue").innerHTML =
+        intercept.toFixed(0);
+
+    document.getElementById("slopeValue").innerHTML =
+        slope.toFixed(1);
+
+    const canvas =
+        document.getElementById("regCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    const left = 70;
+    const right = 660;
+    const top = 40;
+    const bottom = 390;
+
+    const xMin = 25;
+    const xMax = 80;
+    const yMin = 80;
+    const yMax = 200;
+
+    function xScale(x){
+        return left + (x - xMin) / (xMax - xMin) * (right - left);
+    }
+
+    function yScale(y){
+        return bottom - (y - yMin) / (yMax - yMin) * (bottom - top);
+    }
+
+    // Axes
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(left, bottom);
+    ctx.lineTo(right, bottom);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = "#333";
+    ctx.font = "14px sans-serif";
+
+    ctx.fillText("Age (years)", 330, 445);
+
+    ctx.save();
+    ctx.translate(20, 245);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText("Maximum Heart Rate", 0, 0);
+    ctx.restore();
+
+    // X-axis ticks
+    const xTicks = [30, 40, 50, 60, 70, 80];
+
+    xTicks.forEach(function(tick){
+        const px = xScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(px, bottom);
+        ctx.lineTo(px, bottom + 6);
+        ctx.stroke();
+
+        ctx.fillText(tick.toString(), px - 8, bottom + 24);
+    });
+
+    // Y-axis ticks
+    const yTicks = [80, 100, 120, 140, 160, 180, 200];
+
+    yTicks.forEach(function(tick){
+        const py = yScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(left - 6, py);
+        ctx.lineTo(left, py);
+        ctx.stroke();
+
+        ctx.fillText(tick.toString(), left - 45, py + 5);
+    });
+
+    // Data points
+    ctx.fillStyle = "#2C7FB8";
+
+    fixedRegressionData.forEach(function(p){
+
+        ctx.beginPath();
+        ctx.arc(
+            xScale(p.x),
+            yScale(p.y),
+            4,
+            0,
+            2*Math.PI
+        );
+        ctx.fill();
+
+    });
+
+    // Regression line
+    const x1 = xMin;
+    const x2 = xMax;
+
+    const y1 = intercept + slope*x1;
+    const y2 = intercept + slope*x2;
+
+    ctx.strokeStyle = "#D62728";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(
+        xScale(x1),
+        yScale(y1)
+    );
+    ctx.lineTo(
+        xScale(x2),
+        yScale(y2)
+    );
+    ctx.stroke();
+
+    // Equation display
+    ctx.fillStyle = "#333";
+    ctx.font = "16px sans-serif";
+
+    const sign = slope >= 0 ? "+" : "-";
+
+    ctx.fillText(
+        "Model: y = " +
+        intercept.toFixed(0) +
+        " " +
+        sign +
+        " " +
+        Math.abs(slope).toFixed(1) +
+        "x",
+        390,
+        55
+    );
+}
+
+document.getElementById("interceptSlider")
+    .addEventListener(
+        "input",
+        drawRegression
+    );
+
+document.getElementById("slopeSlider")
+    .addEventListener(
+        "input",
+        drawRegression
+    );
+
+drawRegression();
+
+</script>
+<div class="callout callout-style-default callout-tip callout-titled" title="What to Notice">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What to Notice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The data points stay fixed.</li>
+<li>The <strong>intercept</strong> shifts the line up and down.</li>
+<li>The <strong>slope</strong> controls how steeply the line rises or falls.</li>
+<li>A positive slope produces an upward line.</li>
+<li>A negative slope produces a downward line.</li>
+<li>The best-fitting line is the one that passes closest to the data points overall.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="fitting-a-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-regression-model">Fitting a Regression Model</h2>
+<p>Using the Cleveland dataset, we can model maximum heart rate as a function of age.</p>
+<div id="8fc1b2b5" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"age"</span>]]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">"thalach"</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Intercept = </span><span class="sc">{</span>model<span class="sc">.</span>intercept_<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Slope = </span><span class="sc">{</span>model<span class="sc">.</span>coef_[<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Intercept = 203.86
+Slope = -1.00</code></pre>
+</div>
+</div>
+<p>For the Cleveland dataset, the fitted model is approximately</p>
+<p><span class="math display">\[
+\widehat{\text{Max Heart Rate}}
+=
+203.86
+-
+1.00 \times \text{Age}
+\]</span></p>
+<p>This suggests that maximum heart rate decreases by approximately 1 beat per minute for each additional year of age.</p>
+<hr>
+</section>
+<section id="visualising-the-regression-line" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-the-regression-line">Visualising the Regression Line</h2>
+<div id="ed562a78" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="correlation-regression_files/figure-html/cell-7-output-1.png" width="593" height="429" class="figure-img"></p>
+<figcaption>Linear regression model predicting maximum heart rate from age.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The regression line represents the average relationship between age and maximum heart rate.</p>
+<hr>
+</section>
+<section id="interpreting-the-slope" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-slope">Interpreting the Slope</h2>
+<p>The slope <span class="math inline">\(\beta_1\)</span> is one of the most important quantities in regression.</p>
+<p>It represents the expected change in the outcome variable associated with a one-unit increase in the predictor.</p>
+<p>For example:</p>
+<ul>
+<li>A slope of -0.8 would indicate that maximum heart rate decreases by approximately 0.8 beats per minute for every additional year of age.</li>
+</ul>
+<p>The sign of the slope determines the direction of the relationship:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Slope</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Positive</td>
+<td>Outcome increases as predictor increases</td>
+</tr>
+<tr class="even">
+<td>Negative</td>
+<td>Outcome decreases as predictor increases</td>
+</tr>
+<tr class="odd">
+<td>Zero</td>
+<td>No linear relationship</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="prediction" class="level2">
+<h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
+<p>Once the model has been fitted, we can use it to make predictions.</p>
+<p>For example, what maximum heart rate would we predict for a 60-year-old patient?</p>
+<div id="8b82ae5c" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>predicted_hr <span class="op">=</span> model.predict([[<span class="dv">60</span>]])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Predicted maximum heart rate = </span><span class="sc">{</span>predicted_hr[<span class="dv">0</span>]<span class="sc">:.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicted maximum heart rate = 144.1</code></pre>
+</div>
+</div>
+<p>The predicted value lies on the regression line.</p>
+<p>Different patients may have different observed values, but the regression model provides the best average prediction based on the available data.</p>
+<hr>
+</section>
+<section id="residuals" class="level2">
+<h2 class="anchored" data-anchor-id="residuals">Residuals</h2>
+<p>No model predicts perfectly.</p>
+<p>The difference between an observed value and its predicted value is called the residual:</p>
+<p><span class="math display">\[
+e_i
+=
+y_i
+-
+\hat{y}_i
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(y_i\)</span> is the observed value;</li>
+<li><span class="math inline">\(\hat{y}_i\)</span> is the predicted value.</li>
+</ul>
+<p>Residuals tell us how well the model fits the data.</p>
+<p>Small residuals indicate good predictions.</p>
+<p>Large residuals indicate poor predictions.</p>
+<hr>
+</section>
+<section id="visualising-residuals" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-residuals">Visualising Residuals</h2>
+<div id="5d4f9d24" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="correlation-regression_files/figure-html/cell-9-output-1.png" width="596" height="429" class="figure-img"></p>
+<figcaption>Residual plot for the linear regression model.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Ideally, residuals should be randomly scattered around zero.</p>
+<p>Systematic patterns may indicate that the model is missing important information.</p>
+<hr>
+</section>
+<section id="measuring-model-performance-r²" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-model-performance-r²">Measuring Model Performance: R²</h2>
+<p>The coefficient of determination, denoted <span class="math inline">\(R^2\)</span>, measures how much of the variability in the outcome is explained by the model.</p>
+<p><span class="math display">\[
+R^2
+=
+1
+-
+\frac{
+\sum (y_i-\hat{y}_i)^2
+}{
+\sum (y_i-\bar{y})^2
+}
+\]</span></p>
+<p>Values range from:</p>
+<p><span class="math display">\[
+0 \le R^2 \le 1
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(R^2 = 0\)</span> indicates no explanatory power;</li>
+<li><span class="math inline">\(R^2 = 1\)</span> indicates perfect prediction.</li>
+</ul>
+<div id="f1193db5" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> model.score(X, y)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R² = </span><span class="sc">{</span>r2<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R² = 0.155</code></pre>
+</div>
+</div>
+<p>An R² of 0.155 means that approximately 15.5% of the variability in maximum heart rate can be explained by age alone.</p>
+<p>The remaining variability is due to other factors and random variation.</p>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A high <span class="math inline">\(R^2\)</span> suggests that the model explains a large proportion of the variability in the data.</p>
+<p>However, a high <span class="math inline">\(R^2\)</span> does not imply causation, nor does it guarantee good predictions for new patients.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="try-it-yourself-1" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself-1">Try It Yourself</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercises">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercises
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the Cleveland dataset:</p>
+<ol type="1">
+<li>Fit a linear regression model predicting cholesterol from age.</li>
+<li>Interpret the estimated slope.</li>
+<li>Predict cholesterol for a 60-year-old patient.</li>
+<li>Calculate the model’s <span class="math inline">\(R^2\)</span>.</li>
+<li>Examine the residual plot and assess the quality of the fit.</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="beyond-simple-regression" class="level1">
+<h1>Beyond Simple Regression</h1>
+<p>So far, we have used a single predictor to explain or predict an outcome.</p>
+<p>In practice, biomedical outcomes are influenced by many factors simultaneously.</p>
+<p>For example, maximum heart rate may depend on:</p>
+<ul>
+<li>age;</li>
+<li>sex;</li>
+<li>blood pressure;</li>
+<li>cholesterol;</li>
+<li>physical fitness;</li>
+<li>underlying disease.</li>
+</ul>
+<p>To model such systems, we need more flexible regression models.</p>
+<hr>
+</section>
+<section id="multiple-linear-regression" class="level1">
+<h1>Multiple Linear Regression</h1>
+<p>Multiple linear regression extends simple linear regression by incorporating several predictors simultaneously.</p>
+<p>Instead of</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 x + \varepsilon,
+\]</span></p>
+<p>we write</p>
+<p><span class="math display">\[
+y
+=
+\beta_0
++
+\beta_1 x_1
++
+\beta_2 x_2
++
+\cdots
++
+\beta_p x_p
++
+\varepsilon.
+\]</span></p>
+<p>Here:</p>
+<ul>
+<li><span class="math inline">\(x_1, x_2, \ldots, x_p\)</span> are predictor variables;</li>
+<li><span class="math inline">\(\beta_1, \beta_2, \ldots, \beta_p\)</span> quantify their contributions;</li>
+<li><span class="math inline">\(p\)</span> is the number of predictors.</li>
+</ul>
+<hr>
+<section id="cleveland-example" class="level2">
+<h2 class="anchored" data-anchor-id="cleveland-example">Cleveland Example</h2>
+<p>Suppose we wish to predict maximum heart rate using:</p>
+<ul>
+<li>age;</li>
+<li>cholesterol;</li>
+<li>resting blood pressure.</li>
+</ul>
+<div id="3b172df9" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"age"</span>, <span class="st">"chol"</span>, <span class="st">"trestbps"</span>]]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">"thalach"</span>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>multi_model <span class="op">=</span> LinearRegression()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>multi_model.fit(X, y)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>coefficients <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Predictor"</span>: X.columns,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coefficient"</span>: multi_model.coef_</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Predictor</th>
+<th data-quarto-table-cell-role="th">Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>age</td>
+<td>-1.085820</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>chol</td>
+<td>0.034249</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>trestbps</td>
+<td>0.086843</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The model combines information from multiple variables to improve prediction.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each coefficient represents the expected change in the outcome associated with a one-unit increase in that predictor, while holding all other predictors constant.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="comparing-multiple-regression-models" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-multiple-regression-models">Comparing Multiple Regression Models</h2>
+<p>In practice, we often have many potential predictor variables.</p>
+<p>A natural question is:</p>
+<blockquote class="blockquote">
+<p>Which combination of variables gives the best model?</p>
+</blockquote>
+<p>Simply adding more variables will usually improve the fit to the training data. However, more complex models may be harder to interpret and may not generalise well to new data.</p>
+<p>To balance model fit and model complexity, statisticians often use <strong>information criteria</strong>.</p>
+<section id="akaike-information-criterion-aic" class="level3">
+<h3 class="anchored" data-anchor-id="akaike-information-criterion-aic">Akaike Information Criterion (AIC)</h3>
+<p><span class="math display">\[
+AIC = 2k - 2\log(L)
+\]</span></p>
+</section>
+<section id="bayesian-information-criterion-bic" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-information-criterion-bic">Bayesian Information Criterion (BIC)</h3>
+<p><span class="math display">\[
+BIC = k\log(n) - 2\log(L)
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(k\)</span> is the number of model parameters;</li>
+<li><span class="math inline">\(L\)</span> is the likelihood of the model;</li>
+<li><span class="math inline">\(n\)</span> is the number of observations.</li>
+</ul>
+<p>For both AIC and BIC:</p>
+<ul>
+<li>lower values indicate better models;</li>
+<li>the criteria penalise unnecessary complexity;</li>
+<li>BIC generally penalises complexity more strongly than AIC.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="comparing-several-models" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-several-models">Comparing Several Models</h2>
+<div id="5323be49" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>candidate_models <span class="op">=</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age"</span>: [<span class="st">"age"</span>],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age + Cholesterol"</span>: [<span class="st">"age"</span>, <span class="st">"chol"</span>],</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age + Cholesterol + Blood Pressure"</span>: [</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"chol"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"trestbps"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, predictors <span class="kw">in</span> candidate_models.items():</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    X_model <span class="op">=</span> sm.add_constant(</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        df[predictors]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    y_model <span class="op">=</span> df[<span class="st">"thalach"</span>]</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    fitted_model <span class="op">=</span> sm.OLS(</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        y_model,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        X_model</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    ).fit()</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    results.append({</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"AIC"</span>: <span class="bu">round</span>(fitted_model.aic, <span class="dv">2</span>),</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"BIC"</span>: <span class="bu">round</span>(fitted_model.bic, <span class="dv">2</span>),</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"R²"</span>: <span class="bu">round</span>(fitted_model.rsquared, <span class="dv">3</span>)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>comparison_df <span class="op">=</span> pd.DataFrame(results)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>comparison_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th">AIC</th>
+<th data-quarto-table-cell-role="th">BIC</th>
+<th data-quarto-table-cell-role="th">R²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Age</td>
+<td>2708.62</td>
+<td>2716.05</td>
+<td>0.155</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Age + Cholesterol</td>
+<td>2708.28</td>
+<td>2719.42</td>
+<td>0.162</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Age + Cholesterol + Blood Pressure</td>
+<td>2708.80</td>
+<td>2723.66</td>
+<td>0.166</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+<section id="interpreting-the-results" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-the-results">Interpreting the Results</h3>
+<p>The table allows us to compare competing models.</p>
+<p>When comparing models:</p>
+<ul>
+<li>Higher <span class="math inline">\(R^2\)</span> indicates that more variability in the outcome is explained.</li>
+<li>Lower AIC indicates a better trade-off between fit and complexity.</li>
+<li>Lower BIC indicates a better trade-off between fit and complexity, with a stronger penalty for additional variables.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Key Idea">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Key Idea
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good model is not necessarily the most complex model.</p>
+<p>AIC and BIC help us identify models that explain the data well while avoiding unnecessary complexity.</p>
+</div>
+</div>
+</section>
+<section id="which-variables-appear-most-important" class="level3">
+<h3 class="anchored" data-anchor-id="which-variables-appear-most-important">Which Variables Appear Most Important?</h3>
+<p>One simple way to assess importance is to examine the fitted coefficients.</p>
+<div id="6c370a51" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Predictor</th>
+<th data-quarto-table-cell-role="th">Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>age</td>
+<td>-1.085820</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>chol</td>
+<td>0.034249</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>trestbps</td>
+<td>0.086843</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>For this example:</p>
+<ul>
+<li>predictors with larger absolute coefficients generally have a stronger influence on the predicted outcome;</li>
+<li>coefficients close to zero may contribute relatively little information;</li>
+<li>interpretation should always be made in the context of the variable’s scale and units.</li>
+</ul>
+<p>In more advanced machine learning workflows, feature importance can also be assessed using methods such as permutation importance, regularisation, decision trees, and SHAP values.</p>
+<p>For now, coefficient size, AIC, BIC, and <span class="math inline">\(R^2\)</span> provide useful tools for understanding and comparing regression models.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="logistic-regression" class="level1">
+<h1>Logistic Regression</h1>
+<p>Linear regression predicts continuous outcomes such as:</p>
+<ul>
+<li>age;</li>
+<li>cholesterol;</li>
+<li>blood pressure;</li>
+<li>heart rate.</li>
+</ul>
+<p>However, many biomedical questions involve categorical outcomes.</p>
+<p>For example:</p>
+<ul>
+<li>Does the patient have heart disease?</li>
+<li>Will the patient be admitted to hospital?</li>
+<li>Is a tumour benign or malignant?</li>
+</ul>
+<p>These outcomes require a different type of model.</p>
+<hr>
+<section id="binary-classification" class="level2">
+<h2 class="anchored" data-anchor-id="binary-classification">Binary Classification</h2>
+<p>Suppose we wish to predict:</p>
+<p><span class="math display">\[
+\text{Heart Disease}
+=
+\begin{cases}
+1 &amp; \text{Yes} \\
+0 &amp; \text{No}
+\end{cases}
+\]</span></p>
+<p>A straight line is no longer appropriate because probabilities must lie between 0 and 1.</p>
+<p>Logistic regression solves this problem by modelling probabilities rather than raw values.</p>
+<hr>
+</section>
+<section id="the-logistic-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-logistic-function">The Logistic Function</h2>
+<p>Logistic regression uses the sigmoid function:</p>
+<p><span class="math display">\[
+P(Y=1)
+=
+\frac{1}
+{1+e^{-z}}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+z
+=
+\beta_0
++
+\beta_1 x_1
++
+\cdots
++
+\beta_p x_p.
+\]</span></p>
+<p>The sigmoid function transforms any real number into a probability between 0 and 1.</p>
+</section>
+<section id="interactive-sigmoid-simulator" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-sigmoid-simulator">Interactive Sigmoid Simulator</h2>
+<p>The sigmoid function converts any real-valued input into a probability between 0 and 1.</p>
+<p>Move the slider below to see how the value of <span class="math inline">\(z\)</span> changes the predicted probability.</p>
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+<p>
+<b>Linear predictor (z):</b> <span id="zValue">0.0</span>
+</p>
+<p><input id="zSlider" type="range" min="-10" max="10" value="0" step="0.1" style="width:100%;"></p>
+<p>
+<b>Predicted probability:</b> <span id="probValue">0.50</span>
+</p>
+<canvas id="sigmoidCanvas" width="720" height="430">
+</canvas>
+</div>
+<script>
+
+function sigmoid(z){
+    return 1 / (1 + Math.exp(-z));
+}
+
+function drawSigmoid(){
+
+    const z =
+        parseFloat(
+            document.getElementById("zSlider").value
+        );
+
+    const p =
+        sigmoid(z);
+
+    document.getElementById("zValue").innerHTML =
+        z.toFixed(1);
+
+    document.getElementById("probValue").innerHTML =
+        p.toFixed(2);
+
+    const canvas =
+        document.getElementById("sigmoidCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const left = 70;
+    const right = 660;
+    const top = 40;
+    const bottom = 350;
+
+    const xMin = -10;
+    const xMax = 10;
+    const yMin = 0;
+    const yMax = 1;
+
+    function xScale(x){
+        return left + (x - xMin) / (xMax - xMin) * (right - left);
+    }
+
+    function yScale(y){
+        return bottom - (y - yMin) / (yMax - yMin) * (bottom - top);
+    }
+
+    // Axes
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(left, bottom);
+    ctx.lineTo(right, bottom);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = "#333";
+    ctx.font = "14px sans-serif";
+
+    ctx.fillText("Linear predictor, z", 310, 405);
+
+    ctx.save();
+    ctx.translate(22, 235);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText("Predicted probability", 0, 0);
+    ctx.restore();
+
+    // X ticks
+    const xTicks = [-10, -5, 0, 5, 10];
+
+    xTicks.forEach(function(tick){
+        const px = xScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(px, bottom);
+        ctx.lineTo(px, bottom + 6);
+        ctx.stroke();
+
+        ctx.fillText(tick.toString(), px - 10, bottom + 24);
+    });
+
+    // Y ticks
+    const yTicks = [0, 0.25, 0.5, 0.75, 1];
+
+    yTicks.forEach(function(tick){
+        const py = yScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(left - 6, py);
+        ctx.lineTo(left, py);
+        ctx.stroke();
+
+        ctx.fillText(tick.toFixed(2), left - 52, py + 5);
+    });
+
+    // Reference line at probability 0.5
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5,5]);
+
+    ctx.beginPath();
+    ctx.moveTo(left, yScale(0.5));
+    ctx.lineTo(right, yScale(0.5));
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    // Sigmoid curve
+    ctx.strokeStyle = "#2C7FB8";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+
+    for(let i=0; i<=200; i++){
+
+        const x =
+            xMin + (xMax - xMin) * i / 200;
+
+        const y =
+            sigmoid(x);
+
+        const px =
+            xScale(x);
+
+        const py =
+            yScale(y);
+
+        if(i === 0){
+            ctx.moveTo(px, py);
+        } else {
+            ctx.lineTo(px, py);
+        }
+    }
+
+    ctx.stroke();
+
+    // Current point
+    ctx.fillStyle = "#D62728";
+
+    ctx.beginPath();
+    ctx.arc(
+        xScale(z),
+        yScale(p),
+        6,
+        0,
+        2*Math.PI
+    );
+    ctx.fill();
+
+    // Guide lines
+    ctx.strokeStyle = "#D62728";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4,4]);
+
+    ctx.beginPath();
+    ctx.moveTo(xScale(z), bottom);
+    ctx.lineTo(xScale(z), yScale(p));
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, yScale(p));
+    ctx.lineTo(xScale(z), yScale(p));
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    // Equation label
+    ctx.fillStyle = "#333";
+    ctx.font = "16px sans-serif";
+
+    ctx.fillText(
+        "P(Y = 1) = 1 / (1 + e^(-z))",
+        390,
+        60
+    );
+}
+
+document.getElementById("zSlider")
+    .addEventListener(
+        "input",
+        drawSigmoid
+    );
+
+drawSigmoid();
+
+</script>
+<div class="callout callout-style-default callout-tip callout-titled" title="What to Notice">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What to Notice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>When <span class="math inline">\(z = 0\)</span>, the predicted probability is 0.5.</li>
+<li>Large positive values of <span class="math inline">\(z\)</span> produce probabilities close to 1.</li>
+<li>Large negative values of <span class="math inline">\(z\)</span> produce probabilities close to 0.</li>
+<li>The sigmoid function ensures that logistic regression outputs valid probabilities.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="cleveland-example-1" class="level2">
+<h2 class="anchored" data-anchor-id="cleveland-example-1">Cleveland Example</h2>
+<p>We can predict the probability of heart disease using:</p>
+<ul>
+<li>age;</li>
+<li>cholesterol;</li>
+<li>resting blood pressure;</li>
+<li>maximum heart rate.</li>
+</ul>
+<div id="adf13ca1" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"age"</span>, <span class="st">"chol"</span>, <span class="st">"trestbps"</span>, <span class="st">"thalach"</span>]]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">"heart_disease"</span>]</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>log_model <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>log_model.fit(X, y)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>predicted_probabilities <span class="op">=</span> (</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    log_model</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    .predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>predicted_probabilities[:<span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>array([0.49410634, 0.09326307, 0.37112164, 0.86994449, 0.79823391,
+       0.83561137, 0.59562023, 0.64628858, 0.50708295, 0.60311031])</code></pre>
+</div>
+</div>
+<p>The output is a probability.</p>
+<p>For example:</p>
+<pre class="text"><code>0.82</code></pre>
+<p>means an estimated 82% probability of heart disease.</p>
+</section>
+<section id="evaluating-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-logistic-regression">Evaluating Logistic Regression</h2>
+<p>For logistic regression, we are interested in how well the model distinguishes between patients with and without disease.</p>
+<p>Two commonly used metrics are:</p>
+<ul>
+<li><strong>Accuracy</strong>: proportion of correct predictions.</li>
+<li><strong>Area Under the ROC Curve (AUC)</strong>: measures how well the model separates the two classes across all decision thresholds.</li>
+</ul>
+<div id="e2534551" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    accuracy_score,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    roc_auc_score</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>predicted_labels <span class="op">=</span> log_model.predict(X)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    y,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    predicted_labels</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>auc <span class="op">=</span> roc_auc_score(</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    y,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    predicted_probabilities</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy = </span><span class="sc">{</span>accuracy<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"AUC = </span><span class="sc">{</span>auc<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy = 0.706
+AUC = 0.756</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Accuracy measures the proportion of patients correctly classified.</li>
+<li>AUC ranges from 0.5 (random guessing) to 1.0 (perfect discrimination).</li>
+<li>In biomedical applications, AUC is often preferred because it is less sensitive to the choice of classification threshold.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="from-regression-to-predictive-modelling" class="level1">
+<h1>From Regression to Predictive Modelling</h1>
+<p>Linear and logistic regression are among the most important predictive models in healthcare.</p>
+<p>They form the foundation of many modern predictive modelling approaches.</p>
+<p>The underlying idea remains the same:</p>
+<ol type="1">
+<li>Learn relationships from historical data.</li>
+<li>Estimate model parameters.</li>
+<li>Use the fitted model to make predictions for new observations.</li>
+</ol>
+<p>More sophisticated models may use:</p>
+<ul>
+<li>hundreds or thousands of variables;</li>
+<li>non-linear relationships;</li>
+<li>complex interactions between predictors.</li>
+</ul>
+<p>However, the fundamental concepts introduced in this chapter remain unchanged.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Looking Ahead">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Looking Ahead
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many modern machine learning methods can be viewed as extensions of the predictive modelling ideas introduced here.</p>
+<p>Understanding correlation and regression provides a strong foundation for more advanced predictive methods.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>In this chapter we learned how to:</p>
+<ul>
+<li>visualise relationships using scatter plots;</li>
+<li>quantify relationships using correlation;</li>
+<li>distinguish between Pearson and Spearman correlation;</li>
+<li>understand why correlation does not imply causation;</li>
+<li>build and interpret simple linear regression models;</li>
+<li>evaluate model performance using residuals and <span class="math inline">\(R^2\)</span>;</li>
+<li>extend regression to multiple predictors;</li>
+<li>understand the basic idea behind logistic regression.</li>
+</ul>
+<p>Together, these methods allow us to move from describing data to making predictions.</p>
+<hr>
+<section id="try-it-yourself-2" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself-2">Try It Yourself</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercises">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercises
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the Cleveland dataset:</p>
+<ol type="1">
+<li>Fit a multiple linear regression model using age, cholesterol, and blood pressure to predict maximum heart rate.</li>
+<li>Compare the <span class="math inline">\(R^2\)</span> values of the simple and multiple regression models.</li>
+<li>Fit a logistic regression model to predict heart disease.</li>
+<li>Interpret the predicted probabilities for several patients.</li>
+</ol>
+</div>
+</div>
+<hr>
+<div class="page-navigation">
+<p><a class="nav-button previous" href="hypothesis-testing.html">← Previous: Hypothesis Testing</a></p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/multimedia-oxford\.github\.io\/Biostatistics\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

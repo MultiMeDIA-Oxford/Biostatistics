@@ -1,0 +1,77 @@
+---
+title: "Meet the Team"
+subtitle: "Course team"
+---
+
+This course is delivered by the MultiMeDIA (Multimodal Medical Data Integration & Analysis) Lab in the Department of Engineering Science, University of Oxford.
+
+---
+
+## Module Leader and Lecturer
+
+<div class="team-grid single">
+
+<div class="team-card">
+<img src="image/team/abhirup.jpg" alt="Dr Abhirup Banerjee">
+
+<div class="team-name">Dr Abhirup Banerjee</div>
+
+Royal Society University Research Fellow  
+Principal Investigator, MultiMeDIA Lab
+
+</div>
+
+</div>
+
+---
+
+## Demonstrators
+
+<div class="team-grid">
+
+<div class="team-card">
+<img src="image/team/thalia.jpg" alt="Thalia Seale">
+
+<div class="team-name">Thalia Seale</div>
+
+DPhil Student  
+Centre for Doctoral Training in Health Data Science
+
+</div>
+
+<div class="team-card">
+<img src="image/team/adrian.png" alt="Adrian McIntosh">
+
+<div class="team-name">Adrian McIntosh</div>
+
+MRes Student
+
+</div>
+
+<div class="team-card">
+<img src="image/team/deyu.png" alt="Deyu Meng">
+
+<div class="team-name">Deyu Meng</div>
+
+DPhil Student
+
+</div>
+
+</div>
+
+---
+
+## MultiMeDIA Lab
+
+The MultiMeDIA Lab develops AI, machine learning, and computational modelling methods for integrating multimodal biomedical data, including medical imaging, physiological signals, clinical measurements, and health records.
+The lab focuses particularly on cardiovascular and biomedical applications, with the aim of supporting improved diagnosis, risk prediction, intervention planning, and personalised healthcare.
+
+<a href="https://eng.ox.ac.uk/multimedia" target="_blank" rel="noopener noreferrer">
+Visit the MultiMeDIA Lab website →
+</a>
+
+---
+
+<div class="page-navigation">
+  <a class="nav-button previous" href="index.html">← Return to Course Homepage</a>
+</div>

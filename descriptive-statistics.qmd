@@ -1,0 +1,975 @@
+---
+title: "Descriptive Statistics and Visualisation"
+subtitle: "Summarising and exploring clinical data"
+toc: true
+toc-depth: 2
+---
+
+::: {.callout-note title="Clinical Question"}
+What is a typical patient in our dataset?
+:::
+
+In the previous section, we explored the Cleveland Heart Disease dataset and visualised several variables.
+
+However, visual inspection alone is often insufficient.
+
+We frequently want to summarise a large collection of observations using a small number of interpretable statistics.
+
+Measures of central tendency help us describe the **centre** of a dataset.
+
+---
+
+## Why Summarise Data?
+
+Consider the ages of all 303 patients in the Cleveland Heart Disease dataset.
+
+Rather than inspecting hundreds of individual values, we can summarise the overall patient population using a few representative numbers.
+
+```{python}
+#| echo: false
+#| fig-cap: "Age distribution in the Cleveland Heart Disease dataset."
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+OXFORD_BLUE = "#002147"
+CLINICAL_RED = "#C73E3A"
+ACCENT_BLUE = "#3A7CA5"
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
+
+columns = [
+    "age","sex","cp","trestbps","chol","fbs","restecg",
+    "thalach","exang","oldpeak","slope","ca","thal","num"
+]
+
+df = pd.read_csv(url, header=None, names=columns, na_values="?")
+df["heart_disease"] = np.where(
+    df["num"] == 0,
+    "No Heart Disease",
+    "Heart Disease"
+)
+
+plt.figure(figsize=(8,4))
+
+plt.hist(
+    df["age"],
+    bins=15,
+    color=ACCENT_BLUE,
+    edgecolor="white"
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Number of patients")
+
+plt.show()
+```
+
+A natural question is:
+
+> Where is the centre of this distribution?
+
+---
+
+## The Mean
+
+The **mean** (or average) is one of the most commonly used summary statistics.
+
+It is calculated by adding all observations and dividing by the number of observations.
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+$$
+
+where:
+
+- $x_i$ is the *i-th* observation,
+- $n$ is the number of observations,
+- $\bar{x}$ is the sample mean.
+
+### Example: Mean Age
+
+```{python}
+mean_age = df["age"].mean()
+print(f"Mean age = {mean_age:.2f} years")
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Mean age in the Cleveland dataset."
+
+mean_age = df["age"].mean()
+
+plt.figure(figsize=(8,4))
+
+plt.hist(
+    df["age"],
+    bins=15,
+    color=ACCENT_BLUE,
+    edgecolor="white"
+)
+
+plt.axvline(
+    mean_age,
+    color=CLINICAL_RED,
+    linewidth=3,
+    label=f"Mean = {mean_age:.1f}"
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Number of patients")
+plt.legend()
+
+plt.show()
+```
+
+::: {.callout-tip title="Interpretation"}
+The mean age represents the average age of all patients in the dataset.
+:::
+
+---
+
+## The Median
+
+The **median** is the middle observation after sorting the data.
+
+Unlike the mean, the median is less affected by extreme values.
+
+### Example: Median Age
+
+```{python}
+median_age = df["age"].median()
+print(f"Median age = {median_age:.2f} years")
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Mean and median age in the Cleveland dataset."
+
+mean_age = df["age"].mean()
+median_age = df["age"].median()
+
+plt.figure(figsize=(8,4))
+
+plt.hist(
+    df["age"],
+    bins=15,
+    color=ACCENT_BLUE,
+    edgecolor="white"
+)
+
+plt.axvline(
+    mean_age,
+    color=CLINICAL_RED,
+    linewidth=3,
+    label=f"Mean = {mean_age:.1f}"
+)
+
+plt.axvline(
+    median_age,
+    color=OXFORD_BLUE,
+    linewidth=3,
+    linestyle="--",
+    label=f"Median = {median_age:.1f}"
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Number of patients")
+plt.legend()
+
+plt.show()
+```
+
+::: {.callout-tip title="Interpretation"}
+When the mean and median are similar, the distribution is often approximately symmetric.
+:::
+
+---
+
+## The Mode
+
+The **mode** is the most frequently occurring value.
+
+The mode is especially useful for categorical variables.
+
+### Example: Chest Pain Type
+
+```{python}
+mode_cp = df["cp"].mode()[0]
+print(f"Mode of chest pain type = {int(mode_cp)}")
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Distribution of chest pain type."
+
+cp_counts = df["cp"].value_counts().sort_index()
+
+plt.figure(figsize=(7,4))
+
+plt.bar(
+    cp_counts.index.astype(str),
+    cp_counts.values,
+    color=OXFORD_BLUE
+)
+
+plt.xlabel("Chest Pain Type")
+plt.ylabel("Number of Patients")
+
+plt.show()
+```
+
+The category with the highest bar corresponds to the mode.
+
+---
+
+## Comparing Mean, Median and Mode
+
+Each measure describes the centre of a distribution in a slightly different way.
+
+| Statistic | Description |
+|------------|------------|
+| Mean | Arithmetic average |
+| Median | Middle value |
+| Mode | Most frequent value |
+
+The best choice depends on the type of data and the shape of the distribution.
+
+---
+
+## Mean versus Median
+
+Consider a distribution containing a few unusually large values.
+
+The mean is pulled towards those extreme observations, whereas the median remains relatively stable.
+
+### Interactive Demonstration: Mean versus Median
+
+Move the final observation and observe how the mean and median respond.
+
+```{ojs}
+//| echo: false
+
+viewof extreme_value = Inputs.range(
+  [20, 120],
+  {
+    value: 80,
+    step: 1,
+    label: "Final observation"
+  }
+)
+```
+
+```{ojs}
+//| echo: false
+
+data_values = [45, 50, 55, 60, extreme_value]
+
+mean_value = d3.mean(data_values)
+
+median_value = d3.median(data_values)
+
+Plot.plot({
+  width: 700,
+  height: 180,
+  marginLeft: 50,
+  x: {
+    domain: [20, 120],
+    label: "Observed value"
+  },
+  y: {
+    domain: [0, 1],
+    axis: null
+  },
+  marks: [
+    Plot.ruleY([0.5], {stroke: "#cccccc"}),
+    Plot.dot(data_values, {
+      x: d => d,
+      y: 0.5,
+      r: 8,
+      fill: "#3A7CA5"
+    }),
+    Plot.ruleX([mean_value], {
+      stroke: "#C73E3A",
+      strokeWidth: 3
+    }),
+    Plot.ruleX([median_value], {
+      stroke: "#002147",
+      strokeWidth: 3,
+      strokeDasharray: "5,5"
+    }),
+    Plot.text(
+      [`Mean = ${mean_value.toFixed(1)}`],
+      {
+        x: mean_value,
+        y: 0.82,
+        fill: "#C73E3A",
+        fontSize: 14
+      }
+    ),
+    Plot.text(
+      [`Median = ${median_value.toFixed(1)}`],
+      {
+        x: median_value,
+        y: 0.18,
+        fill: "#002147",
+        fontSize: 14
+      }
+    )
+  ]
+})
+```
+
+::: {.callout-tip title="What to notice"}
+As the final observation becomes more extreme, the mean moves more strongly than the median. This is why the median is often preferred for skewed clinical measurements.
+:::
+
+::: {.callout-important title="Key Idea"}
+The median is generally more robust to extreme values than the mean.
+:::
+
+---
+
+## Applying Measures of Central Tendency
+
+Let us compare the mean and median of several variables.
+
+```{python}
+summary = pd.DataFrame({
+    "Mean": [
+        df["age"].mean(),
+        df["chol"].mean(),
+        df["trestbps"].mean(),
+        df["thalach"].mean()
+    ],
+    "Median": [
+        df["age"].median(),
+        df["chol"].median(),
+        df["trestbps"].median(),
+        df["thalach"].median()
+    ]
+},
+index=[
+    "Age",
+    "Cholesterol",
+    "Blood Pressure",
+    "Maximum Heart Rate"
+])
+
+summary.round(2)
+```
+
+Which variables show the largest difference between the mean and median?
+
+What might this tell us about their distributions?
+
+---
+
+## Try It Yourself
+
+::: {.callout-tip title="Try it yourself"}
+
+Using the Cleveland dataset:
+
+1. Calculate the mean cholesterol level.
+2. Calculate the median maximum heart rate.
+3. Find the mode of chest pain type.
+4. Find the mode of sex.
+
+:::
+
+Suggested commands:
+
+```python
+df["chol"].mean()
+
+df["thalach"].median()
+
+df["cp"].mode()[0]
+
+df["sex"].mode()[0]
+```
+
+---
+
+## Measures of Variability
+
+Measures of central tendency tell us where the centre of a distribution is.
+
+However, they do not tell us how spread out the data are.
+
+Two patient groups can have the same mean but very different variability.
+
+### Same Mean, Different Spread
+
+```{python}
+#| echo: false
+#| fig-cap: "Two groups can have the same mean but very different variability."
+
+group_a = np.array([50, 50, 50, 50, 50])
+group_b = np.array([20, 35, 50, 65, 80])
+
+fig, ax = plt.subplots(figsize=(8, 3.5))
+
+ax.scatter(group_a, [1] * len(group_a), s=120, color=OXFORD_BLUE)
+ax.scatter(group_b, [0] * len(group_b), s=120, color=CLINICAL_RED)
+
+ax.axvline(50, linestyle="--", linewidth=2, color=ACCENT_BLUE)
+
+ax.set_yticks([0, 1])
+ax.set_yticklabels(["Group B", "Group A"])
+ax.set_xlabel("Observed value")
+ax.set_xlim(10, 90)
+
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+
+plt.show()
+```
+
+Both groups have the same mean:
+
+$$
+\bar{x}=50
+$$
+
+but Group B is much more variable.
+
+::: {.callout-important title="Key Idea"}
+A measure of centre is not enough. We also need a measure of spread.
+:::
+
+---
+
+## Range
+
+The simplest measure of variability is the **range**:
+
+$$
+\text{Range} = \text{Maximum} - \text{Minimum}
+$$
+
+The range tells us the total spread between the smallest and largest observations.
+
+### Example: Age Range in the Cleveland Dataset
+
+```{python}
+age_min = df["age"].min()
+age_max = df["age"].max()
+age_range = age_max - age_min
+
+print(f"Minimum age = {age_min:.0f} years")
+print(f"Maximum age = {age_max:.0f} years")
+print(f"Range = {age_range:.0f} years")
+```
+
+The range is easy to understand, but it depends only on two observations: the minimum and the maximum.
+
+---
+
+## Standard Deviation
+
+The **standard deviation** describes how far observations typically lie from the mean.
+
+A small standard deviation means the observations are tightly clustered around the mean. A large standard deviation means the observations are more spread out.
+
+For a sample, the variance is:
+
+$$
+s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2
+$$
+
+The standard deviation is the square root of the variance:
+
+$$
+s = \sqrt{s^2}
+$$
+
+where:
+
+- $s^2$ is the sample variance,
+- $s$ is the sample standard deviation,
+- $x_i-\bar{x}$ is the distance between an observation and the mean.
+
+### Interactive Demonstration: Changing Variability
+
+Move the slider and observe how the mean and standard deviation change.
+
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+  <p><b>Move the final patient value:</b> <span id="outlierValue">80</span></p>
+
+  <input id="outlierSlider" type="range" min="50" max="130" value="80" step="1" style="width:100%;">
+
+  <p>
+    <b>Mean:</b> <span id="meanValue"></span><br>
+    <b>Standard deviation:</b> <span id="sdValue"></span>
+  </p>
+
+  <canvas id="sdCanvas" width="700" height="220"></canvas>
+</div>
+
+<script>
+function updateSDDemo() {
+  const slider = document.getElementById("outlierSlider");
+  const outlier = Number(slider.value);
+  document.getElementById("outlierValue").textContent = outlier;
+
+  const data = [50, 52, 54, 56, outlier];
+  const mean = data.reduce((a,b) => a+b, 0) / data.length;
+  const variance = data.reduce((a,b) => a + Math.pow(b-mean, 2), 0) / (data.length - 1);
+  const sd = Math.sqrt(variance);
+
+  document.getElementById("meanValue").textContent = mean.toFixed(2);
+  document.getElementById("sdValue").textContent = sd.toFixed(2);
+
+  const canvas = document.getElementById("sdCanvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const minX = 40;
+  const maxX = 140;
+  const scale = x => 60 + (x - minX) / (maxX - minX) * 580;
+
+  ctx.beginPath();
+  ctx.moveTo(scale(minX), 150);
+  ctx.lineTo(scale(maxX), 150);
+  ctx.strokeStyle = "#333333";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  data.forEach(x => {
+    ctx.beginPath();
+    ctx.arc(scale(x), 150, 8, 0, 2*Math.PI);
+    ctx.fillStyle = "#3A7CA5";
+    ctx.fill();
+  });
+
+  ctx.beginPath();
+  ctx.moveTo(scale(mean), 60);
+  ctx.lineTo(scale(mean), 180);
+  ctx.strokeStyle = "#C73E3A";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = "#C73E3A";
+  ctx.font = "16px sans-serif";
+  ctx.fillText("Mean", scale(mean) + 8, 70);
+}
+
+document.getElementById("outlierSlider").addEventListener("input", updateSDDemo);
+updateSDDemo();
+</script>
+
+::: {.callout-tip title="Interpretation"}
+As the final value moves further away from the others, the standard deviation increases.
+:::
+
+### Example: Standard Deviation of Age
+
+```{python}
+age_mean = df["age"].mean()
+age_sd = df["age"].std()
+
+print(f"Mean age = {age_mean:.2f} years")
+print(f"Standard deviation = {age_sd:.2f} years")
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Mean and standard deviation of age in the Cleveland dataset."
+
+age_mean = df["age"].mean()
+age_sd = df["age"].std()
+
+plt.figure(figsize=(8, 4))
+
+plt.hist(
+    df["age"],
+    bins=15,
+    color=ACCENT_BLUE,
+    edgecolor="white"
+)
+
+plt.axvline(age_mean, color=CLINICAL_RED, linewidth=3, label="Mean")
+plt.axvline(age_mean - age_sd, color=OXFORD_BLUE, linestyle="--", linewidth=2, label="Mean ± 1 SD")
+plt.axvline(age_mean + age_sd, color=OXFORD_BLUE, linestyle="--", linewidth=2)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Number of patients")
+plt.legend(frameon=False)
+
+plt.show()
+```
+
+---
+
+## Interquartile Range
+
+The **interquartile range** focuses on the middle 50% of observations.
+
+$$
+IQR = Q_3 - Q_1
+$$
+
+where:
+
+- $Q_1$ is the 25th percentile,
+- $Q_3$ is the 75th percentile.
+
+Unlike the range, the IQR is less sensitive to extreme values.
+
+### Example: IQR of Age
+
+```{python}
+q1 = df["age"].quantile(0.25)
+q3 = df["age"].quantile(0.75)
+iqr = q3 - q1
+
+print(f"Q1 = {q1:.0f} years")
+print(f"Q3 = {q3:.0f} years")
+print(f"IQR = {iqr:.0f} years")
+```
+
+```{python}
+#| echo: false
+#| fig-cap: "Boxplot showing the median and interquartile range of age."
+
+fig, ax = plt.subplots(figsize=(8, 2.5))
+
+ax.boxplot(
+    df["age"],
+    vert=False,
+    patch_artist=True,
+    boxprops=dict(facecolor=ACCENT_BLUE, alpha=0.6),
+    medianprops=dict(color=CLINICAL_RED, linewidth=2)
+)
+
+ax.set_xlabel("Age (years)")
+ax.set_yticks([])
+
+plt.show()
+```
+
+The box shows the middle 50% of the data. The red line shows the median.
+
+## Try It Yourself
+
+::: {.callout-tip title="Try It Yourself"}
+
+Using the Cleveland dataset:
+
+1. Calculate the range of cholesterol.
+2. Calculate the standard deviation of resting blood pressure.
+3. Calculate the interquartile range (IQR) of maximum heart rate.
+4. Which variable appears most variable:
+   - age
+   - cholesterol
+   - resting blood pressure
+   - maximum heart rate
+
+5. Why might the IQR sometimes be preferred over the range?
+
+:::
+
+Suggested commands:
+
+```python
+chol_range = df["chol"].max() - df["chol"].min()
+
+df["trestbps"].std()
+
+q1 = df["thalach"].quantile(0.25)
+q3 = df["thalach"].quantile(0.75)
+
+q3 - q1
+```
+
+---
+
+## Summary of Centre and Spread
+
+```{python}
+summary = df[["age", "trestbps", "chol", "thalach"]].agg(
+    ["mean", "median", "std", "min", "max"]
+).round(2)
+
+summary
+```
+
+This table combines measures of central tendency and variability.
+
+Although numerical summaries are useful, they cannot reveal the full shape of a distribution.
+
+To understand skewness, multimodality, and potential outliers, we need visualisation.
+
+## Visualising Distributions
+
+So far, we have summarised the Cleveland dataset using numerical measures such as:
+
+- Mean
+- Median
+- Mode
+- Standard deviation
+- Interquartile range
+
+These summaries are useful, but they do not tell the whole story.
+
+For example:
+
+- Is the distribution symmetric?
+- Is it skewed?
+- Are there multiple peaks?
+- Are there unusual observations?
+
+To answer these questions, we need visualisation.
+
+::: {.callout-important title="Key Idea"}
+A good statistician always looks at the data before performing formal analyses.
+:::
+
+---
+
+## Histograms
+
+A histogram groups observations into intervals (bins) and counts how many observations fall into each interval.
+
+### Example: Age Distribution
+
+```{python}
+#| echo: false
+#| fig-cap: "Histogram of age in the Cleveland Heart Disease dataset."
+
+plt.figure(figsize=(8,4))
+
+plt.hist(
+    df["age"],
+    bins=15,
+    color=ACCENT_BLUE,
+    edgecolor="white"
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Number of patients")
+
+plt.show()
+```
+
+From this histogram we can immediately identify:
+
+- the centre of the distribution,
+- the spread,
+- the overall shape.
+
+---
+
+## Reading Histograms
+
+When looking at a histogram, ask yourself:
+
+1. Where is the centre?
+2. How wide is the distribution?
+3. Is the distribution symmetric?
+4. Are there multiple peaks?
+5. Are there possible outliers?
+
+These questions provide valuable insight before any formal statistical testing.
+
+---
+
+## Density Curves
+
+A density curve provides a smoothed representation of a distribution.
+
+Rather than counting observations within bins, it estimates the underlying shape of the data.
+
+```{python}
+#| echo: false
+#| fig-cap: "Histogram with density estimate."
+
+import seaborn as sns
+
+plt.figure(figsize=(8,4))
+
+sns.histplot(
+    df["age"],
+    bins=15,
+    kde=True,
+    color=ACCENT_BLUE
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Density")
+
+plt.show()
+```
+
+The smooth curve highlights the overall shape of the distribution while reducing sensitivity to the exact choice of bins.
+
+---
+
+## Boxplots
+
+A boxplot provides a compact summary of a distribution.
+
+Recall the concepts introduced earlier:
+
+- Median
+- First quartile (Q1)
+- Third quartile (Q3)
+- Interquartile range (IQR)
+
+A boxplot combines all of these quantities into a single visualisation.
+
+```{python}
+#| echo: false
+#| fig-cap: "Boxplot of age."
+
+plt.figure(figsize=(8,2.5))
+
+plt.boxplot(
+    df["age"],
+    vert=False
+)
+
+plt.xlabel("Age (years)")
+
+plt.show()
+```
+
+The box represents the middle 50% of observations, while the line inside the box represents the median.
+
+---
+
+## Comparing Groups Visually
+
+Visualisation becomes particularly useful when comparing groups.
+
+For example:
+
+Do patients with heart disease tend to be older?
+
+```{python}
+#| echo: false
+#| fig-cap: "Age distribution by heart disease status."
+
+import seaborn as sns
+
+plt.figure(figsize=(8,4))
+
+sns.boxplot(
+    data=df,
+    x="heart_disease",
+    y="age",
+    palette=["#3A7CA5", "#C73E3A"]
+)
+
+plt.xlabel("")
+plt.ylabel("Age (years)")
+
+plt.show()
+```
+
+The two groups appear different.
+
+Patients with heart disease appear to be slightly older on average.
+
+However, visual differences alone are not enough.
+
+---
+
+## Beyond Boxplots: Violin Plots
+
+A violin plot combines:
+
+- a boxplot,
+- a density estimate.
+
+The width of the violin indicates where observations are concentrated.
+
+```{python}
+#| echo: false
+#| fig-cap: "Violin plot of age by heart disease status."
+
+plt.figure(figsize=(8,4))
+
+sns.violinplot(
+    data=df,
+    x="heart_disease",
+    y="age",
+    palette=["#3A7CA5", "#C73E3A"]
+)
+
+plt.xlabel("")
+plt.ylabel("Age (years)")
+
+plt.show()
+```
+
+Violin plots provide more information about the shape of a distribution than boxplots alone.
+
+---
+
+## Try It Yourself
+
+::: {.callout-tip title="Try It Yourself"}
+
+Using the Cleveland dataset:
+
+1. Create a histogram of cholesterol.
+2. Create a histogram of maximum heart rate.
+3. Create a boxplot of resting blood pressure.
+4. Compare cholesterol distributions between heart disease and non-heart disease patients.
+5. Which visualisation do you find most informative?
+
+:::
+
+Suggested commands:
+
+```python
+plt.hist(df["chol"], bins=15)
+
+plt.hist(df["thalach"], bins=15)
+
+sns.boxplot(x=df["trestbps"])
+
+sns.boxplot(
+    data=df,
+    x="heart_disease",
+    y="chol"
+)
+```
+
+---
+
+::: {.callout-important title="Transition to Hypothesis Testing"}
+
+The visualisations suggest that some characteristics differ between patients with and without heart disease.
+
+However, visual differences alone do not tell us whether those differences are likely to reflect genuine population differences or random sampling variation.
+
+Statistical hypothesis testing provides a formal framework for answering this question.
+
+:::
+
+---
+
+## Key Takeaways
+
+::: {.callout-important title="Key Takeaways"}
+
+- Descriptive statistics help summarise clinical datasets.
+- Measures of central tendency describe the centre of a distribution.
+- Measures of variability describe how spread out the data are.
+- Histograms show the shape of numerical distributions.
+- Boxplots and violin plots help compare distributions between groups.
+- Visual differences are useful, but they do not prove statistical significance.
+
+:::
+
+---
+
+<div class="page-navigation">
+  <a class="nav-button previous" href="meet-the-dataset.html">← Previous: The Dataset</a>
+  <a class="nav-button next" href="hypothesis-testing.html">Next: Hypothesis Testing →</a>
+</div>

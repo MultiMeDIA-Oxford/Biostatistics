@@ -1,0 +1,1596 @@
+---
+title: "Correlation and Regression"
+subtitle: "From relationships to prediction"
+---
+
+```{python}
+#| echo: false
+
+%run includes/setup.py
+```
+
+## Learning Objectives
+
+By the end of this chapter, you should be able to:
+
+- explain why relationships between variables matter in biomedical data;
+- interpret scatter plots;
+- understand the concepts of covariance and correlation;
+- distinguish between Pearson and Spearman correlation;
+- interpret correlation coefficients and their statistical significance;
+- explain why correlation does not imply causation;
+- build and interpret simple linear regression models;
+- understand the basic ideas behind multiple and logistic regression;
+- evaluate predictive models using metrics such as R², accuracy, and AUC.
+
+---
+
+# Why Relationships Matter
+
+In the previous chapter, we focused on comparing groups.
+
+For example, we asked whether patients with and without heart disease differed in age, cholesterol, or other clinical measurements.
+
+However, many biomedical questions are not simply about comparing groups.
+
+They are about understanding how variables change together.
+
+For example:
+
+- Does maximum heart rate decrease with age?
+- Is cholesterol related to blood pressure?
+- Can clinical measurements help us predict disease risk?
+
+To answer these questions, we need methods for studying relationships between variables.
+
+::: {.callout-important title="Key Idea"}
+Correlation and regression help us move from describing individual variables to understanding relationships between variables.
+:::
+
+---
+
+# Visualising Relationships
+
+Before calculating any statistic, we should first look at the data.
+
+A scatter plot is one of the simplest ways to visualise the relationship between two numerical variables.
+
+Each point represents one patient.
+
+```{python}
+#| echo: false
+#| fig-cap: "Relationship between age and maximum heart rate in the Cleveland dataset."
+
+plt.figure(figsize=(7,5))
+
+sns.scatterplot(
+    data=df,
+    x="age",
+    y="thalach",
+    color=ACCENT_BLUE
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Maximum Heart Rate")
+
+plt.show()
+```
+
+The plot suggests that maximum heart rate tends to decrease as age increases.
+
+However, the relationship is not perfect. Patients of the same age can have different maximum heart rates.
+
+This is why we need statistical tools to quantify the strength of the relationship.
+
+---
+
+# Correlation
+
+Correlation quantifies the strength and direction of a relationship between two variables.
+
+To understand correlation, it is useful to begin with covariance.
+
+The covariance between two variables is defined as:
+
+$$
+\mathrm{Cov}(X,Y)
+=
+\frac{1}{n-1}
+\sum_{i=1}^{n}
+(x_i-\bar{x})(y_i-\bar{y})
+$$
+
+where:
+
+- $x_i$ and $y_i$ are individual observations;
+- $\bar{x}$ and $\bar{y}$ are sample means;
+- $n$ is the number of observations.
+
+Positive covariance indicates that the variables tend to increase together, whereas negative covariance indicates that one variable tends to decrease as the other increases.
+
+However, covariance depends on the units of measurement and is therefore difficult to interpret directly.
+
+To overcome this limitation, we standardise covariance to obtain the correlation coefficient:
+
+$$
+r =
+\frac{
+\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})
+}
+{
+\sqrt{
+\sum_{i=1}^{n}(x_i-\bar{x})^2
+}
+\sqrt{
+\sum_{i=1}^{n}(y_i-\bar{y})^2
+}
+}
+$$
+
+This standardisation ensures that:
+
+$$
+-1 \le r \le 1.
+$$
+
+| Correlation | Interpretation |
+|------------|---------------|
+| +1 | Perfect positive relationship |
+| 0 | No linear relationship |
+| -1 | Perfect negative relationship |
+
+Values closer to ±1 indicate stronger relationships.
+
+Values closer to 0 indicate weaker relationships.
+
+::: {.callout-note title="Engineering Interpretation"}
+The correlation coefficient can be viewed as a normalised measure of how strongly two variables vary together.
+
+- $r = 1$ indicates perfect positive alignment.
+- $r = -1$ indicates perfect negative alignment.
+- $r = 0$ indicates no linear relationship.
+
+In practice, biomedical data rarely exhibit correlations close to ±1 because biological systems are influenced by many interacting factors.
+:::
+
+---
+
+## Interactive Correlation Simulator
+
+Move the slider below and observe how the scatter plot changes.
+
+As the correlation approaches +1 or -1, the points become more tightly aligned.
+
+When the correlation approaches 0, the relationship becomes weaker.
+
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+
+<p>
+<b>Correlation:</b>
+<span id="corrValue">0.70</span>
+</p>
+
+<input id="corrSlider" type="range" min="-0.95" max="0.95" value="0.70" step="0.05" style="width:100%;">
+
+<canvas id="corrCanvas" width="700" height="420"></canvas>
+
+</div>
+
+<script>
+function generateCorrelatedData(r, n=100){
+
+  const points = [];
+
+  for(let i=0;i<n;i++){
+
+    let x = Math.random()*6 - 3;
+
+    let noise = (Math.random()*2 - 1);
+
+    let y = r*x + Math.sqrt(1-r*r)*noise*2;
+
+    points.push({x:x,y:y});
+  }
+
+  return points;
+}
+
+function drawCorrelation(){
+
+  const r = parseFloat(document.getElementById("corrSlider").value);
+
+  document.getElementById("corrValue").innerHTML = r.toFixed(2);
+
+  const canvas = document.getElementById("corrCanvas");
+  const ctx = canvas.getContext("2d");
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  const pts = generateCorrelatedData(r);
+
+  pts.forEach(p => {
+
+    const x = 350 + p.x*80;
+    const y = 210 - p.y*60;
+
+    ctx.beginPath();
+    ctx.arc(x,y,4,0,2*Math.PI);
+    ctx.fillStyle = "#2C7FB8";
+    ctx.fill();
+
+  });
+
+  ctx.strokeStyle = "#333";
+
+  ctx.beginPath();
+  ctx.moveTo(50,210);
+  ctx.lineTo(650,210);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(350,30);
+  ctx.lineTo(350,390);
+  ctx.stroke();
+}
+
+document.getElementById("corrSlider").addEventListener("input", drawCorrelation);
+
+drawCorrelation();
+</script>
+
+::: {.callout-tip title="What to Notice"}
+- Positive correlations slope upwards.
+- Negative correlations slope downwards.
+- Stronger correlations produce tighter clusters of points.
+- Correlation close to zero produces a diffuse cloud.
+:::
+
+---
+
+## Pearson Correlation
+
+Pearson correlation measures the strength of a linear relationship between two numerical variables.
+
+Mathematically, Pearson correlation is precisely the correlation coefficient $r$ defined above.
+
+It measures how closely the data follow a straight-line relationship.
+
+For the Cleveland dataset, we can quantify the relationship between age and maximum heart rate.
+
+```{python}
+from scipy.stats import pearsonr
+
+r, p = pearsonr(
+    df["age"],
+    df["thalach"]
+)
+
+print(f"Pearson correlation = {r:.3f}")
+print(f"p-value = {p:.5f}")
+```
+
+### Testing Statistical Significance
+
+To determine whether the observed correlation could plausibly have arisen by chance, we test:
+
+$$
+H_0:r=0
+$$
+
+against:
+
+$$
+H_A:r\neq0.
+$$
+
+The test statistic is:
+
+$$
+t =
+r
+\sqrt{
+\frac{n-2}{1-r^2}
+}
+$$
+
+Under the null hypothesis, this follows a Student's $t$ distribution with:
+
+$$
+n-2
+$$
+
+degrees of freedom.
+
+The p-value quantifies the evidence against the hypothesis of no correlation.
+
+### Interpretation
+
+- Positive values indicate that both variables tend to increase together.
+- Negative values indicate that one variable tends to decrease as the other increases.
+- Values closer to ±1 indicate stronger relationships.
+
+---
+
+## Spearman Correlation
+
+Pearson correlation works well when relationships are approximately linear.
+
+However, many biomedical relationships are not perfectly linear.
+
+Spearman correlation is based on the ranks of the observations rather than their exact values.
+
+If $R(X)$ and $R(Y)$ denote the ranks of the variables, then the Spearman coefficient is simply the Pearson correlation applied to the ranks:
+
+$$
+\rho
+=
+\mathrm{corr}
+\left(
+R(X),
+R(Y)
+\right)
+$$
+
+This makes Spearman correlation less sensitive to outliers and departures from linearity.
+
+```{python}
+from scipy.stats import spearmanr
+
+rho, p = spearmanr(
+    df["age"],
+    df["thalach"]
+)
+
+print(f"Spearman correlation = {rho:.3f}")
+print(f"p-value = {p:.5f}")
+```
+
+### Pearson vs Spearman
+
+| Pearson Correlation | Spearman Correlation |
+|--------------------|----------------------|
+| Uses actual values | Uses ranks |
+| Measures linear relationships | Measures monotonic relationships |
+| Sensitive to outliers | More robust to outliers |
+| Most commonly reported | Useful when assumptions are violated |
+
+---
+
+::: {.callout-important title="Correlation is Symmetric"}
+Correlation does not distinguish between inputs and outputs.
+
+The correlation between age and maximum heart rate is identical to the correlation between maximum heart rate and age.
+
+This symmetry is one of the key differences between correlation and regression, which we will study next.
+:::
+
+---
+
+# Correlation Does Not Imply Causation
+
+A strong correlation does not prove that one variable causes another.
+
+For example:
+
+- Age and heart disease are correlated.
+- However, age itself does not directly cause heart disease.
+
+Many biological, behavioural, environmental, and genetic factors contribute to disease development.
+
+Correlation identifies relationships.
+
+Establishing causation requires additional evidence, careful study design, and scientific reasoning.
+
+::: {.callout-warning title="Important"}
+Correlation does not imply causation.
+
+Two variables may be strongly correlated without one causing the other.
+
+Always consider alternative explanations, confounding factors, and study design before drawing causal conclusions.
+:::
+
+---
+
+## Try It Yourself
+
+::: {.callout-tip title="Exercises"}
+Using the Cleveland dataset:
+
+1. Create a scatter plot of age versus cholesterol.
+2. Compute the Pearson correlation between age and cholesterol.
+3. Compute the Spearman correlation between age and cholesterol.
+4. Which correlation coefficient is larger?
+5. Is there evidence that age causes higher cholesterol based on correlation alone?
+:::
+
+# Simple Linear Regression
+
+Correlation tells us whether two variables are related.
+
+However, correlation alone cannot be used to make predictions.
+
+Regression goes one step further by modelling the relationship between variables and allowing us to predict one variable from another.
+
+For example:
+
+- Can we predict maximum heart rate from age?
+- Can we predict cholesterol from blood pressure?
+- Can we predict disease risk from clinical measurements?
+
+These questions form the basis of predictive modelling.
+
+---
+
+## From Correlation to Prediction
+
+Suppose we wish to predict a patient's maximum heart rate using their age.
+
+Rather than simply describing this relationship, we would like to quantify it and use it for prediction.
+
+## The Regression Model
+
+The simplest regression model is called **simple linear regression**.
+
+It assumes that the relationship between two variables can be approximated by a straight line:
+
+$$
+y = \beta_0 + \beta_1 x + \varepsilon
+$$
+
+where:
+
+- $y$ is the outcome variable;
+- $x$ is the predictor variable;
+- $\beta_0$ is the intercept;
+- $\beta_1$ is the slope;
+- $\varepsilon$ represents random error.
+
+The goal of regression is to estimate the coefficients $\beta_0$ and $\beta_1$ from the data.
+
+### How is the Line Chosen?
+
+Many different lines could be drawn through the data.
+
+Linear regression chooses the line that minimises the sum of squared residuals:
+
+$$
+\sum_{i=1}^{n}
+\left(
+y_i-\beta_0 - \beta_1 x_i
+\right)^2
+$$
+
+This is known as the **least-squares criterion**.
+
+Squaring the residuals penalises large errors more heavily than small errors and ensures that positive and negative residuals do not cancel each other out.
+
+## Interactive Regression Simulator
+
+The slope and intercept determine the position and orientation of the regression line.
+
+In this simulator, the data points are fixed.
+Only the regression line changes as you move the sliders.
+This helps isolate the effect of the two parameters in the model:
+
+$$
+y = \beta_0 + \beta_1 x
+$$
+
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+
+<p>
+<b>Intercept (β₀):</b>
+<span id="interceptValue">140</span>
+</p>
+
+<input id="interceptSlider"
+       type="range"
+       min="80"
+       max="250"
+       value="140"
+       step="5"
+       style="width:100%;">
+
+<br><br>
+
+<p>
+<b>Slope (β₁):</b>
+<span id="slopeValue">-1.0</span>
+</p>
+
+<input id="slopeSlider"
+       type="range"
+       min="-3"
+       max="3"
+       value="-1"
+       step="0.1"
+       style="width:100%;">
+
+<br><br>
+
+<canvas id="regCanvas" width="720" height="470"></canvas>
+
+</div>
+
+<script>
+
+const fixedRegressionData = [
+  {x: 29, y: 171},
+  {x: 34, y: 168},
+  {x: 37, y: 165},
+  {x: 41, y: 158},
+  {x: 44, y: 162},
+  {x: 47, y: 155},
+  {x: 50, y: 150},
+  {x: 52, y: 148},
+  {x: 55, y: 145},
+  {x: 58, y: 139},
+  {x: 60, y: 142},
+  {x: 63, y: 135},
+  {x: 66, y: 130},
+  {x: 69, y: 126},
+  {x: 72, y: 122},
+  {x: 75, y: 118}
+];
+
+function drawRegression(){
+
+    const intercept =
+        parseFloat(
+            document.getElementById("interceptSlider").value
+        );
+
+    const slope =
+        parseFloat(
+            document.getElementById("slopeSlider").value
+        );
+
+    document.getElementById("interceptValue").innerHTML =
+        intercept.toFixed(0);
+
+    document.getElementById("slopeValue").innerHTML =
+        slope.toFixed(1);
+
+    const canvas =
+        document.getElementById("regCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    const left = 70;
+    const right = 660;
+    const top = 40;
+    const bottom = 390;
+
+    const xMin = 25;
+    const xMax = 80;
+    const yMin = 80;
+    const yMax = 200;
+
+    function xScale(x){
+        return left + (x - xMin) / (xMax - xMin) * (right - left);
+    }
+
+    function yScale(y){
+        return bottom - (y - yMin) / (yMax - yMin) * (bottom - top);
+    }
+
+    // Axes
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(left, bottom);
+    ctx.lineTo(right, bottom);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = "#333";
+    ctx.font = "14px sans-serif";
+
+    ctx.fillText("Age (years)", 330, 445);
+
+    ctx.save();
+    ctx.translate(20, 245);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText("Maximum Heart Rate", 0, 0);
+    ctx.restore();
+
+    // X-axis ticks
+    const xTicks = [30, 40, 50, 60, 70, 80];
+
+    xTicks.forEach(function(tick){
+        const px = xScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(px, bottom);
+        ctx.lineTo(px, bottom + 6);
+        ctx.stroke();
+
+        ctx.fillText(tick.toString(), px - 8, bottom + 24);
+    });
+
+    // Y-axis ticks
+    const yTicks = [80, 100, 120, 140, 160, 180, 200];
+
+    yTicks.forEach(function(tick){
+        const py = yScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(left - 6, py);
+        ctx.lineTo(left, py);
+        ctx.stroke();
+
+        ctx.fillText(tick.toString(), left - 45, py + 5);
+    });
+
+    // Data points
+    ctx.fillStyle = "#2C7FB8";
+
+    fixedRegressionData.forEach(function(p){
+
+        ctx.beginPath();
+        ctx.arc(
+            xScale(p.x),
+            yScale(p.y),
+            4,
+            0,
+            2*Math.PI
+        );
+        ctx.fill();
+
+    });
+
+    // Regression line
+    const x1 = xMin;
+    const x2 = xMax;
+
+    const y1 = intercept + slope*x1;
+    const y2 = intercept + slope*x2;
+
+    ctx.strokeStyle = "#D62728";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(
+        xScale(x1),
+        yScale(y1)
+    );
+    ctx.lineTo(
+        xScale(x2),
+        yScale(y2)
+    );
+    ctx.stroke();
+
+    // Equation display
+    ctx.fillStyle = "#333";
+    ctx.font = "16px sans-serif";
+
+    const sign = slope >= 0 ? "+" : "-";
+
+    ctx.fillText(
+        "Model: y = " +
+        intercept.toFixed(0) +
+        " " +
+        sign +
+        " " +
+        Math.abs(slope).toFixed(1) +
+        "x",
+        390,
+        55
+    );
+}
+
+document.getElementById("interceptSlider")
+    .addEventListener(
+        "input",
+        drawRegression
+    );
+
+document.getElementById("slopeSlider")
+    .addEventListener(
+        "input",
+        drawRegression
+    );
+
+drawRegression();
+
+</script>
+
+::: {.callout-tip title="What to Notice"}
+
+- The data points stay fixed.
+- The **intercept** shifts the line up and down.
+- The **slope** controls how steeply the line rises or falls.
+- A positive slope produces an upward line.
+- A negative slope produces a downward line.
+- The best-fitting line is the one that passes closest to the data points overall.
+
+:::
+
+---
+
+## Fitting a Regression Model
+
+Using the Cleveland dataset, we can model maximum heart rate as a function of age.
+
+```{python}
+from sklearn.linear_model import LinearRegression
+
+X = df[["age"]]
+y = df["thalach"]
+
+model = LinearRegression()
+model.fit(X, y)
+
+print(f"Intercept = {model.intercept_:.2f}")
+print(f"Slope = {model.coef_[0]:.2f}")
+```
+
+For the Cleveland dataset, the fitted model is approximately
+
+$$
+\widehat{\text{Max Heart Rate}}
+=
+203.86
+-
+1.00 \times \text{Age}
+$$
+
+This suggests that maximum heart rate decreases by approximately 1 beat per minute for each additional year of age.
+
+---
+
+## Visualising the Regression Line
+
+```{python}
+#| echo: false
+#| fig-cap: "Linear regression model predicting maximum heart rate from age."
+
+plt.figure(figsize=(7,5))
+
+sns.regplot(
+    data=df,
+    x="age",
+    y="thalach",
+    scatter_kws={"alpha":0.6},
+    line_kws={"color":"red"}
+)
+
+plt.xlabel("Age (years)")
+plt.ylabel("Maximum Heart Rate")
+
+plt.show()
+```
+
+The regression line represents the average relationship between age and maximum heart rate.
+
+---
+
+## Interpreting the Slope
+
+The slope $\beta_1$ is one of the most important quantities in regression.
+
+It represents the expected change in the outcome variable associated with a one-unit increase in the predictor.
+
+For example:
+
+- A slope of -0.8 would indicate that maximum heart rate decreases by approximately 0.8 beats per minute for every additional year of age.
+
+The sign of the slope determines the direction of the relationship:
+
+| Slope | Interpretation |
+|---------|--------------|
+| Positive | Outcome increases as predictor increases |
+| Negative | Outcome decreases as predictor increases |
+| Zero | No linear relationship |
+
+---
+
+## Prediction
+
+Once the model has been fitted, we can use it to make predictions.
+
+For example, what maximum heart rate would we predict for a 60-year-old patient?
+
+```{python}
+predicted_hr = model.predict([[60]])
+
+print(f"Predicted maximum heart rate = {predicted_hr[0]:.1f}")
+```
+
+The predicted value lies on the regression line.
+
+Different patients may have different observed values, but the regression model provides the best average prediction based on the available data.
+
+---
+
+## Residuals
+
+No model predicts perfectly.
+
+The difference between an observed value and its predicted value is called the residual:
+
+$$
+e_i
+=
+y_i
+-
+\hat{y}_i
+$$
+
+where:
+
+- $y_i$ is the observed value;
+- $\hat{y}_i$ is the predicted value.
+
+Residuals tell us how well the model fits the data.
+
+Small residuals indicate good predictions.
+
+Large residuals indicate poor predictions.
+
+---
+
+## Visualising Residuals
+
+```{python}
+#| echo: false
+#| fig-cap: "Residual plot for the linear regression model."
+
+predictions = model.predict(X)
+
+residuals = y - predictions
+
+plt.figure(figsize=(7,5))
+
+sns.scatterplot(
+    x=predictions,
+    y=residuals,
+    color=ACCENT_BLUE
+)
+
+plt.axhline(0, color="red", linestyle="--")
+
+plt.xlabel("Predicted Maximum Heart Rate")
+plt.ylabel("Residual")
+
+plt.show()
+```
+
+Ideally, residuals should be randomly scattered around zero.
+
+Systematic patterns may indicate that the model is missing important information.
+
+---
+
+## Measuring Model Performance: R²
+
+The coefficient of determination, denoted $R^2$, measures how much of the variability in the outcome is explained by the model.
+
+$$
+R^2
+=
+1
+-
+\frac{
+\sum (y_i-\hat{y}_i)^2
+}{
+\sum (y_i-\bar{y})^2
+}
+$$
+
+Values range from:
+
+$$
+0 \le R^2 \le 1
+$$
+
+where:
+
+- $R^2 = 0$ indicates no explanatory power;
+- $R^2 = 1$ indicates perfect prediction.
+
+```{python}
+r2 = model.score(X, y)
+
+print(f"R² = {r2:.3f}")
+```
+
+An R² of 0.155 means that approximately 15.5% of the variability in maximum heart rate can be explained by age alone.
+
+The remaining variability is due to other factors and random variation.
+
+---
+
+::: {.callout-note title="Interpretation"}
+
+A high $R^2$ suggests that the model explains a large proportion of the variability in the data.
+
+However, a high $R^2$ does not imply causation, nor does it guarantee good predictions for new patients.
+
+:::
+
+---
+
+## Try It Yourself
+
+::: {.callout-tip title="Exercises"}
+
+Using the Cleveland dataset:
+
+1. Fit a linear regression model predicting cholesterol from age.
+2. Interpret the estimated slope.
+3. Predict cholesterol for a 60-year-old patient.
+4. Calculate the model's $R^2$.
+5. Examine the residual plot and assess the quality of the fit.
+
+:::
+
+# Beyond Simple Regression
+
+So far, we have used a single predictor to explain or predict an outcome.
+
+In practice, biomedical outcomes are influenced by many factors simultaneously.
+
+For example, maximum heart rate may depend on:
+
+- age;
+- sex;
+- blood pressure;
+- cholesterol;
+- physical fitness;
+- underlying disease.
+
+To model such systems, we need more flexible regression models.
+
+---
+
+# Multiple Linear Regression
+
+Multiple linear regression extends simple linear regression by incorporating several predictors simultaneously.
+
+Instead of
+
+$$
+y = \beta_0 + \beta_1 x + \varepsilon,
+$$
+
+we write
+
+$$
+y
+=
+\beta_0
++
+\beta_1 x_1
++
+\beta_2 x_2
++
+\cdots
++
+\beta_p x_p
++
+\varepsilon.
+$$
+
+Here:
+
+- $x_1, x_2, \ldots, x_p$ are predictor variables;
+- $\beta_1, \beta_2, \ldots, \beta_p$ quantify their contributions;
+- $p$ is the number of predictors.
+
+---
+
+## Cleveland Example
+
+Suppose we wish to predict maximum heart rate using:
+
+- age;
+- cholesterol;
+- resting blood pressure.
+
+```{python}
+from sklearn.linear_model import LinearRegression
+
+X = df[["age", "chol", "trestbps"]]
+y = df["thalach"]
+
+multi_model = LinearRegression()
+multi_model.fit(X, y)
+
+coefficients = pd.DataFrame({
+    "Predictor": X.columns,
+    "Coefficient": multi_model.coef_
+})
+
+coefficients
+```
+
+The model combines information from multiple variables to improve prediction.
+
+::: {.callout-note title="Interpretation"}
+
+Each coefficient represents the expected change in the outcome associated with a one-unit increase in that predictor, while holding all other predictors constant.
+
+:::
+
+---
+
+## Comparing Multiple Regression Models
+
+In practice, we often have many potential predictor variables.
+
+A natural question is:
+
+> Which combination of variables gives the best model?
+
+Simply adding more variables will usually improve the fit to the training data. However, more complex models may be harder to interpret and may not generalise well to new data.
+
+To balance model fit and model complexity, statisticians often use **information criteria**.
+
+### Akaike Information Criterion (AIC)
+
+$$
+AIC = 2k - 2\log(L)
+$$
+
+### Bayesian Information Criterion (BIC)
+
+$$
+BIC = k\log(n) - 2\log(L)
+$$
+
+where:
+
+- $k$ is the number of model parameters;
+- $L$ is the likelihood of the model;
+- $n$ is the number of observations.
+
+For both AIC and BIC:
+
+- lower values indicate better models;
+- the criteria penalise unnecessary complexity;
+- BIC generally penalises complexity more strongly than AIC.
+
+---
+
+## Comparing Several Models
+
+```{python}
+import statsmodels.api as sm
+
+candidate_models = {
+    "Age": ["age"],
+    "Age + Cholesterol": ["age", "chol"],
+    "Age + Cholesterol + Blood Pressure": [
+        "age",
+        "chol",
+        "trestbps"
+    ]
+}
+
+results = []
+
+for name, predictors in candidate_models.items():
+
+    X_model = sm.add_constant(
+        df[predictors]
+    )
+
+    y_model = df["thalach"]
+
+    fitted_model = sm.OLS(
+        y_model,
+        X_model
+    ).fit()
+
+    results.append({
+        "Model": name,
+        "AIC": round(fitted_model.aic, 2),
+        "BIC": round(fitted_model.bic, 2),
+        "R²": round(fitted_model.rsquared, 3)
+    })
+
+comparison_df = pd.DataFrame(results)
+
+comparison_df
+```
+
+---
+
+### Interpreting the Results
+
+The table allows us to compare competing models.
+
+When comparing models:
+
+- Higher $R^2$ indicates that more variability in the outcome is explained.
+- Lower AIC indicates a better trade-off between fit and complexity.
+- Lower BIC indicates a better trade-off between fit and complexity, with a stronger penalty for additional variables.
+
+::: {.callout-important title="Key Idea"}
+
+A good model is not necessarily the most complex model.
+
+AIC and BIC help us identify models that explain the data well while avoiding unnecessary complexity.
+
+:::
+
+### Which Variables Appear Most Important?
+
+One simple way to assess importance is to examine the fitted coefficients.
+
+```{python}
+coefficients
+```
+
+For this example:
+
+- predictors with larger absolute coefficients generally have a stronger influence on the predicted outcome;
+- coefficients close to zero may contribute relatively little information;
+- interpretation should always be made in the context of the variable's scale and units.
+
+In more advanced machine learning workflows, feature importance can also be assessed using methods such as permutation importance, regularisation, decision trees, and SHAP values.
+
+For now, coefficient size, AIC, BIC, and $R^2$ provide useful tools for understanding and comparing regression models.
+
+---
+
+# Logistic Regression
+
+Linear regression predicts continuous outcomes such as:
+
+- age;
+- cholesterol;
+- blood pressure;
+- heart rate.
+
+However, many biomedical questions involve categorical outcomes.
+
+For example:
+
+- Does the patient have heart disease?
+- Will the patient be admitted to hospital?
+- Is a tumour benign or malignant?
+
+These outcomes require a different type of model.
+
+---
+
+## Binary Classification
+
+Suppose we wish to predict:
+
+$$
+\text{Heart Disease}
+=
+\begin{cases}
+1 & \text{Yes} \\
+0 & \text{No}
+\end{cases}
+$$
+
+A straight line is no longer appropriate because probabilities must lie between 0 and 1.
+
+Logistic regression solves this problem by modelling probabilities rather than raw values.
+
+---
+
+## The Logistic Function
+
+Logistic regression uses the sigmoid function:
+
+$$
+P(Y=1)
+=
+\frac{1}
+{1+e^{-z}}
+$$
+
+where
+
+$$
+z
+=
+\beta_0
++
+\beta_1 x_1
++
+\cdots
++
+\beta_p x_p.
+$$
+
+The sigmoid function transforms any real number into a probability between 0 and 1.
+
+## Interactive Sigmoid Simulator
+
+The sigmoid function converts any real-valued input into a probability between 0 and 1.
+
+Move the slider below to see how the value of $z$ changes the predicted probability.
+
+<div style="border:1px solid #ddd; border-radius:10px; padding:18px; background:#f8f9fa;">
+
+<p>
+<b>Linear predictor (z):</b>
+<span id="zValue">0.0</span>
+</p>
+
+<input id="zSlider"
+       type="range"
+       min="-10"
+       max="10"
+       value="0"
+       step="0.1"
+       style="width:100%;">
+
+<p>
+<b>Predicted probability:</b>
+<span id="probValue">0.50</span>
+</p>
+
+<canvas id="sigmoidCanvas" width="720" height="430"></canvas>
+
+</div>
+
+<script>
+
+function sigmoid(z){
+    return 1 / (1 + Math.exp(-z));
+}
+
+function drawSigmoid(){
+
+    const z =
+        parseFloat(
+            document.getElementById("zSlider").value
+        );
+
+    const p =
+        sigmoid(z);
+
+    document.getElementById("zValue").innerHTML =
+        z.toFixed(1);
+
+    document.getElementById("probValue").innerHTML =
+        p.toFixed(2);
+
+    const canvas =
+        document.getElementById("sigmoidCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const left = 70;
+    const right = 660;
+    const top = 40;
+    const bottom = 350;
+
+    const xMin = -10;
+    const xMax = 10;
+    const yMin = 0;
+    const yMax = 1;
+
+    function xScale(x){
+        return left + (x - xMin) / (xMax - xMin) * (right - left);
+    }
+
+    function yScale(y){
+        return bottom - (y - yMin) / (yMax - yMin) * (bottom - top);
+    }
+
+    // Axes
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(left, bottom);
+    ctx.lineTo(right, bottom);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = "#333";
+    ctx.font = "14px sans-serif";
+
+    ctx.fillText("Linear predictor, z", 310, 405);
+
+    ctx.save();
+    ctx.translate(22, 235);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText("Predicted probability", 0, 0);
+    ctx.restore();
+
+    // X ticks
+    const xTicks = [-10, -5, 0, 5, 10];
+
+    xTicks.forEach(function(tick){
+        const px = xScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(px, bottom);
+        ctx.lineTo(px, bottom + 6);
+        ctx.stroke();
+
+        ctx.fillText(tick.toString(), px - 10, bottom + 24);
+    });
+
+    // Y ticks
+    const yTicks = [0, 0.25, 0.5, 0.75, 1];
+
+    yTicks.forEach(function(tick){
+        const py = yScale(tick);
+
+        ctx.beginPath();
+        ctx.moveTo(left - 6, py);
+        ctx.lineTo(left, py);
+        ctx.stroke();
+
+        ctx.fillText(tick.toFixed(2), left - 52, py + 5);
+    });
+
+    // Reference line at probability 0.5
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5,5]);
+
+    ctx.beginPath();
+    ctx.moveTo(left, yScale(0.5));
+    ctx.lineTo(right, yScale(0.5));
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    // Sigmoid curve
+    ctx.strokeStyle = "#2C7FB8";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+
+    for(let i=0; i<=200; i++){
+
+        const x =
+            xMin + (xMax - xMin) * i / 200;
+
+        const y =
+            sigmoid(x);
+
+        const px =
+            xScale(x);
+
+        const py =
+            yScale(y);
+
+        if(i === 0){
+            ctx.moveTo(px, py);
+        } else {
+            ctx.lineTo(px, py);
+        }
+    }
+
+    ctx.stroke();
+
+    // Current point
+    ctx.fillStyle = "#D62728";
+
+    ctx.beginPath();
+    ctx.arc(
+        xScale(z),
+        yScale(p),
+        6,
+        0,
+        2*Math.PI
+    );
+    ctx.fill();
+
+    // Guide lines
+    ctx.strokeStyle = "#D62728";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4,4]);
+
+    ctx.beginPath();
+    ctx.moveTo(xScale(z), bottom);
+    ctx.lineTo(xScale(z), yScale(p));
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left, yScale(p));
+    ctx.lineTo(xScale(z), yScale(p));
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    // Equation label
+    ctx.fillStyle = "#333";
+    ctx.font = "16px sans-serif";
+
+    ctx.fillText(
+        "P(Y = 1) = 1 / (1 + e^(-z))",
+        390,
+        60
+    );
+}
+
+document.getElementById("zSlider")
+    .addEventListener(
+        "input",
+        drawSigmoid
+    );
+
+drawSigmoid();
+
+</script>
+
+::: {.callout-tip title="What to Notice"}
+
+- When $z = 0$, the predicted probability is 0.5.
+- Large positive values of $z$ produce probabilities close to 1.
+- Large negative values of $z$ produce probabilities close to 0.
+- The sigmoid function ensures that logistic regression outputs valid probabilities.
+
+:::
+
+---
+
+## Cleveland Example
+
+We can predict the probability of heart disease using:
+
+- age;
+- cholesterol;
+- resting blood pressure;
+- maximum heart rate.
+
+```{python}
+from sklearn.linear_model import LogisticRegression
+
+X = df[["age", "chol", "trestbps", "thalach"]]
+y = df["heart_disease"]
+
+log_model = LogisticRegression(max_iter=1000)
+
+log_model.fit(X, y)
+
+predicted_probabilities = (
+    log_model
+    .predict_proba(X)[:,1]
+)
+
+predicted_probabilities[:10]
+```
+
+The output is a probability.
+
+For example:
+
+```text
+0.82
+```
+
+means an estimated 82% probability of heart disease.
+
+## Evaluating Logistic Regression
+
+For logistic regression, we are interested in how well the model distinguishes between patients with and without disease.
+
+Two commonly used metrics are:
+
+- **Accuracy**: proportion of correct predictions.
+- **Area Under the ROC Curve (AUC)**: measures how well the model separates the two classes across all decision thresholds.
+
+```{python}
+from sklearn.metrics import (
+    accuracy_score,
+    roc_auc_score
+)
+
+predicted_labels = log_model.predict(X)
+
+accuracy = accuracy_score(
+    y,
+    predicted_labels
+)
+
+auc = roc_auc_score(
+    y,
+    predicted_probabilities
+)
+
+print(f"Accuracy = {accuracy:.3f}")
+print(f"AUC = {auc:.3f}")
+```
+
+::: {.callout-note title="Interpretation"}
+
+- Accuracy measures the proportion of patients correctly classified.
+- AUC ranges from 0.5 (random guessing) to 1.0 (perfect discrimination).
+- In biomedical applications, AUC is often preferred because it is less sensitive to the choice of classification threshold.
+
+:::
+
+---
+
+# From Regression to Predictive Modelling
+
+Linear and logistic regression are among the most important predictive models in healthcare.
+
+They form the foundation of many modern predictive modelling approaches.
+
+The underlying idea remains the same:
+
+1. Learn relationships from historical data.
+2. Estimate model parameters.
+3. Use the fitted model to make predictions for new observations.
+
+More sophisticated models may use:
+
+- hundreds or thousands of variables;
+- non-linear relationships;
+- complex interactions between predictors.
+
+However, the fundamental concepts introduced in this chapter remain unchanged.
+
+::: {.callout-important title="Looking Ahead"}
+
+Many modern machine learning methods can be viewed as extensions of the predictive modelling ideas introduced here.
+
+Understanding correlation and regression provides a strong foundation for more advanced predictive methods.
+
+:::
+
+---
+
+# Summary
+
+In this chapter we learned how to:
+
+- visualise relationships using scatter plots;
+- quantify relationships using correlation;
+- distinguish between Pearson and Spearman correlation;
+- understand why correlation does not imply causation;
+- build and interpret simple linear regression models;
+- evaluate model performance using residuals and $R^2$;
+- extend regression to multiple predictors;
+- understand the basic idea behind logistic regression.
+
+Together, these methods allow us to move from describing data to making predictions.
+
+---
+
+## Try It Yourself
+
+::: {.callout-tip title="Exercises"}
+
+Using the Cleveland dataset:
+
+1. Fit a multiple linear regression model using age, cholesterol, and blood pressure to predict maximum heart rate.
+2. Compare the $R^2$ values of the simple and multiple regression models.
+3. Fit a logistic regression model to predict heart disease.
+4. Interpret the predicted probabilities for several patients.
+
+:::
+
+---
+
+<div class="page-navigation">
+  <a class="nav-button previous" href="hypothesis-testing.html">← Previous: Hypothesis Testing</a>
+</div>

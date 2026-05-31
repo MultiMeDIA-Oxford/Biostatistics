@@ -67,14 +67,7 @@
     "href": "why-biostatistics.html#three-levels-of-statistical-reasoning",
     "title": "Why Biostatistics?",
     "section": "Three Levels of Statistical Reasoning",
-    "text": "Three Levels of Statistical Reasoning\n\n1. Describe\nWhat does the dataset look like?\nExamples:\n\nmeans,\nmedians,\nstandard deviations,\nhistograms,\nboxplots.\n\n\n\n2. Compare\nAre groups different?\nExamples:\n\nconfidence intervals,\np-values,\nt-tests,\nnon-parametric tests.\n\n\n\n3. Model\nHow are variables related?\nExamples:\n\ncorrelation,\nregression,\nprediction.\n\n\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nStatistics transforms measurements into evidence.\nClinical datasets consist of patients, variables, and outcomes.\nSummary statistics help us understand large amounts of data.\nDifferent datasets can have the same mean but very different variability.\nStatistical methods help us determine whether observed differences are meaningful.\nThe rest of this module uses the processed Cleveland Heart Disease dataset as the main running example."
-  },
-  {
-    "objectID": "why-biostatistics.html#next",
-    "href": "why-biostatistics.html#next",
-    "title": "Why Biostatistics?",
-    "section": "Next",
-    "text": "Next\nMeet the Dataset"
+    "text": "Three Levels of Statistical Reasoning\n\n1. Describe\nWhat does the dataset look like?\nExamples:\n\nmeans,\nmedians,\nstandard deviations,\nhistograms,\nboxplots.\n\n\n\n2. Compare\nAre groups different?\nExamples:\n\nconfidence intervals,\np-values,\nt-tests,\nnon-parametric tests.\n\n\n\n3. Model\nHow are variables related?\nExamples:\n\ncorrelation,\nregression,\nprediction.\n\n\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nStatistics transforms measurements into evidence.\nClinical datasets consist of patients, variables, and outcomes.\nSummary statistics help us understand large amounts of data.\nDifferent datasets can have the same mean but very different variability.\nStatistical methods help us determine whether observed differences are meaningful.\nThe rest of this module uses the processed Cleveland Heart Disease dataset as the main running example.\n\n\n\n\n\n← Previous: Home Next: The Dataset →"
   },
   {
     "objectID": "old_files/index.html",
@@ -124,6 +117,671 @@
     "title": "Biostatistics with Python",
     "section": "Dataset at a Glance",
     "text": "Dataset at a Glance\nThe module uses the UCI Heart Disease dataset, a classic cardiovascular dataset containing clinical measurements, symptoms, and diagnostic information from patients investigated for heart disease.\n\n\n\n\n\nA simplified view of the dataset used throughout the module."
+  },
+  {
+    "objectID": "meet-the-dataset.html",
+    "href": "meet-the-dataset.html",
+    "title": "The Dataset",
+    "section": "",
+    "text": "NoteClinical Question\n\n\n\nWhat data do we have, what do the variables mean, and what can we learn before applying formal statistical methods?"
+  },
+  {
+    "objectID": "meet-the-dataset.html#the-cleveland-heart-disease-dataset",
+    "href": "meet-the-dataset.html#the-cleveland-heart-disease-dataset",
+    "title": "The Dataset",
+    "section": "The Cleveland Heart Disease Dataset",
+    "text": "The Cleveland Heart Disease Dataset\nIn this module, we will use the processed Cleveland Heart Disease dataset from the UCI Machine Learning Repository.\nThe dataset contains patient-level clinical measurements collected from individuals investigated for heart disease. We will use it as a running example throughout the module.\nThe original UCI Heart Disease database contains many more attributes, but most published studies use a smaller subset of 14 variables. In this teaching module, we will focus on the processed Cleveland dataset because it is the most commonly used version.\n\n\n\n\n\nSummary of the processed Cleveland Heart Disease dataset."
+  },
+  {
+    "objectID": "meet-the-dataset.html#loading-the-dataset-in-python",
+    "href": "meet-the-dataset.html#loading-the-dataset-in-python",
+    "title": "The Dataset",
+    "section": "Loading the Dataset in Python",
+    "text": "Loading the Dataset in Python\nThe dataset does not include column names in the raw file, so we manually assign them when loading the data.\n\nimport pandas as pd\nimport numpy as np\n\nurl = \"https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data\"\n\ncolumns = [\n    \"age\", \"sex\", \"cp\", \"trestbps\", \"chol\", \"fbs\", \"restecg\",\n    \"thalach\", \"exang\", \"oldpeak\", \"slope\", \"ca\", \"thal\", \"num\"\n]\n\ndf = pd.read_csv(url, header=None, names=columns, na_values=\"?\")\n\ndf.head()\n\n\n\n\n\n\n\n\nage\nsex\ncp\ntrestbps\nchol\nfbs\nrestecg\nthalach\nexang\noldpeak\nslope\nca\nthal\nnum\n\n\n\n\n0\n63.0\n1.0\n1.0\n145.0\n233.0\n1.0\n2.0\n150.0\n0.0\n2.3\n3.0\n0.0\n6.0\n0\n\n\n1\n67.0\n1.0\n4.0\n160.0\n286.0\n0.0\n2.0\n108.0\n1.0\n1.5\n2.0\n3.0\n3.0\n2\n\n\n2\n67.0\n1.0\n4.0\n120.0\n229.0\n0.0\n2.0\n129.0\n1.0\n2.6\n2.0\n2.0\n7.0\n1\n\n\n3\n37.0\n1.0\n3.0\n130.0\n250.0\n0.0\n0.0\n187.0\n0.0\n3.5\n3.0\n0.0\n3.0\n0\n\n\n4\n41.0\n0.0\n2.0\n130.0\n204.0\n0.0\n2.0\n172.0\n0.0\n1.4\n1.0\n0.0\n3.0\n0\n\n\n\n\n\n\n\nThe argument na_values=\"?\" tells Python that question marks in the dataset should be treated as missing values.\n\n\n\n\n\n\nTipKey Idea\n\n\n\nBefore analysing any biomedical dataset, we should first understand how it is structured, what each variable represents, and whether any values are missing."
+  },
+  {
+    "objectID": "meet-the-dataset.html#understanding-the-variables",
+    "href": "meet-the-dataset.html#understanding-the-variables",
+    "title": "The Dataset",
+    "section": "Understanding the Variables",
+    "text": "Understanding the Variables\nThe processed Cleveland dataset contains 13 clinical variables and one outcome variable.\n\n\n\n\n\n\n\n\nVariable\nDescription\nType\n\n\n\n\nage\nAge in years\nNumerical\n\n\nsex\nBiological sex\nCategorical\n\n\ncp\nChest pain type\nCategorical\n\n\ntrestbps\nResting blood pressure on admission\nNumerical\n\n\nchol\nSerum cholesterol\nNumerical\n\n\nfbs\nFasting blood sugar &gt; 120 mg/dl\nCategorical\n\n\nrestecg\nResting ECG result\nCategorical\n\n\nthalach\nMaximum heart rate achieved\nNumerical\n\n\nexang\nExercise-induced angina\nCategorical\n\n\noldpeak\nST depression induced by exercise\nNumerical\n\n\nslope\nSlope of peak exercise ST segment\nCategorical/ordinal\n\n\nca\nNumber of major vessels coloured by fluoroscopy\nNumerical/discrete\n\n\nthal\nThalassemia test result\nCategorical\n\n\nnum\nHeart disease diagnosis\nOutcome"
+  },
+  {
+    "objectID": "meet-the-dataset.html#types-of-data",
+    "href": "meet-the-dataset.html#types-of-data",
+    "title": "The Dataset",
+    "section": "Types of Data",
+    "text": "Types of Data\nA key step in biostatistics is recognising what kind of data each variable represents.\nNumerical variables can be summarised using means, medians, standard deviations, and histograms. Categorical variables are usually summarised using counts, percentages, and bar charts.\n\n\n\n\n\nVariables in the Cleveland dataset can be grouped into numerical and categorical variables.\n\n\n\n\n\n\n\n\n\n\nImportantWhy this matters\n\n\n\nThe type of variable determines the appropriate summary statistic, visualisation, and statistical test."
+  },
+  {
+    "objectID": "meet-the-dataset.html#creating-a-binary-outcome",
+    "href": "meet-the-dataset.html#creating-a-binary-outcome",
+    "title": "The Dataset",
+    "section": "Creating a Binary Outcome",
+    "text": "Creating a Binary Outcome\nThe original outcome variable is num.\nIn the raw dataset:\n\n0 means no heart disease,\n1, 2, 3, and 4 indicate presence of heart disease.\n\nFor this module, we will use a binary outcome:\n\ndf[\"heart_disease\"] = np.where(\n    df[\"num\"] == 0,\n    \"No heart disease\",\n    \"Heart disease\"\n)\n\ndf[[\"num\", \"heart_disease\"]].head()\n\n\n\n\n\n\n\n\nnum\nheart_disease\n\n\n\n\n0\n0\nNo heart disease\n\n\n1\n2\nHeart disease\n\n\n2\n1\nHeart disease\n\n\n3\n0\nNo heart disease\n\n\n4\n0\nNo heart disease\n\n\n\n\n\n\n\nThis simplifies the clinical question to:\n\nDoes this patient have evidence of heart disease or not?"
+  },
+  {
+    "objectID": "meet-the-dataset.html#missing-values",
+    "href": "meet-the-dataset.html#missing-values",
+    "title": "The Dataset",
+    "section": "Missing Values",
+    "text": "Missing Values\nReal biomedical datasets are rarely perfect. Some values may be missing because a measurement was not taken, not recorded, or not available.\n\ndf.isna().sum()\n\nage              0\nsex              0\ncp               0\ntrestbps         0\nchol             0\nfbs              0\nrestecg          0\nthalach          0\nexang            0\noldpeak          0\nslope            0\nca               4\nthal             2\nnum              0\nheart_disease    0\ndtype: int64\n\n\n\n\n\n\n\nMissing values in the processed Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nWarningImportant\n\n\n\nMissing values should never be ignored without thought. They can affect summary statistics, visualisations, hypothesis tests, and regression models."
+  },
+  {
+    "objectID": "meet-the-dataset.html#outcome-distribution",
+    "href": "meet-the-dataset.html#outcome-distribution",
+    "title": "The Dataset",
+    "section": "Outcome Distribution",
+    "text": "Outcome Distribution\nBefore comparing variables between groups, we should inspect how many patients belong to each outcome group.\n\ndf[\"heart_disease\"].value_counts()\n\nheart_disease\nNo heart disease    164\nHeart disease       139\nName: count, dtype: int64\n\n\n\n\n\n\n\nDistribution of heart disease status in the processed Cleveland dataset.\n\n\n\n\nThe dataset contains both patients with and without heart disease, which allows us to compare the clinical measurements between these two groups."
+  },
+  {
+    "objectID": "meet-the-dataset.html#first-look-at-numerical-variables",
+    "href": "meet-the-dataset.html#first-look-at-numerical-variables",
+    "title": "The Dataset",
+    "section": "First Look at Numerical Variables",
+    "text": "First Look at Numerical Variables\nLet us inspect several numerical variables.\n\ndf[[\"age\", \"trestbps\", \"chol\", \"thalach\", \"oldpeak\"]].describe()\n\n\n\n\n\n\n\n\nage\ntrestbps\nchol\nthalach\noldpeak\n\n\n\n\ncount\n303.000000\n303.000000\n303.000000\n303.000000\n303.000000\n\n\nmean\n54.438944\n131.689769\n246.693069\n149.607261\n1.039604\n\n\nstd\n9.038662\n17.599748\n51.776918\n22.875003\n1.161075\n\n\nmin\n29.000000\n94.000000\n126.000000\n71.000000\n0.000000\n\n\n25%\n48.000000\n120.000000\n211.000000\n133.500000\n0.000000\n\n\n50%\n56.000000\n130.000000\n241.000000\n153.000000\n0.800000\n\n\n75%\n61.000000\n140.000000\n275.000000\n166.000000\n1.600000\n\n\nmax\n77.000000\n200.000000\n564.000000\n202.000000\n6.200000\n\n\n\n\n\n\n\n\n\n\n\n\nFirst look at selected numerical variables in the Cleveland dataset.\n\n\n\n\nThese plots are not formal statistical tests. They are exploratory visualisations.\nThey help us ask better questions, such as:\n\nWhat is the age range of the cohort?\nAre cholesterol values symmetric or skewed?\nDoes maximum heart rate vary widely between patients?\nAre there possible outliers?"
+  },
+  {
+    "objectID": "meet-the-dataset.html#first-look-at-categorical-variables",
+    "href": "meet-the-dataset.html#first-look-at-categorical-variables",
+    "title": "The Dataset",
+    "section": "First Look at Categorical Variables",
+    "text": "First Look at Categorical Variables\nCategorical variables describe groups or classes rather than continuous measurements.\n\ndf[[\"sex\", \"cp\", \"fbs\", \"restecg\", \"exang\"]].head()\n\n\n\n\n\n\n\n\nsex\ncp\nfbs\nrestecg\nexang\n\n\n\n\n0\n1.0\n1.0\n1.0\n2.0\n0.0\n\n\n1\n1.0\n4.0\n0.0\n2.0\n1.0\n\n\n2\n1.0\n4.0\n0.0\n2.0\n1.0\n\n\n3\n1.0\n3.0\n0.0\n0.0\n0.0\n\n\n4\n0.0\n2.0\n0.0\n2.0\n0.0\n\n\n\n\n\n\n\n\n\n\n\n\nFirst look at selected categorical variables in the Cleveland dataset.\n\n\n\n\nThese plots help us understand whether categories are balanced or dominated by particular values.\nFor example, if one category is very rare, it may be difficult to draw strong statistical conclusions about that group."
+  },
+  {
+    "objectID": "meet-the-dataset.html#try-it-yourself",
+    "href": "meet-the-dataset.html#try-it-yourself",
+    "title": "The Dataset",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry it yourself\n\n\n\nUsing the dataframe df, answer the following questions:\n\nHow many patients are older than 60?\nWhat is the median cholesterol level?\nWhich variable has missing values?\nHow many patients have exercise-induced angina?\n\n\n\nSuggested Python commands:\n\n(df[\"age\"] &gt; 60).sum()\ndf[\"chol\"].median()\ndf.isna().sum()\ndf[\"exang\"].value_counts()\n\nexang\n0.0    204\n1.0     99\nName: count, dtype: int64"
+  },
+  {
+    "objectID": "meet-the-dataset.html#key-takeaways",
+    "href": "meet-the-dataset.html#key-takeaways",
+    "title": "The Dataset",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nWe will use the processed Cleveland Heart Disease dataset throughout the module.\nThe dataset contains 303 patients, 13 clinical variables, and one outcome variable.\nVariables can be numerical, categorical, or ordinal.\nThe outcome variable can be converted into heart disease versus no heart disease.\nMissing values must be identified before analysis.\nExploratory visualisation is the first step before formal statistical testing.\n\n\n\n\n\n← Previous: Why Biostatistics? Next: Descriptive Statistics →"
+  },
+  {
+    "objectID": "hypothesis-testing.html",
+    "href": "hypothesis-testing.html",
+    "title": "Statistical Hypothesis Testing",
+    "section": "",
+    "text": "By the end of this section, you should be able to:\n\nExplain the purpose of statistical hypothesis testing.\nDistinguish between null and alternative hypotheses.\nUnderstand sampling variability.\nInterpret p-values correctly.\nExplain statistical significance.\nUnderstand confidence intervals.\nApply these concepts to real clinical datasets."
+  },
+  {
+    "objectID": "hypothesis-testing.html#learning-objectives",
+    "href": "hypothesis-testing.html#learning-objectives",
+    "title": "Statistical Hypothesis Testing",
+    "section": "",
+    "text": "By the end of this section, you should be able to:\n\nExplain the purpose of statistical hypothesis testing.\nDistinguish between null and alternative hypotheses.\nUnderstand sampling variability.\nInterpret p-values correctly.\nExplain statistical significance.\nUnderstand confidence intervals.\nApply these concepts to real clinical datasets."
+  },
+  {
+    "objectID": "hypothesis-testing.html#null-hypothesis-h_0",
+    "href": "hypothesis-testing.html#null-hypothesis-h_0",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Null Hypothesis (\\(H_0\\))",
+    "text": "Null Hypothesis (\\(H_0\\))\nThe null hypothesis assumes that there is no effect, no association, or no difference.\nExamples:\n\nMean age is the same in both groups.\nCholesterol levels do not differ between groups.\nSex is not associated with heart disease."
+  },
+  {
+    "objectID": "hypothesis-testing.html#alternative-hypothesis-h_a",
+    "href": "hypothesis-testing.html#alternative-hypothesis-h_a",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Alternative Hypothesis (\\(H_A\\))",
+    "text": "Alternative Hypothesis (\\(H_A\\))\nThe alternative hypothesis assumes that an effect or difference exists.\nExamples:\n\nMean age differs between groups.\nCholesterol differs between groups.\nSex is associated with heart disease.\n\n\n\nCleveland Dataset Example\nSuppose we wish to investigate whether age differs between patients with and without heart disease.\nWe could define:\n\\[\nH_0: \\mu_{HD} = \\mu_{NoHD}\n\\]\n\\[\nH_A: \\mu_{HD} \\neq \\mu_{NoHD}\n\\]\nwhere:\n\n\\(\\mu_{HD}\\) = mean age of patients with heart disease\n\\(\\mu_{NoHD}\\) = mean age of patients without heart disease\n\n\n\n\n\n\n\n\nTipRemember\n\n\n\nHypothesis testing does not prove a hypothesis true or false.\nInstead, it evaluates how compatible the observed data are with the null hypothesis."
+  },
+  {
+    "objectID": "hypothesis-testing.html#why-does-sampling-variability-matter",
+    "href": "hypothesis-testing.html#why-does-sampling-variability-matter",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Why Does Sampling Variability Matter?",
+    "text": "Why Does Sampling Variability Matter?\nBecause differences between groups may arise simply due to random sampling.\nBefore concluding that a difference is real, we need to determine whether it is larger than we would expect by chance alone."
+  },
+  {
+    "objectID": "hypothesis-testing.html#sampling-distribution-simulator",
+    "href": "hypothesis-testing.html#sampling-distribution-simulator",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Sampling Distribution Simulator",
+    "text": "Sampling Distribution Simulator\nMove the sample size slider and observe how the sampling distribution changes.\n\n\nSample size: 30\n\n\n\nMean of sample means:  Standard deviation of sample means: \n\n\n\n\n\n\n\n\n\n\n\nTipWhat to notice\n\n\n\nAs the sample size increases, the sampling distribution becomes narrower. Larger samples usually give more stable estimates."
+  },
+  {
+    "objectID": "hypothesis-testing.html#what-is-a-p-value",
+    "href": "hypothesis-testing.html#what-is-a-p-value",
+    "title": "Statistical Hypothesis Testing",
+    "section": "What Is a p-value?",
+    "text": "What Is a p-value?\nA p-value quantifies how unusual the observed data would be if the null hypothesis were true.\nSmall p-values indicate that the observed result would be unlikely under the null hypothesis.\nLarge p-values indicate that the observed result is reasonably compatible with the null hypothesis."
+  },
+  {
+    "objectID": "hypothesis-testing.html#what-a-p-value-is-not",
+    "href": "hypothesis-testing.html#what-a-p-value-is-not",
+    "title": "Statistical Hypothesis Testing",
+    "section": "What a p-value Is NOT",
+    "text": "What a p-value Is NOT\nA p-value is not:\n\nthe probability that the null hypothesis is true;\nthe probability that the alternative hypothesis is true;\nthe probability that the result occurred “by chance”.\n\nThese interpretations are incorrect."
+  },
+  {
+    "objectID": "hypothesis-testing.html#interpreting-p-values",
+    "href": "hypothesis-testing.html#interpreting-p-values",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Interpreting p-values",
+    "text": "Interpreting p-values\n\n\n\np-value\nInterpretation\n\n\n\n\n&gt; 0.05\nData are reasonably compatible with the null hypothesis\n\n\n&lt; 0.05\nEvidence against the null hypothesis\n\n\n&lt; 0.01\nStronger evidence against the null hypothesis\n\n\n&lt; 0.001\nVery strong evidence against the null hypothesis"
+  },
+  {
+    "objectID": "hypothesis-testing.html#statistical-significance",
+    "href": "hypothesis-testing.html#statistical-significance",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Statistical Significance",
+    "text": "Statistical Significance\nA commonly used threshold is:\n\\[\n\\alpha = 0.05\n\\]\nIf\n\\[\np &lt; 0.05\n\\]\nwe often describe the result as statistically significant.\nIf\n\\[\np \\ge 0.05\n\\]\nwe generally fail to reject the null hypothesis.\n\n\n\n\n\n\nWarningImportant\n\n\n\nStatistical significance does not necessarily imply clinical significance.\nA very small effect may be statistically significant in a large dataset.\nConversely, an important clinical effect may fail to reach statistical significance in a small study."
+  },
+  {
+    "objectID": "hypothesis-testing.html#type-i-error",
+    "href": "hypothesis-testing.html#type-i-error",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Type I Error",
+    "text": "Type I Error\nA Type I error occurs when we conclude that an effect exists when it does not.\nThis is often called a:\nFalse Positive\nClinical example:\nA diagnostic test incorrectly identifies a healthy patient as having a disease."
+  },
+  {
+    "objectID": "hypothesis-testing.html#type-ii-error",
+    "href": "hypothesis-testing.html#type-ii-error",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Type II Error",
+    "text": "Type II Error\nA Type II error occurs when we fail to detect a genuine effect.\nThis is often called a:\nFalse Negative\nClinical example:\nA diagnostic test fails to identify a patient who truly has the disease.\n\n\n\n\n\n\n\nTipRemember\n\n\n\nType I Error = False Positive\nType II Error = False Negative"
+  },
+  {
+    "objectID": "hypothesis-testing.html#statistical-power",
+    "href": "hypothesis-testing.html#statistical-power",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Statistical Power",
+    "text": "Statistical Power\nWhen performing a hypothesis test, we would like to detect genuine effects whenever they exist.\nStatistical power is the probability of correctly rejecting the null hypothesis when the alternative hypothesis is true.\nMathematically,\n\\[\n\\text{Power} = 1 - \\beta\n\\]\nwhere \\(\\beta\\) is the probability of a Type II error.\nHigher statistical power means a greater chance of detecting a real effect.\n\n\n\n\n\n\nNotePractical Interpretation\n\n\n\nA study with low statistical power may fail to detect a genuine difference, even when one truly exists.\nIncreasing the sample size is one of the most common ways to improve statistical power."
+  },
+  {
+    "objectID": "hypothesis-testing.html#example",
+    "href": "hypothesis-testing.html#example",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Example",
+    "text": "Example\nSuppose we estimate that patients with heart disease are, on average, 4.5 years older.\nA 95% confidence interval might be:\n\\[\n(2.1,\\ 6.9)\n\\]\nThis interval suggests that the true age difference is plausibly between 2.1 and 6.9 years."
+  },
+  {
+    "objectID": "hypothesis-testing.html#visualising-a-confidence-interval",
+    "href": "hypothesis-testing.html#visualising-a-confidence-interval",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Visualising a Confidence Interval",
+    "text": "Visualising a Confidence Interval\n\n\n\n\n\nExample confidence interval for an age difference estimate.\n\n\n\n\nThe point estimate represents our best estimate of the effect size.\nThe confidence interval reflects the uncertainty around that estimate."
+  },
+  {
+    "objectID": "hypothesis-testing.html#why-confidence-intervals-are-useful",
+    "href": "hypothesis-testing.html#why-confidence-intervals-are-useful",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Why Confidence Intervals Are Useful",
+    "text": "Why Confidence Intervals Are Useful\nConfidence intervals provide information about:\n\ndirection of the effect;\nmagnitude of the effect;\nprecision of the estimate.\n\nThey are often more informative than p-values alone."
+  },
+  {
+    "objectID": "hypothesis-testing.html#confidence-intervals-and-statistical-significance",
+    "href": "hypothesis-testing.html#confidence-intervals-and-statistical-significance",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Confidence Intervals and Statistical Significance",
+    "text": "Confidence Intervals and Statistical Significance\nFor differences between groups:\n\nIf the confidence interval includes 0, the result is often not statistically significant.\nIf the confidence interval excludes 0, the result is often statistically significant.\n\n\n\n\n\n\n\n\nTipWhat Comes Next?\n\n\n\nNow that we understand:\n\nnull and alternative hypotheses,\nsampling variability,\np-values,\nstatistical significance,\nconfidence intervals,\n\nwe can begin selecting and applying statistical tests.\nNext we will learn:\n\nhow to choose the correct statistical test,\nhow to check assumptions,\nwhen to use t-tests,\nwhen to use ANOVA,\nwhen to use Chi-square tests."
+  },
+  {
+    "objectID": "hypothesis-testing.html#understanding-variable-types",
+    "href": "hypothesis-testing.html#understanding-variable-types",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Understanding Variable Types",
+    "text": "Understanding Variable Types\nBefore selecting a statistical test, we must identify the type of variable being analysed.\n\nNumerical Variables\nNumerical variables represent measurable quantities.\nExamples from the Cleveland dataset include:\n\nAge\nCholesterol\nResting blood pressure\nMaximum heart rate\n\nThese variables can be summarised using means, medians, standard deviations, and confidence intervals.\n\n\n\nCategorical Variables\nCategorical variables represent groups or categories.\nExamples from the Cleveland dataset include:\n\nSex\nChest pain type\nPresence of heart disease\n\nThese variables are typically summarised using counts and percentages.\n\n\n\nWhy Does This Matter?\nThe type of variable largely determines which statistical tests are appropriate.\nFor example:\n\nComparing mean age between groups requires a different test from comparing proportions of males and females.\nComparing two groups requires a different test from comparing four groups."
+  },
+  {
+    "objectID": "hypothesis-testing.html#interactive-decision-tool",
+    "href": "hypothesis-testing.html#interactive-decision-tool",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Interactive Decision Tool",
+    "text": "Interactive Decision Tool\n\n\n\n\n\n\nTipQuick Guide\n\n\n\nAsk yourself:\n\nStep 1\nWhat type of outcome are you analysing?\n\nNumerical\nCategorical\n\n\n\nStep 2\nHow many groups are being compared?\n\nOne\nTwo\nMore than two\n\n\n\nStep 3\nAre the observations independent or paired?\nThe answers will usually determine the appropriate statistical test."
+  },
+  {
+    "objectID": "hypothesis-testing.html#visual-assessment",
+    "href": "hypothesis-testing.html#visual-assessment",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Visual Assessment",
+    "text": "Visual Assessment\nBefore performing formal tests, it is often helpful to inspect the data visually.\nUseful visualisations include:\n\nHistograms\nDensity plots\nBoxplots\nQ-Q plots\n\nVisualisation often reveals patterns that numerical tests may miss."
+  },
+  {
+    "objectID": "hypothesis-testing.html#q-q-plots",
+    "href": "hypothesis-testing.html#q-q-plots",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Q-Q Plots",
+    "text": "Q-Q Plots\nA Quantile–Quantile (Q-Q) plot compares the observed data against the theoretical quantiles of a normal distribution.\nIf the points approximately follow a straight line, the data are reasonably consistent with normality.\n\n\n\n\n\nQ-Q plot of age in the Cleveland dataset.\n\n\n\n\n\nHow to Interpret a Q-Q Plot\n\nPoints close to the line suggest approximate normality.\nCurved patterns may indicate skewness.\nLarge departures from the line suggest non-normality.\nExtreme deviations at the ends may indicate outliers."
+  },
+  {
+    "objectID": "hypothesis-testing.html#shapirowilk-test",
+    "href": "hypothesis-testing.html#shapirowilk-test",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Shapiro–Wilk Test",
+    "text": "Shapiro–Wilk Test\nThe Shapiro–Wilk test formally assesses whether a variable appears normally distributed.\n\nNull Hypothesis\nThe data follow a normal distribution.\n\n\nAlternative Hypothesis\nThe data do not follow a normal distribution.\n\n\n\nExample: Age\n\nfrom scipy.stats import shapiro\n\nstat, p = shapiro(df[\"age\"].dropna())\n\nprint(f\"Shapiro-Wilk statistic = {stat:.3f}\")\nprint(f\"p-value = {p:.3f}\")\n\nShapiro-Wilk statistic = 0.986\np-value = 0.006\n\n\nInterpretation:\n\nIf p ≥ 0.05, the data are broadly consistent with normality.\nIf p &lt; 0.05, there is evidence against normality.\n\n\n\n\n\n\n\nNoteClinical Interpretation\n\n\n\nFor age in the Cleveland dataset:\n\nThe Shapiro–Wilk test produces a statistically significant result (p = 0.006).\nStrictly speaking, this suggests that age is not perfectly normally distributed.\n\nHowever, the Q-Q plot shows only modest departures from normality.\nWith a sample size of more than 300 patients, many parametric tests (such as the t-test) remain robust to these small deviations.\nIn practice, statistical decisions should be based on both visual inspection and formal testing.\n\n\n\n\n\n\n\n\n\nWarningImportant\n\n\n\nNormality tests should not be used mechanically.\nIn large datasets, very small deviations from normality may produce statistically significant results.\nIn small datasets, substantial deviations may go undetected.\nAlways combine formal tests with visual inspection."
+  },
+  {
+    "objectID": "hypothesis-testing.html#equal-variance",
+    "href": "hypothesis-testing.html#equal-variance",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Equal Variance",
+    "text": "Equal Variance\nMany parametric tests assume that groups have similar variability.\nThis assumption can be evaluated using Levene’s test.\n\nExample\nSuppose we wish to compare age between patients with and without heart disease.\n\nfrom scipy.stats import levene\n\ngroup1 = df[df[\"heart_disease\"] == \"Heart Disease\"][\"age\"]\ngroup2 = df[df[\"heart_disease\"] == \"No Heart Disease\"][\"age\"]\n\nstat, p = levene(group1, group2)\n\nprint(f\"Levene statistic = {stat:.3f}\")\nprint(f\"p-value = {p:.3f}\")\n\nLevene statistic = 7.936\np-value = 0.005\n\n\nInterpretation:\n\nLarge p-values suggest similar variability.\nSmall p-values suggest unequal variability.\n\n\n\n\n\n\n\nWarningCommon Beginner Mistakes\n\n\n\nAvoid these common errors:\n\nSelecting a statistical test before understanding the variable types.\nUsing a t-test without checking assumptions.\nAutomatically switching to non-parametric tests whenever a normality test is significant.\nConfusing statistical significance with clinical importance.\nInterpreting p-values as the probability that the null hypothesis is true."
+  },
+  {
+    "objectID": "hypothesis-testing.html#when-should-non-parametric-tests-be-considered",
+    "href": "hypothesis-testing.html#when-should-non-parametric-tests-be-considered",
+    "title": "Statistical Hypothesis Testing",
+    "section": "When Should Non-Parametric Tests Be Considered?",
+    "text": "When Should Non-Parametric Tests Be Considered?\nNon-parametric tests may be useful when:\n\ndistributions are highly skewed;\nsubstantial outliers are present;\nsample sizes are very small;\nassumptions are clearly violated.\n\nHowever, they are not automatically superior and should not be used simply because a normality test is statistically significant."
+  },
+  {
+    "objectID": "hypothesis-testing.html#try-it-yourself",
+    "href": "hypothesis-testing.html#try-it-yourself",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nIdentify three numerical variables.\nIdentify three categorical variables.\nCreate a Q-Q plot for cholesterol.\nPerform a Shapiro–Wilk test on age.\nWhich test would you use to compare age between patients with and without heart disease?\nWhich test would you use to compare age across chest pain categories?\nWhich test would you use to investigate whether sex is associated with heart disease?"
+  },
+  {
+    "objectID": "hypothesis-testing.html#when-should-we-use-an-independent-t-test",
+    "href": "hypothesis-testing.html#when-should-we-use-an-independent-t-test",
+    "title": "Statistical Hypothesis Testing",
+    "section": "When Should We Use an Independent t-Test?",
+    "text": "When Should We Use an Independent t-Test?\nAn independent t-test is used to compare the means of a numerical variable between two independent groups.\nExamples include:\n\nAge in patients with and without heart disease.\nCholesterol in males and females.\nBlood pressure in treatment and control groups."
+  },
+  {
+    "objectID": "hypothesis-testing.html#assumptions",
+    "href": "hypothesis-testing.html#assumptions",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Assumptions",
+    "text": "Assumptions\nThe independent t-test assumes:\n\nobservations are independent;\nthe outcome variable is numerical;\nthe distributions are approximately normal;\nvariability is reasonably similar between groups."
+  },
+  {
+    "objectID": "hypothesis-testing.html#cleveland-dataset-example-1",
+    "href": "hypothesis-testing.html#cleveland-dataset-example-1",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Cleveland Dataset Example",
+    "text": "Cleveland Dataset Example\n\nResearch Question\nAre patients with heart disease older than patients without heart disease?\n\n\nStep 1: State the Hypotheses\nNull hypothesis:\n\\[\nH_0:\\mu_{HD}=\\mu_{NoHD}\n\\]\nAlternative hypothesis:\n\\[\nH_A:\\mu_{HD}\\neq\\mu_{NoHD}\n\\]\nwhere:\n\n\\(\\mu_{HD}\\) is the mean age of patients with heart disease;\n\\(\\mu_{NoHD}\\) is the mean age of patients without heart disease.\n\n\n\n\nVisual Comparison\n\n\n\n\n\nAge distribution by heart disease status.\n\n\n\n\nThe boxplot suggests that patients with heart disease tend to be older.\nBut is this difference statistically significant?\n\n\n\nPerforming the Test\n\nfrom scipy.stats import ttest_ind\nimport numpy as np\n\ngroups = [\n    g[\"age\"].dropna()\n    for _, g in df.groupby(\"heart_disease\")\n]\n\ngroup1 = groups[0]\ngroup2 = groups[1]\n\nt_stat, p_value = ttest_ind(\n    group1,\n    group2,\n    equal_var=False\n)\n\nmean_diff = group1.mean() - group2.mean()\n\nse = np.sqrt(\n    group1.var(ddof=1)/len(group1)\n    + group2.var(ddof=1)/len(group2)\n)\n\nci_low = mean_diff - 1.96*se\nci_high = mean_diff + 1.96*se\n\nprint(f\"t statistic = {t_stat:.3f}\")\nprint(f\"p-value = {p_value:.5f}\")\nprint(f\"Mean age difference = {mean_diff:.2f} years\")\nprint(f\"95% CI = ({ci_low:.2f}, {ci_high:.2f})\")\n\nt statistic = 4.030\np-value = 0.00007\nMean age difference = 4.04 years\n95% CI = (2.08, 6.01)\n\n\n\n\n\nInterpretation\nIf the p-value is below 0.05:\n\nwe reject the null hypothesis;\nthe age difference is statistically significant.\n\nIf the p-value is above 0.05:\n\nwe fail to reject the null hypothesis;\nthere is insufficient evidence for an age difference.\n\n\n\nWhy the Confidence Interval Matters\nThe p-value tells us whether there is evidence for a difference.\nThe confidence interval tells us how large that difference may be.\nFor example:\n\na statistically significant difference of 0.2 years may have little clinical importance;\na statistically significant difference of 10 years could be clinically meaningful.\n\nWhenever possible, report both the p-value and the confidence interval.\n\n\n\n\n\n\n\nNoteClinical Interpretation\n\n\n\nEven when a result is statistically significant, we should also consider:\n\nthe magnitude of the effect;\nwhether the difference is clinically meaningful;\nuncertainty around the estimate."
+  },
+  {
+    "objectID": "hypothesis-testing.html#when-should-we-use-anova",
+    "href": "hypothesis-testing.html#when-should-we-use-anova",
+    "title": "Statistical Hypothesis Testing",
+    "section": "When Should We Use ANOVA?",
+    "text": "When Should We Use ANOVA?\nANOVA is used when comparing a numerical variable across more than two groups.\nExamples include:\n\nAge across chest pain categories.\nCholesterol across disease severity groups.\nBlood pressure across treatment groups."
+  },
+  {
+    "objectID": "hypothesis-testing.html#cleveland-dataset-example-2",
+    "href": "hypothesis-testing.html#cleveland-dataset-example-2",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Cleveland Dataset Example",
+    "text": "Cleveland Dataset Example\n\nResearch Question\nDoes age differ across chest pain categories?\n\n\nStep 1: State the Hypotheses\nNull hypothesis: All chest pain groups have the same mean age.\n\\[\nH_0:\\mu_1=\\mu_2=\\mu_3=\\mu_4\n\\]\nAlternative hypothesis:\n\\[\nH_A:\\text{Not all means are equal}\n\\]\n\n\n\nVisual Comparison\n\n\n\n\n\nAge distribution across chest pain categories.\n\n\n\n\n\n\n\nPerforming ANOVA\n\nfrom scipy.stats import f_oneway\n\ngroups = [\n    g[\"age\"].dropna()\n    for _, g in df.groupby(\"cp\")\n]\n\nf_stat, p_value = f_oneway(*groups)\n\nprint(f\"F statistic = {f_stat:.3f}\")\nprint(f\"p-value = {p_value:.5f}\")\n\nF statistic = 3.364\np-value = 0.01908\n\n\n\n\n\nInterpretation\nIf p &lt; 0.05:\n\nat least one group differs from the others.\n\nIf p ≥ 0.05:\n\nthere is insufficient evidence that age differs across chest pain categories.\n\n\n\n\n\n\n\n\nImportantImportant\n\n\n\nANOVA tells us that a difference exists somewhere among the groups.\nIt does not identify which specific groups differ.\nAdditional post-hoc tests are required to determine this."
+  },
+  {
+    "objectID": "hypothesis-testing.html#when-should-we-use-a-chi-square-test",
+    "href": "hypothesis-testing.html#when-should-we-use-a-chi-square-test",
+    "title": "Statistical Hypothesis Testing",
+    "section": "When Should We Use a Chi-Square Test?",
+    "text": "When Should We Use a Chi-Square Test?\nThe Chi-square test evaluates whether two categorical variables are associated.\nExamples include:\n\nSex and heart disease.\nSmoking status and disease.\nTreatment group and outcome."
+  },
+  {
+    "objectID": "hypothesis-testing.html#cleveland-dataset-example-3",
+    "href": "hypothesis-testing.html#cleveland-dataset-example-3",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Cleveland Dataset Example",
+    "text": "Cleveland Dataset Example\n\nResearch Question\nIs sex associated with heart disease?\n\n\nStep 1: State the Hypotheses\nNull hypothesis:\nSex and heart disease are independent.\nAlternative hypothesis:\nSex and heart disease are associated.\n\n\n\nContingency Table\n\ntable = pd.crosstab(\n    df[\"sex\"],\n    df[\"heart_disease\"]\n)\n\ntable\n\n\n\n\n\n\n\nheart_disease\nHeart Disease\nNo Heart Disease\n\n\nsex\n\n\n\n\n\n\n0.0\n25\n72\n\n\n1.0\n114\n92\n\n\n\n\n\n\n\n\n\n\nPerforming the Test\n\nfrom scipy.stats import chi2_contingency\n\nchi2, p_value, dof, expected = chi2_contingency(table)\n\nprint(f\"Chi-square statistic = {chi2:.3f}\")\nprint(f\"p-value = {p_value:.5f}\")\n\nChi-square statistic = 22.043\np-value = 0.00000\n\n\n\n\n\nInterpretation\nIf p &lt; 0.05:\n\nthere is evidence of an association between sex and heart disease.\n\nIf p ≥ 0.05:\n\nthere is insufficient evidence of an association.\n\n\n\n\nVisualising the Data\n\n\n\n\n\nHeart disease prevalence by sex."
+  },
+  {
+    "objectID": "hypothesis-testing.html#try-it-yourself-1",
+    "href": "hypothesis-testing.html#try-it-yourself-1",
+    "title": "Statistical Hypothesis Testing",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nCompare cholesterol between patients with and without heart disease.\nCompare resting blood pressure between patients with and without heart disease.\nPerform ANOVA using maximum heart rate across chest pain categories.\nInvestigate whether chest pain category is associated with heart disease using a Chi-square test.\nInterpret each result in both statistical and clinical terms.\n\n\n\n\n\n← Previous: Descriptive Statistics Next: Correlation and Regression →"
+  },
+  {
+    "objectID": "correlation-regression.html",
+    "href": "correlation-regression.html",
+    "title": "Correlation and Regression",
+    "section": "",
+    "text": "By the end of this chapter, you should be able to:\n\nexplain why relationships between variables matter in biomedical data;\ninterpret scatter plots;\nunderstand the concepts of covariance and correlation;\ndistinguish between Pearson and Spearman correlation;\ninterpret correlation coefficients and their statistical significance;\nexplain why correlation does not imply causation;\nbuild and interpret simple linear regression models;\nunderstand the basic ideas behind multiple and logistic regression;\nevaluate predictive models using metrics such as R², accuracy, and AUC."
+  },
+  {
+    "objectID": "correlation-regression.html#learning-objectives",
+    "href": "correlation-regression.html#learning-objectives",
+    "title": "Correlation and Regression",
+    "section": "",
+    "text": "By the end of this chapter, you should be able to:\n\nexplain why relationships between variables matter in biomedical data;\ninterpret scatter plots;\nunderstand the concepts of covariance and correlation;\ndistinguish between Pearson and Spearman correlation;\ninterpret correlation coefficients and their statistical significance;\nexplain why correlation does not imply causation;\nbuild and interpret simple linear regression models;\nunderstand the basic ideas behind multiple and logistic regression;\nevaluate predictive models using metrics such as R², accuracy, and AUC."
+  },
+  {
+    "objectID": "correlation-regression.html#interactive-correlation-simulator",
+    "href": "correlation-regression.html#interactive-correlation-simulator",
+    "title": "Correlation and Regression",
+    "section": "Interactive Correlation Simulator",
+    "text": "Interactive Correlation Simulator\nMove the slider below and observe how the scatter plot changes.\nAs the correlation approaches +1 or -1, the points become more tightly aligned.\nWhen the correlation approaches 0, the relationship becomes weaker.\n\n\nCorrelation: 0.70\n\n\n\n\n\n\n\n\n\n\n\n\nTipWhat to Notice\n\n\n\n\nPositive correlations slope upwards.\nNegative correlations slope downwards.\nStronger correlations produce tighter clusters of points.\nCorrelation close to zero produces a diffuse cloud."
+  },
+  {
+    "objectID": "correlation-regression.html#pearson-correlation",
+    "href": "correlation-regression.html#pearson-correlation",
+    "title": "Correlation and Regression",
+    "section": "Pearson Correlation",
+    "text": "Pearson Correlation\nPearson correlation measures the strength of a linear relationship between two numerical variables.\nMathematically, Pearson correlation is precisely the correlation coefficient \\(r\\) defined above.\nIt measures how closely the data follow a straight-line relationship.\nFor the Cleveland dataset, we can quantify the relationship between age and maximum heart rate.\n\nfrom scipy.stats import pearsonr\n\nr, p = pearsonr(\n    df[\"age\"],\n    df[\"thalach\"]\n)\n\nprint(f\"Pearson correlation = {r:.3f}\")\nprint(f\"p-value = {p:.5f}\")\n\nPearson correlation = -0.394\np-value = 0.00000\n\n\n\nTesting Statistical Significance\nTo determine whether the observed correlation could plausibly have arisen by chance, we test:\n\\[\nH_0:r=0\n\\]\nagainst:\n\\[\nH_A:r\\neq0.\n\\]\nThe test statistic is:\n\\[\nt =\nr\n\\sqrt{\n\\frac{n-2}{1-r^2}\n}\n\\]\nUnder the null hypothesis, this follows a Student’s \\(t\\) distribution with:\n\\[\nn-2\n\\]\ndegrees of freedom.\nThe p-value quantifies the evidence against the hypothesis of no correlation.\n\n\nInterpretation\n\nPositive values indicate that both variables tend to increase together.\nNegative values indicate that one variable tends to decrease as the other increases.\nValues closer to ±1 indicate stronger relationships."
+  },
+  {
+    "objectID": "correlation-regression.html#spearman-correlation",
+    "href": "correlation-regression.html#spearman-correlation",
+    "title": "Correlation and Regression",
+    "section": "Spearman Correlation",
+    "text": "Spearman Correlation\nPearson correlation works well when relationships are approximately linear.\nHowever, many biomedical relationships are not perfectly linear.\nSpearman correlation is based on the ranks of the observations rather than their exact values.\nIf \\(R(X)\\) and \\(R(Y)\\) denote the ranks of the variables, then the Spearman coefficient is simply the Pearson correlation applied to the ranks:\n\\[\n\\rho\n=\n\\mathrm{corr}\n\\left(\nR(X),\nR(Y)\n\\right)\n\\]\nThis makes Spearman correlation less sensitive to outliers and departures from linearity.\n\nfrom scipy.stats import spearmanr\n\nrho, p = spearmanr(\n    df[\"age\"],\n    df[\"thalach\"]\n)\n\nprint(f\"Spearman correlation = {rho:.3f}\")\nprint(f\"p-value = {p:.5f}\")\n\nSpearman correlation = -0.392\np-value = 0.00000\n\n\n\nPearson vs Spearman\n\n\n\nPearson Correlation\nSpearman Correlation\n\n\n\n\nUses actual values\nUses ranks\n\n\nMeasures linear relationships\nMeasures monotonic relationships\n\n\nSensitive to outliers\nMore robust to outliers\n\n\nMost commonly reported\nUseful when assumptions are violated\n\n\n\n\n\n\n\n\n\n\nImportantCorrelation is Symmetric\n\n\n\nCorrelation does not distinguish between inputs and outputs.\nThe correlation between age and maximum heart rate is identical to the correlation between maximum heart rate and age.\nThis symmetry is one of the key differences between correlation and regression, which we will study next."
+  },
+  {
+    "objectID": "correlation-regression.html#try-it-yourself",
+    "href": "correlation-regression.html#try-it-yourself",
+    "title": "Correlation and Regression",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nCreate a scatter plot of age versus cholesterol.\nCompute the Pearson correlation between age and cholesterol.\nCompute the Spearman correlation between age and cholesterol.\nWhich correlation coefficient is larger?\nIs there evidence that age causes higher cholesterol based on correlation alone?"
+  },
+  {
+    "objectID": "correlation-regression.html#from-correlation-to-prediction",
+    "href": "correlation-regression.html#from-correlation-to-prediction",
+    "title": "Correlation and Regression",
+    "section": "From Correlation to Prediction",
+    "text": "From Correlation to Prediction\nSuppose we wish to predict a patient’s maximum heart rate using their age.\nRather than simply describing this relationship, we would like to quantify it and use it for prediction."
+  },
+  {
+    "objectID": "correlation-regression.html#the-regression-model",
+    "href": "correlation-regression.html#the-regression-model",
+    "title": "Correlation and Regression",
+    "section": "The Regression Model",
+    "text": "The Regression Model\nThe simplest regression model is called simple linear regression.\nIt assumes that the relationship between two variables can be approximated by a straight line:\n\\[\ny = \\beta_0 + \\beta_1 x + \\varepsilon\n\\]\nwhere:\n\n\\(y\\) is the outcome variable;\n\\(x\\) is the predictor variable;\n\\(\\beta_0\\) is the intercept;\n\\(\\beta_1\\) is the slope;\n\\(\\varepsilon\\) represents random error.\n\nThe goal of regression is to estimate the coefficients \\(\\beta_0\\) and \\(\\beta_1\\) from the data.\n\nHow is the Line Chosen?\nMany different lines could be drawn through the data.\nLinear regression chooses the line that minimises the sum of squared residuals:\n\\[\n\\sum_{i=1}^{n}\n\\left(\ny_i-\\beta_0 - \\beta_1 x_i\n\\right)^2\n\\]\nThis is known as the least-squares criterion.\nSquaring the residuals penalises large errors more heavily than small errors and ensures that positive and negative residuals do not cancel each other out."
+  },
+  {
+    "objectID": "correlation-regression.html#interactive-regression-simulator",
+    "href": "correlation-regression.html#interactive-regression-simulator",
+    "title": "Correlation and Regression",
+    "section": "Interactive Regression Simulator",
+    "text": "Interactive Regression Simulator\nThe slope and intercept determine the position and orientation of the regression line.\nIn this simulator, the data points are fixed. Only the regression line changes as you move the sliders. This helps isolate the effect of the two parameters in the model:\n\\[\ny = \\beta_0 + \\beta_1 x\n\\]\n\n\nIntercept (β₀): 140\n\n\n\n\nSlope (β₁): -1.0\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipWhat to Notice\n\n\n\n\nThe data points stay fixed.\nThe intercept shifts the line up and down.\nThe slope controls how steeply the line rises or falls.\nA positive slope produces an upward line.\nA negative slope produces a downward line.\nThe best-fitting line is the one that passes closest to the data points overall."
+  },
+  {
+    "objectID": "correlation-regression.html#fitting-a-regression-model",
+    "href": "correlation-regression.html#fitting-a-regression-model",
+    "title": "Correlation and Regression",
+    "section": "Fitting a Regression Model",
+    "text": "Fitting a Regression Model\nUsing the Cleveland dataset, we can model maximum heart rate as a function of age.\n\nfrom sklearn.linear_model import LinearRegression\n\nX = df[[\"age\"]]\ny = df[\"thalach\"]\n\nmodel = LinearRegression()\nmodel.fit(X, y)\n\nprint(f\"Intercept = {model.intercept_:.2f}\")\nprint(f\"Slope = {model.coef_[0]:.2f}\")\n\nIntercept = 203.86\nSlope = -1.00\n\n\nFor the Cleveland dataset, the fitted model is approximately\n\\[\n\\widehat{\\text{Max Heart Rate}}\n=\n203.86\n-\n1.00 \\times \\text{Age}\n\\]\nThis suggests that maximum heart rate decreases by approximately 1 beat per minute for each additional year of age."
+  },
+  {
+    "objectID": "correlation-regression.html#visualising-the-regression-line",
+    "href": "correlation-regression.html#visualising-the-regression-line",
+    "title": "Correlation and Regression",
+    "section": "Visualising the Regression Line",
+    "text": "Visualising the Regression Line\n\n\n\n\n\nLinear regression model predicting maximum heart rate from age.\n\n\n\n\nThe regression line represents the average relationship between age and maximum heart rate."
+  },
+  {
+    "objectID": "correlation-regression.html#interpreting-the-slope",
+    "href": "correlation-regression.html#interpreting-the-slope",
+    "title": "Correlation and Regression",
+    "section": "Interpreting the Slope",
+    "text": "Interpreting the Slope\nThe slope \\(\\beta_1\\) is one of the most important quantities in regression.\nIt represents the expected change in the outcome variable associated with a one-unit increase in the predictor.\nFor example:\n\nA slope of -0.8 would indicate that maximum heart rate decreases by approximately 0.8 beats per minute for every additional year of age.\n\nThe sign of the slope determines the direction of the relationship:\n\n\n\nSlope\nInterpretation\n\n\n\n\nPositive\nOutcome increases as predictor increases\n\n\nNegative\nOutcome decreases as predictor increases\n\n\nZero\nNo linear relationship"
+  },
+  {
+    "objectID": "correlation-regression.html#prediction",
+    "href": "correlation-regression.html#prediction",
+    "title": "Correlation and Regression",
+    "section": "Prediction",
+    "text": "Prediction\nOnce the model has been fitted, we can use it to make predictions.\nFor example, what maximum heart rate would we predict for a 60-year-old patient?\n\npredicted_hr = model.predict([[60]])\n\nprint(f\"Predicted maximum heart rate = {predicted_hr[0]:.1f}\")\n\nPredicted maximum heart rate = 144.1\n\n\nThe predicted value lies on the regression line.\nDifferent patients may have different observed values, but the regression model provides the best average prediction based on the available data."
+  },
+  {
+    "objectID": "correlation-regression.html#residuals",
+    "href": "correlation-regression.html#residuals",
+    "title": "Correlation and Regression",
+    "section": "Residuals",
+    "text": "Residuals\nNo model predicts perfectly.\nThe difference between an observed value and its predicted value is called the residual:\n\\[\ne_i\n=\ny_i\n-\n\\hat{y}_i\n\\]\nwhere:\n\n\\(y_i\\) is the observed value;\n\\(\\hat{y}_i\\) is the predicted value.\n\nResiduals tell us how well the model fits the data.\nSmall residuals indicate good predictions.\nLarge residuals indicate poor predictions."
+  },
+  {
+    "objectID": "correlation-regression.html#visualising-residuals",
+    "href": "correlation-regression.html#visualising-residuals",
+    "title": "Correlation and Regression",
+    "section": "Visualising Residuals",
+    "text": "Visualising Residuals\n\n\n\n\n\nResidual plot for the linear regression model.\n\n\n\n\nIdeally, residuals should be randomly scattered around zero.\nSystematic patterns may indicate that the model is missing important information."
+  },
+  {
+    "objectID": "correlation-regression.html#measuring-model-performance-r²",
+    "href": "correlation-regression.html#measuring-model-performance-r²",
+    "title": "Correlation and Regression",
+    "section": "Measuring Model Performance: R²",
+    "text": "Measuring Model Performance: R²\nThe coefficient of determination, denoted \\(R^2\\), measures how much of the variability in the outcome is explained by the model.\n\\[\nR^2\n=\n1\n-\n\\frac{\n\\sum (y_i-\\hat{y}_i)^2\n}{\n\\sum (y_i-\\bar{y})^2\n}\n\\]\nValues range from:\n\\[\n0 \\le R^2 \\le 1\n\\]\nwhere:\n\n\\(R^2 = 0\\) indicates no explanatory power;\n\\(R^2 = 1\\) indicates perfect prediction.\n\n\nr2 = model.score(X, y)\n\nprint(f\"R² = {r2:.3f}\")\n\nR² = 0.155\n\n\nAn R² of 0.155 means that approximately 15.5% of the variability in maximum heart rate can be explained by age alone.\nThe remaining variability is due to other factors and random variation.\n\n\n\n\n\n\n\nNoteInterpretation\n\n\n\nA high \\(R^2\\) suggests that the model explains a large proportion of the variability in the data.\nHowever, a high \\(R^2\\) does not imply causation, nor does it guarantee good predictions for new patients."
+  },
+  {
+    "objectID": "correlation-regression.html#try-it-yourself-1",
+    "href": "correlation-regression.html#try-it-yourself-1",
+    "title": "Correlation and Regression",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nFit a linear regression model predicting cholesterol from age.\nInterpret the estimated slope.\nPredict cholesterol for a 60-year-old patient.\nCalculate the model’s \\(R^2\\).\nExamine the residual plot and assess the quality of the fit."
+  },
+  {
+    "objectID": "correlation-regression.html#cleveland-example",
+    "href": "correlation-regression.html#cleveland-example",
+    "title": "Correlation and Regression",
+    "section": "Cleveland Example",
+    "text": "Cleveland Example\nSuppose we wish to predict maximum heart rate using:\n\nage;\ncholesterol;\nresting blood pressure.\n\n\nfrom sklearn.linear_model import LinearRegression\n\nX = df[[\"age\", \"chol\", \"trestbps\"]]\ny = df[\"thalach\"]\n\nmulti_model = LinearRegression()\nmulti_model.fit(X, y)\n\ncoefficients = pd.DataFrame({\n    \"Predictor\": X.columns,\n    \"Coefficient\": multi_model.coef_\n})\n\ncoefficients\n\n\n\n\n\n\n\n\nPredictor\nCoefficient\n\n\n\n\n0\nage\n-1.085820\n\n\n1\nchol\n0.034249\n\n\n2\ntrestbps\n0.086843\n\n\n\n\n\n\n\nThe model combines information from multiple variables to improve prediction.\n\n\n\n\n\n\nNoteInterpretation\n\n\n\nEach coefficient represents the expected change in the outcome associated with a one-unit increase in that predictor, while holding all other predictors constant."
+  },
+  {
+    "objectID": "correlation-regression.html#comparing-multiple-regression-models",
+    "href": "correlation-regression.html#comparing-multiple-regression-models",
+    "title": "Correlation and Regression",
+    "section": "Comparing Multiple Regression Models",
+    "text": "Comparing Multiple Regression Models\nIn practice, we often have many potential predictor variables.\nA natural question is:\n\nWhich combination of variables gives the best model?\n\nSimply adding more variables will usually improve the fit to the training data. However, more complex models may be harder to interpret and may not generalise well to new data.\nTo balance model fit and model complexity, statisticians often use information criteria.\n\nAkaike Information Criterion (AIC)\n\\[\nAIC = 2k - 2\\log(L)\n\\]\n\n\nBayesian Information Criterion (BIC)\n\\[\nBIC = k\\log(n) - 2\\log(L)\n\\]\nwhere:\n\n\\(k\\) is the number of model parameters;\n\\(L\\) is the likelihood of the model;\n\\(n\\) is the number of observations.\n\nFor both AIC and BIC:\n\nlower values indicate better models;\nthe criteria penalise unnecessary complexity;\nBIC generally penalises complexity more strongly than AIC."
+  },
+  {
+    "objectID": "correlation-regression.html#comparing-several-models",
+    "href": "correlation-regression.html#comparing-several-models",
+    "title": "Correlation and Regression",
+    "section": "Comparing Several Models",
+    "text": "Comparing Several Models\n\nimport statsmodels.api as sm\n\ncandidate_models = {\n    \"Age\": [\"age\"],\n    \"Age + Cholesterol\": [\"age\", \"chol\"],\n    \"Age + Cholesterol + Blood Pressure\": [\n        \"age\",\n        \"chol\",\n        \"trestbps\"\n    ]\n}\n\nresults = []\n\nfor name, predictors in candidate_models.items():\n\n    X_model = sm.add_constant(\n        df[predictors]\n    )\n\n    y_model = df[\"thalach\"]\n\n    fitted_model = sm.OLS(\n        y_model,\n        X_model\n    ).fit()\n\n    results.append({\n        \"Model\": name,\n        \"AIC\": round(fitted_model.aic, 2),\n        \"BIC\": round(fitted_model.bic, 2),\n        \"R²\": round(fitted_model.rsquared, 3)\n    })\n\ncomparison_df = pd.DataFrame(results)\n\ncomparison_df\n\n\n\n\n\n\n\n\nModel\nAIC\nBIC\nR²\n\n\n\n\n0\nAge\n2708.62\n2716.05\n0.155\n\n\n1\nAge + Cholesterol\n2708.28\n2719.42\n0.162\n\n\n2\nAge + Cholesterol + Blood Pressure\n2708.80\n2723.66\n0.166\n\n\n\n\n\n\n\n\n\nInterpreting the Results\nThe table allows us to compare competing models.\nWhen comparing models:\n\nHigher \\(R^2\\) indicates that more variability in the outcome is explained.\nLower AIC indicates a better trade-off between fit and complexity.\nLower BIC indicates a better trade-off between fit and complexity, with a stronger penalty for additional variables.\n\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA good model is not necessarily the most complex model.\nAIC and BIC help us identify models that explain the data well while avoiding unnecessary complexity.\n\n\n\n\nWhich Variables Appear Most Important?\nOne simple way to assess importance is to examine the fitted coefficients.\n\ncoefficients\n\n\n\n\n\n\n\n\nPredictor\nCoefficient\n\n\n\n\n0\nage\n-1.085820\n\n\n1\nchol\n0.034249\n\n\n2\ntrestbps\n0.086843\n\n\n\n\n\n\n\nFor this example:\n\npredictors with larger absolute coefficients generally have a stronger influence on the predicted outcome;\ncoefficients close to zero may contribute relatively little information;\ninterpretation should always be made in the context of the variable’s scale and units.\n\nIn more advanced machine learning workflows, feature importance can also be assessed using methods such as permutation importance, regularisation, decision trees, and SHAP values.\nFor now, coefficient size, AIC, BIC, and \\(R^2\\) provide useful tools for understanding and comparing regression models."
+  },
+  {
+    "objectID": "correlation-regression.html#binary-classification",
+    "href": "correlation-regression.html#binary-classification",
+    "title": "Correlation and Regression",
+    "section": "Binary Classification",
+    "text": "Binary Classification\nSuppose we wish to predict:\n\\[\n\\text{Heart Disease}\n=\n\\begin{cases}\n1 & \\text{Yes} \\\\\n0 & \\text{No}\n\\end{cases}\n\\]\nA straight line is no longer appropriate because probabilities must lie between 0 and 1.\nLogistic regression solves this problem by modelling probabilities rather than raw values."
+  },
+  {
+    "objectID": "correlation-regression.html#the-logistic-function",
+    "href": "correlation-regression.html#the-logistic-function",
+    "title": "Correlation and Regression",
+    "section": "The Logistic Function",
+    "text": "The Logistic Function\nLogistic regression uses the sigmoid function:\n\\[\nP(Y=1)\n=\n\\frac{1}\n{1+e^{-z}}\n\\]\nwhere\n\\[\nz\n=\n\\beta_0\n+\n\\beta_1 x_1\n+\n\\cdots\n+\n\\beta_p x_p.\n\\]\nThe sigmoid function transforms any real number into a probability between 0 and 1."
+  },
+  {
+    "objectID": "correlation-regression.html#interactive-sigmoid-simulator",
+    "href": "correlation-regression.html#interactive-sigmoid-simulator",
+    "title": "Correlation and Regression",
+    "section": "Interactive Sigmoid Simulator",
+    "text": "Interactive Sigmoid Simulator\nThe sigmoid function converts any real-valued input into a probability between 0 and 1.\nMove the slider below to see how the value of \\(z\\) changes the predicted probability.\n\n\nLinear predictor (z): 0.0\n\n\n\nPredicted probability: 0.50\n\n\n\n\n\n\n\n\n\n\n\nTipWhat to Notice\n\n\n\n\nWhen \\(z = 0\\), the predicted probability is 0.5.\nLarge positive values of \\(z\\) produce probabilities close to 1.\nLarge negative values of \\(z\\) produce probabilities close to 0.\nThe sigmoid function ensures that logistic regression outputs valid probabilities."
+  },
+  {
+    "objectID": "correlation-regression.html#cleveland-example-1",
+    "href": "correlation-regression.html#cleveland-example-1",
+    "title": "Correlation and Regression",
+    "section": "Cleveland Example",
+    "text": "Cleveland Example\nWe can predict the probability of heart disease using:\n\nage;\ncholesterol;\nresting blood pressure;\nmaximum heart rate.\n\n\nfrom sklearn.linear_model import LogisticRegression\n\nX = df[[\"age\", \"chol\", \"trestbps\", \"thalach\"]]\ny = df[\"heart_disease\"]\n\nlog_model = LogisticRegression(max_iter=1000)\n\nlog_model.fit(X, y)\n\npredicted_probabilities = (\n    log_model\n    .predict_proba(X)[:,1]\n)\n\npredicted_probabilities[:10]\n\narray([0.49410634, 0.09326307, 0.37112164, 0.86994449, 0.79823391,\n       0.83561137, 0.59562023, 0.64628858, 0.50708295, 0.60311031])\n\n\nThe output is a probability.\nFor example:\n0.82\nmeans an estimated 82% probability of heart disease."
+  },
+  {
+    "objectID": "correlation-regression.html#evaluating-logistic-regression",
+    "href": "correlation-regression.html#evaluating-logistic-regression",
+    "title": "Correlation and Regression",
+    "section": "Evaluating Logistic Regression",
+    "text": "Evaluating Logistic Regression\nFor logistic regression, we are interested in how well the model distinguishes between patients with and without disease.\nTwo commonly used metrics are:\n\nAccuracy: proportion of correct predictions.\nArea Under the ROC Curve (AUC): measures how well the model separates the two classes across all decision thresholds.\n\n\nfrom sklearn.metrics import (\n    accuracy_score,\n    roc_auc_score\n)\n\npredicted_labels = log_model.predict(X)\n\naccuracy = accuracy_score(\n    y,\n    predicted_labels\n)\n\nauc = roc_auc_score(\n    y,\n    predicted_probabilities\n)\n\nprint(f\"Accuracy = {accuracy:.3f}\")\nprint(f\"AUC = {auc:.3f}\")\n\nAccuracy = 0.706\nAUC = 0.756\n\n\n\n\n\n\n\n\nNoteInterpretation\n\n\n\n\nAccuracy measures the proportion of patients correctly classified.\nAUC ranges from 0.5 (random guessing) to 1.0 (perfect discrimination).\nIn biomedical applications, AUC is often preferred because it is less sensitive to the choice of classification threshold."
+  },
+  {
+    "objectID": "correlation-regression.html#try-it-yourself-2",
+    "href": "correlation-regression.html#try-it-yourself-2",
+    "title": "Correlation and Regression",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nFit a multiple linear regression model using age, cholesterol, and blood pressure to predict maximum heart rate.\nCompare the \\(R^2\\) values of the simple and multiple regression models.\nFit a logistic regression model to predict heart disease.\nInterpret the predicted probabilities for several patients.\n\n\n\n\n\n← Previous: Hypothesis Testing"
+  },
+  {
+    "objectID": "descriptive-statistics.html",
+    "href": "descriptive-statistics.html",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "",
+    "text": "NoteClinical Question\n\n\n\nWhat is a typical patient in our dataset?\nIn the previous section, we explored the Cleveland Heart Disease dataset and visualised several variables.\nHowever, visual inspection alone is often insufficient.\nWe frequently want to summarise a large collection of observations using a small number of interpretable statistics.\nMeasures of central tendency help us describe the centre of a dataset."
+  },
+  {
+    "objectID": "descriptive-statistics.html#why-summarise-data",
+    "href": "descriptive-statistics.html#why-summarise-data",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Why Summarise Data?",
+    "text": "Why Summarise Data?\nConsider the ages of all 303 patients in the Cleveland Heart Disease dataset.\nRather than inspecting hundreds of individual values, we can summarise the overall patient population using a few representative numbers.\n\n\n\n\n\nAge distribution in the Cleveland Heart Disease dataset.\n\n\n\n\nA natural question is:\n\nWhere is the centre of this distribution?"
+  },
+  {
+    "objectID": "descriptive-statistics.html#the-mean",
+    "href": "descriptive-statistics.html#the-mean",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "The Mean",
+    "text": "The Mean\nThe mean (or average) is one of the most commonly used summary statistics.\nIt is calculated by adding all observations and dividing by the number of observations.\n\\[\n\\bar{x} = \\frac{1}{n}\\sum_{i=1}^{n} x_i\n\\]\nwhere:\n\n\\(x_i\\) is the i-th observation,\n\\(n\\) is the number of observations,\n\\(\\bar{x}\\) is the sample mean.\n\n\nExample: Mean Age\n\nmean_age = df[\"age\"].mean()\nprint(f\"Mean age = {mean_age:.2f} years\")\n\nMean age = 54.44 years\n\n\n\n\n\n\n\nMean age in the Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nThe mean age represents the average age of all patients in the dataset."
+  },
+  {
+    "objectID": "descriptive-statistics.html#the-median",
+    "href": "descriptive-statistics.html#the-median",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "The Median",
+    "text": "The Median\nThe median is the middle observation after sorting the data.\nUnlike the mean, the median is less affected by extreme values.\n\nExample: Median Age\n\nmedian_age = df[\"age\"].median()\nprint(f\"Median age = {median_age:.2f} years\")\n\nMedian age = 56.00 years\n\n\n\n\n\n\n\nMean and median age in the Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nWhen the mean and median are similar, the distribution is often approximately symmetric."
+  },
+  {
+    "objectID": "descriptive-statistics.html#the-mode",
+    "href": "descriptive-statistics.html#the-mode",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "The Mode",
+    "text": "The Mode\nThe mode is the most frequently occurring value.\nThe mode is especially useful for categorical variables.\n\nExample: Chest Pain Type\n\nmode_cp = df[\"cp\"].mode()[0]\nprint(f\"Mode of chest pain type = {int(mode_cp)}\")\n\nMode of chest pain type = 4\n\n\n\n\n\n\n\nDistribution of chest pain type.\n\n\n\n\nThe category with the highest bar corresponds to the mode."
+  },
+  {
+    "objectID": "descriptive-statistics.html#comparing-mean-median-and-mode",
+    "href": "descriptive-statistics.html#comparing-mean-median-and-mode",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Comparing Mean, Median and Mode",
+    "text": "Comparing Mean, Median and Mode\nEach measure describes the centre of a distribution in a slightly different way.\n\n\n\nStatistic\nDescription\n\n\n\n\nMean\nArithmetic average\n\n\nMedian\nMiddle value\n\n\nMode\nMost frequent value\n\n\n\nThe best choice depends on the type of data and the shape of the distribution."
+  },
+  {
+    "objectID": "descriptive-statistics.html#mean-versus-median",
+    "href": "descriptive-statistics.html#mean-versus-median",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Mean versus Median",
+    "text": "Mean versus Median\nConsider a distribution containing a few unusually large values.\nThe mean is pulled towards those extreme observations, whereas the median remains relatively stable.\n\nInteractive Demonstration: Mean versus Median\nMove the final observation and observe how the mean and median respond.\n\nviewof extreme_value = Inputs.range(\n  [20, 120],\n  {\n    value: 80,\n    step: 1,\n    label: \"Final observation\"\n  }\n)\n\n\n\n\n\n\n\ndata_values = [45, 50, 55, 60, extreme_value]\n\nmean_value = d3.mean(data_values)\n\nmedian_value = d3.median(data_values)\n\nPlot.plot({\n  width: 700,\n  height: 180,\n  marginLeft: 50,\n  x: {\n    domain: [20, 120],\n    label: \"Observed value\"\n  },\n  y: {\n    domain: [0, 1],\n    axis: null\n  },\n  marks: [\n    Plot.ruleY([0.5], {stroke: \"#cccccc\"}),\n    Plot.dot(data_values, {\n      x: d =&gt; d,\n      y: 0.5,\n      r: 8,\n      fill: \"#3A7CA5\"\n    }),\n    Plot.ruleX([mean_value], {\n      stroke: \"#C73E3A\",\n      strokeWidth: 3\n    }),\n    Plot.ruleX([median_value], {\n      stroke: \"#002147\",\n      strokeWidth: 3,\n      strokeDasharray: \"5,5\"\n    }),\n    Plot.text(\n      [`Mean = ${mean_value.toFixed(1)}`],\n      {\n        x: mean_value,\n        y: 0.82,\n        fill: \"#C73E3A\",\n        fontSize: 14\n      }\n    ),\n    Plot.text(\n      [`Median = ${median_value.toFixed(1)}`],\n      {\n        x: median_value,\n        y: 0.18,\n        fill: \"#002147\",\n        fontSize: 14\n      }\n    )\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipWhat to notice\n\n\n\nAs the final observation becomes more extreme, the mean moves more strongly than the median. This is why the median is often preferred for skewed clinical measurements.\n\n\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nThe median is generally more robust to extreme values than the mean."
+  },
+  {
+    "objectID": "descriptive-statistics.html#applying-measures-of-central-tendency",
+    "href": "descriptive-statistics.html#applying-measures-of-central-tendency",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Applying Measures of Central Tendency",
+    "text": "Applying Measures of Central Tendency\nLet us compare the mean and median of several variables.\n\nsummary = pd.DataFrame({\n    \"Mean\": [\n        df[\"age\"].mean(),\n        df[\"chol\"].mean(),\n        df[\"trestbps\"].mean(),\n        df[\"thalach\"].mean()\n    ],\n    \"Median\": [\n        df[\"age\"].median(),\n        df[\"chol\"].median(),\n        df[\"trestbps\"].median(),\n        df[\"thalach\"].median()\n    ]\n},\nindex=[\n    \"Age\",\n    \"Cholesterol\",\n    \"Blood Pressure\",\n    \"Maximum Heart Rate\"\n])\n\nsummary.round(2)\n\n\n\n\n\n\n\n\nMean\nMedian\n\n\n\n\nAge\n54.44\n56.0\n\n\nCholesterol\n246.69\n241.0\n\n\nBlood Pressure\n131.69\n130.0\n\n\nMaximum Heart Rate\n149.61\n153.0\n\n\n\n\n\n\n\nWhich variables show the largest difference between the mean and median?\nWhat might this tell us about their distributions?"
+  },
+  {
+    "objectID": "descriptive-statistics.html#try-it-yourself",
+    "href": "descriptive-statistics.html#try-it-yourself",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry it yourself\n\n\n\nUsing the Cleveland dataset:\n\nCalculate the mean cholesterol level.\nCalculate the median maximum heart rate.\nFind the mode of chest pain type.\nFind the mode of sex.\n\n\n\nSuggested commands:\ndf[\"chol\"].mean()\n\ndf[\"thalach\"].median()\n\ndf[\"cp\"].mode()[0]\n\ndf[\"sex\"].mode()[0]"
+  },
+  {
+    "objectID": "descriptive-statistics.html#measures-of-variability",
+    "href": "descriptive-statistics.html#measures-of-variability",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Measures of Variability",
+    "text": "Measures of Variability\nMeasures of central tendency tell us where the centre of a distribution is.\nHowever, they do not tell us how spread out the data are.\nTwo patient groups can have the same mean but very different variability.\n\nSame Mean, Different Spread\n\n\n\n\n\nTwo groups can have the same mean but very different variability.\n\n\n\n\nBoth groups have the same mean:\n\\[\n\\bar{x}=50\n\\]\nbut Group B is much more variable.\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA measure of centre is not enough. We also need a measure of spread."
+  },
+  {
+    "objectID": "descriptive-statistics.html#range",
+    "href": "descriptive-statistics.html#range",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Range",
+    "text": "Range\nThe simplest measure of variability is the range:\n\\[\n\\text{Range} = \\text{Maximum} - \\text{Minimum}\n\\]\nThe range tells us the total spread between the smallest and largest observations.\n\nExample: Age Range in the Cleveland Dataset\n\nage_min = df[\"age\"].min()\nage_max = df[\"age\"].max()\nage_range = age_max - age_min\n\nprint(f\"Minimum age = {age_min:.0f} years\")\nprint(f\"Maximum age = {age_max:.0f} years\")\nprint(f\"Range = {age_range:.0f} years\")\n\nMinimum age = 29 years\nMaximum age = 77 years\nRange = 48 years\n\n\nThe range is easy to understand, but it depends only on two observations: the minimum and the maximum."
+  },
+  {
+    "objectID": "descriptive-statistics.html#standard-deviation",
+    "href": "descriptive-statistics.html#standard-deviation",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Standard Deviation",
+    "text": "Standard Deviation\nThe standard deviation describes how far observations typically lie from the mean.\nA small standard deviation means the observations are tightly clustered around the mean. A large standard deviation means the observations are more spread out.\nFor a sample, the variance is:\n\\[\ns^2 = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2\n\\]\nThe standard deviation is the square root of the variance:\n\\[\ns = \\sqrt{s^2}\n\\]\nwhere:\n\n\\(s^2\\) is the sample variance,\n\\(s\\) is the sample standard deviation,\n\\(x_i-\\bar{x}\\) is the distance between an observation and the mean.\n\n\nInteractive Demonstration: Changing Variability\nMove the slider and observe how the mean and standard deviation change.\n\n\nMove the final patient value: 80\n\n\n\nMean:  Standard deviation: \n\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nAs the final value moves further away from the others, the standard deviation increases.\n\n\n\n\nExample: Standard Deviation of Age\n\nage_mean = df[\"age\"].mean()\nage_sd = df[\"age\"].std()\n\nprint(f\"Mean age = {age_mean:.2f} years\")\nprint(f\"Standard deviation = {age_sd:.2f} years\")\n\nMean age = 54.44 years\nStandard deviation = 9.04 years\n\n\n\n\n\n\n\nMean and standard deviation of age in the Cleveland dataset."
+  },
+  {
+    "objectID": "descriptive-statistics.html#interquartile-range",
+    "href": "descriptive-statistics.html#interquartile-range",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Interquartile Range",
+    "text": "Interquartile Range\nThe interquartile range focuses on the middle 50% of observations.\n\\[\nIQR = Q_3 - Q_1\n\\]\nwhere:\n\n\\(Q_1\\) is the 25th percentile,\n\\(Q_3\\) is the 75th percentile.\n\nUnlike the range, the IQR is less sensitive to extreme values.\n\nExample: IQR of Age\n\nq1 = df[\"age\"].quantile(0.25)\nq3 = df[\"age\"].quantile(0.75)\niqr = q3 - q1\n\nprint(f\"Q1 = {q1:.0f} years\")\nprint(f\"Q3 = {q3:.0f} years\")\nprint(f\"IQR = {iqr:.0f} years\")\n\nQ1 = 48 years\nQ3 = 61 years\nIQR = 13 years\n\n\n\n\n\n\n\nBoxplot showing the median and interquartile range of age.\n\n\n\n\nThe box shows the middle 50% of the data. The red line shows the median."
+  },
+  {
+    "objectID": "descriptive-statistics.html#try-it-yourself-1",
+    "href": "descriptive-statistics.html#try-it-yourself-1",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry It Yourself\n\n\n\nUsing the Cleveland dataset:\n\nCalculate the range of cholesterol.\nCalculate the standard deviation of resting blood pressure.\nCalculate the interquartile range (IQR) of maximum heart rate.\nWhich variable appears most variable:\n\nage\ncholesterol\nresting blood pressure\nmaximum heart rate\n\nWhy might the IQR sometimes be preferred over the range?\n\n\n\nSuggested commands:\nchol_range = df[\"chol\"].max() - df[\"chol\"].min()\n\ndf[\"trestbps\"].std()\n\nq1 = df[\"thalach\"].quantile(0.25)\nq3 = df[\"thalach\"].quantile(0.75)\n\nq3 - q1"
+  },
+  {
+    "objectID": "descriptive-statistics.html#summary-of-centre-and-spread",
+    "href": "descriptive-statistics.html#summary-of-centre-and-spread",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Summary of Centre and Spread",
+    "text": "Summary of Centre and Spread\n\nsummary = df[[\"age\", \"trestbps\", \"chol\", \"thalach\"]].agg(\n    [\"mean\", \"median\", \"std\", \"min\", \"max\"]\n).round(2)\n\nsummary\n\n\n\n\n\n\n\n\nage\ntrestbps\nchol\nthalach\n\n\n\n\nmean\n54.44\n131.69\n246.69\n149.61\n\n\nmedian\n56.00\n130.00\n241.00\n153.00\n\n\nstd\n9.04\n17.60\n51.78\n22.88\n\n\nmin\n29.00\n94.00\n126.00\n71.00\n\n\nmax\n77.00\n200.00\n564.00\n202.00\n\n\n\n\n\n\n\nThis table combines measures of central tendency and variability.\nAlthough numerical summaries are useful, they cannot reveal the full shape of a distribution.\nTo understand skewness, multimodality, and potential outliers, we need visualisation."
+  },
+  {
+    "objectID": "descriptive-statistics.html#visualising-distributions",
+    "href": "descriptive-statistics.html#visualising-distributions",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Visualising Distributions",
+    "text": "Visualising Distributions\nSo far, we have summarised the Cleveland dataset using numerical measures such as:\n\nMean\nMedian\nMode\nStandard deviation\nInterquartile range\n\nThese summaries are useful, but they do not tell the whole story.\nFor example:\n\nIs the distribution symmetric?\nIs it skewed?\nAre there multiple peaks?\nAre there unusual observations?\n\nTo answer these questions, we need visualisation.\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA good statistician always looks at the data before performing formal analyses."
+  },
+  {
+    "objectID": "descriptive-statistics.html#histograms",
+    "href": "descriptive-statistics.html#histograms",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Histograms",
+    "text": "Histograms\nA histogram groups observations into intervals (bins) and counts how many observations fall into each interval.\n\nExample: Age Distribution\n\n\n\n\n\nHistogram of age in the Cleveland Heart Disease dataset.\n\n\n\n\nFrom this histogram we can immediately identify:\n\nthe centre of the distribution,\nthe spread,\nthe overall shape."
+  },
+  {
+    "objectID": "descriptive-statistics.html#reading-histograms",
+    "href": "descriptive-statistics.html#reading-histograms",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Reading Histograms",
+    "text": "Reading Histograms\nWhen looking at a histogram, ask yourself:\n\nWhere is the centre?\nHow wide is the distribution?\nIs the distribution symmetric?\nAre there multiple peaks?\nAre there possible outliers?\n\nThese questions provide valuable insight before any formal statistical testing."
+  },
+  {
+    "objectID": "descriptive-statistics.html#density-curves",
+    "href": "descriptive-statistics.html#density-curves",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Density Curves",
+    "text": "Density Curves\nA density curve provides a smoothed representation of a distribution.\nRather than counting observations within bins, it estimates the underlying shape of the data.\n\n\n\n\n\nHistogram with density estimate.\n\n\n\n\nThe smooth curve highlights the overall shape of the distribution while reducing sensitivity to the exact choice of bins."
+  },
+  {
+    "objectID": "descriptive-statistics.html#boxplots",
+    "href": "descriptive-statistics.html#boxplots",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Boxplots",
+    "text": "Boxplots\nA boxplot provides a compact summary of a distribution.\nRecall the concepts introduced earlier:\n\nMedian\nFirst quartile (Q1)\nThird quartile (Q3)\nInterquartile range (IQR)\n\nA boxplot combines all of these quantities into a single visualisation.\n\n\n\n\n\nBoxplot of age.\n\n\n\n\nThe box represents the middle 50% of observations, while the line inside the box represents the median."
+  },
+  {
+    "objectID": "descriptive-statistics.html#comparing-groups-visually",
+    "href": "descriptive-statistics.html#comparing-groups-visually",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Comparing Groups Visually",
+    "text": "Comparing Groups Visually\nVisualisation becomes particularly useful when comparing groups.\nFor example:\nDo patients with heart disease tend to be older?\n\n\n\n\n\nAge distribution by heart disease status.\n\n\n\n\nThe two groups appear different.\nPatients with heart disease appear to be slightly older on average.\nHowever, visual differences alone are not enough."
+  },
+  {
+    "objectID": "descriptive-statistics.html#beyond-boxplots-violin-plots",
+    "href": "descriptive-statistics.html#beyond-boxplots-violin-plots",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Beyond Boxplots: Violin Plots",
+    "text": "Beyond Boxplots: Violin Plots\nA violin plot combines:\n\na boxplot,\na density estimate.\n\nThe width of the violin indicates where observations are concentrated.\n\n\n\n\n\nViolin plot of age by heart disease status.\n\n\n\n\nViolin plots provide more information about the shape of a distribution than boxplots alone."
+  },
+  {
+    "objectID": "descriptive-statistics.html#try-it-yourself-2",
+    "href": "descriptive-statistics.html#try-it-yourself-2",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry It Yourself\n\n\n\nUsing the Cleveland dataset:\n\nCreate a histogram of cholesterol.\nCreate a histogram of maximum heart rate.\nCreate a boxplot of resting blood pressure.\nCompare cholesterol distributions between heart disease and non-heart disease patients.\nWhich visualisation do you find most informative?\n\n\n\nSuggested commands:\nplt.hist(df[\"chol\"], bins=15)\n\nplt.hist(df[\"thalach\"], bins=15)\n\nsns.boxplot(x=df[\"trestbps\"])\n\nsns.boxplot(\n    data=df,\n    x=\"heart_disease\",\n    y=\"chol\"\n)\n\n\n\n\n\n\n\nImportantTransition to Hypothesis Testing\n\n\n\nThe visualisations suggest that some characteristics differ between patients with and without heart disease.\nHowever, visual differences alone do not tell us whether those differences are likely to reflect genuine population differences or random sampling variation.\nStatistical hypothesis testing provides a formal framework for answering this question."
+  },
+  {
+    "objectID": "descriptive-statistics.html#key-takeaways",
+    "href": "descriptive-statistics.html#key-takeaways",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nDescriptive statistics help summarise clinical datasets.\nMeasures of central tendency describe the centre of a distribution.\nMeasures of variability describe how spread out the data are.\nHistograms show the shape of numerical distributions.\nBoxplots and violin plots help compare distributions between groups.\nVisual differences are useful, but they do not prove statistical significance.\n\n\n\n\n\n← Previous: The Dataset Next: Hypothesis Testing →"
   },
   {
     "objectID": "index.html",
@@ -179,14 +837,35 @@
     "href": "index.html#learning-workflow",
     "title": "Biostatistics with Python",
     "section": "Learning Workflow",
-    "text": "Learning Workflow\nThroughout the module, we will follow the same analysis pattern:\n\nAsk a clinical question.\nInspect and visualise the data.\nCompute an appropriate statistical summary or test.\nInterpret the result.\nRelate the finding back to the biomedical context.\n\n\n\n\n\n\n\nTipCourse philosophy\n\n\n\nThe aim is not to memorise statistical tests. The aim is to learn how to reason carefully with biomedical data."
+    "text": "Learning Workflow\nThroughout the module, we will follow the same analysis pattern:\n\nAsk a clinical question.\nInspect and visualise the data.\nCompute an appropriate statistical summary or test.\nInterpret the result.\nRelate the finding back to the biomedical context.\n\n\nTeaching Team\nThis course is delivered by the MultiMeDIA (Multimodal Medical Data Integration & Analysis) Lab in the Department of Engineering Science, University of Oxford.\n\n Meet the Team → \n\n\n\nStart: Why Biostatistics? →"
   },
   {
-    "objectID": "index.html#next",
-    "href": "index.html#next",
-    "title": "Biostatistics with Python",
-    "section": "Next",
-    "text": "Next\nWhy Biostatistics? →"
+    "objectID": "meet-the-team.html",
+    "href": "meet-the-team.html",
+    "title": "Meet the Team",
+    "section": "",
+    "text": "This course is delivered by the MultiMeDIA (Multimodal Medical Data Integration & Analysis) Lab in the Department of Engineering Science, University of Oxford."
+  },
+  {
+    "objectID": "meet-the-team.html#module-leader-and-lecturer",
+    "href": "meet-the-team.html#module-leader-and-lecturer",
+    "title": "Meet the Team",
+    "section": "Module Leader and Lecturer",
+    "text": "Module Leader and Lecturer\n\n\n\n\nDr Abhirup Banerjee\n\nRoyal Society University Research Fellow\nPrincipal Investigator, MultiMeDIA Lab"
+  },
+  {
+    "objectID": "meet-the-team.html#demonstrators",
+    "href": "meet-the-team.html#demonstrators",
+    "title": "Meet the Team",
+    "section": "Demonstrators",
+    "text": "Demonstrators\n\n\n\n\nThalia Seale\n\nDPhil Student\nCentre for Doctoral Training in Health Data Science\n\n\n\n\nAdrian McIntosh\n\nMRes Student\n\n\n\n\nDeyu Meng\n\nDPhil Student"
+  },
+  {
+    "objectID": "meet-the-team.html#multimedia-lab",
+    "href": "meet-the-team.html#multimedia-lab",
+    "title": "Meet the Team",
+    "section": "MultiMeDIA Lab",
+    "text": "MultiMeDIA Lab\nThe MultiMeDIA Lab develops AI, machine learning, and computational modelling methods for integrating multimodal biomedical data, including medical imaging, physiological signals, clinical measurements, and health records. The lab focuses particularly on cardiovascular and biomedical applications, with the aim of supporting improved diagnosis, risk prediction, intervention planning, and personalised healthcare.\n Visit the MultiMeDIA Lab website → \n\n\n← Return to Course Homepage"
   },
   {
     "objectID": "old_files/why-biostatistics.html",

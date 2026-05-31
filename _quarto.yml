@@ -11,6 +11,19 @@ website:
         text: Home
       - href: why-biostatistics.qmd
         text: Why Biostatistics?
+      - href: meet-the-dataset.qmd
+        text: The Dataset
+      - href: descriptive-statistics.qmd
+        text: Descriptive Statistics
+      - href: hypothesis-testing.qmd
+        text: Hypothesis Testing
+      - href: correlation-regression.qmd
+        text: Correlation and Regression
+      - href: meet-the-team.qmd
+        text: Meet the Team
+      - icon: globe
+        href: https://eng.ox.ac.uk/multimedia
+        target: _blank
 
 format:
   html:

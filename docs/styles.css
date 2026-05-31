@@ -61,20 +61,21 @@ img {
 body::before {
   content: "";
   position: fixed;
-  top: 0.55rem;
-  right: 4.5rem;
-  width: 360px;
+  top: 0.45rem;
+  right: 0.75rem;
+  width: 260px;
   height: 58px;
   background-image: url("image/logo.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right center;
-  z-index: 1050;
+  z-index: 1100;
   pointer-events: none;
 }
 
 .navbar {
   min-height: 76px;
+  padding-right: 300px;
 }
 
 /* Hide the large logo on narrower screens to avoid overlap. */
@@ -86,4 +87,66 @@ body::before {
   .navbar {
     min-height: 56px;
   }
+}
+
+
+.page-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dddddd;
+}
+
+.nav-button {
+  display: inline-block;
+  padding: 0.75rem 1.1rem;
+  border-radius: 0.5rem;
+  background: #002147;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-button:hover {
+  background: #3A7CA5;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-button.next {
+  margin-left: auto;
+}
+
+.nav-button.previous {
+  margin-right: auto;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.team-grid.single {
+  max-width: 320px;
+}
+
+.team-card {
+  border: 1px solid #dddddd;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  text-align: center;
+}
+
+.team-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
 }

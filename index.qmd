@@ -129,12 +129,19 @@ Throughout the module, we will follow the same analysis pattern:
 4. Interpret the result.
 5. Relate the finding back to the biomedical context.
 
-::: {.callout-tip title="Course philosophy"}
-The aim is not to memorise statistical tests. The aim is to learn how to reason carefully with biomedical data.
-:::
+
+### Teaching Team
+
+This course is delivered by the MultiMeDIA (Multimodal Medical Data Integration & Analysis) Lab in the Department of Engineering Science, University of Oxford.
+
+<div style="margin-top: 1rem;">
+  <a class="home-button" href="meet-the-team.html">
+    Meet the Team →
+  </a>
+</div>
 
 ---
 
-## Next
-
-[Why Biostatistics? →](why-biostatistics.qmd)
+<div class="page-navigation">
+  <a class="nav-button next" href="why-biostatistics.html">Start: Why Biostatistics? →</a>
+</div>
