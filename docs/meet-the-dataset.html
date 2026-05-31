@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this module, we will use the <strong>processed Cleveland Heart Disease dataset</strong> from the UCI Machine Learning Repository.</p>
 <p>The dataset contains patient-level clinical measurements collected from individuals investigated for heart disease. We will use it as a running example throughout the module.</p>
 <p>The original UCI Heart Disease database contains many more attributes, but most published studies use a smaller subset of 14 variables. In this teaching module, we will focus on the processed Cleveland dataset because it is the most commonly used version.</p>
-<div id="3d22aab6" class="cell" data-execution_count="1">
+<div id="45d3eebe" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-the-dataset-in-python" class="level2">
 <h2 class="anchored" data-anchor-id="loading-the-dataset-in-python">Loading the Dataset in Python</h2>
 <p>The dataset does not include column names in the raw file, so we manually assign them when loading the data.</p>
-<div id="249e9bbf" class="cell" data-execution_count="2">
+<div id="5d3fb58c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -490,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="types-of-data">Types of Data</h2>
 <p>A key step in biostatistics is recognising what kind of data each variable represents.</p>
 <p>Numerical variables can be summarised using means, medians, standard deviations, and histograms. Categorical variables are usually summarised using counts, percentages, and bar charts.</p>
-<div id="471c9030" class="cell" data-execution_count="3">
+<div id="d99b09e5" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -524,7 +524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code> indicate presence of heart disease.</li>
 </ul>
 <p>For this module, we will use a binary outcome:</p>
-<div id="70d247b5" class="cell" data-execution_count="4">
+<div id="8f7f027f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"heart_disease"</span>] <span class="op">=</span> np.where(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"num"</span>] <span class="op">==</span> <span class="dv">0</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"No heart disease"</span>,</span>
@@ -585,7 +585,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="missing-values" class="level2">
 <h2 class="anchored" data-anchor-id="missing-values">Missing Values</h2>
 <p>Real biomedical datasets are rarely perfect. Some values may be missing because a measurement was not taken, not recorded, or not available.</p>
-<div id="4ed7de69" class="cell" data-execution_count="5">
+<div id="c4b94549" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>age              0
@@ -606,7 +606,7 @@ heart_disease    0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="0723c93e" class="cell" data-execution_count="6">
+<div id="179e2d3d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -634,7 +634,7 @@ dtype: int64</code></pre>
 <section id="outcome-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="outcome-distribution">Outcome Distribution</h2>
 <p>Before comparing variables between groups, we should inspect how many patients belong to each outcome group.</p>
-<div id="cca625bd" class="cell" data-execution_count="7">
+<div id="3dcd2b45" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"heart_disease"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>heart_disease
@@ -643,7 +643,7 @@ Heart disease       139
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="dcd083d1" class="cell" data-execution_count="8">
+<div id="89d0a973" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -659,7 +659,7 @@ Name: count, dtype: int64</code></pre>
 <section id="first-look-at-numerical-variables" class="level2">
 <h2 class="anchored" data-anchor-id="first-look-at-numerical-variables">First Look at Numerical Variables</h2>
 <p>Let us inspect several numerical variables.</p>
-<div id="c11c0f84" class="cell" data-execution_count="9">
+<div id="507c8df0" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"age"</span>, <span class="st">"trestbps"</span>, <span class="st">"chol"</span>, <span class="st">"thalach"</span>, <span class="st">"oldpeak"</span>]].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
@@ -747,7 +747,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="a5811ba0" class="cell" data-execution_count="10">
+<div id="9e65efad" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -770,7 +770,7 @@ Name: count, dtype: int64</code></pre>
 <section id="first-look-at-categorical-variables" class="level2">
 <h2 class="anchored" data-anchor-id="first-look-at-categorical-variables">First Look at Categorical Variables</h2>
 <p>Categorical variables describe groups or classes rather than continuous measurements.</p>
-<div id="c1086a63" class="cell" data-execution_count="11">
+<div id="f5161bdb" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"sex"</span>, <span class="st">"cp"</span>, <span class="st">"fbs"</span>, <span class="st">"restecg"</span>, <span class="st">"exang"</span>]].head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
@@ -834,7 +834,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="89737371" class="cell" data-execution_count="12">
+<div id="ee1e0202" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -870,7 +870,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Suggested Python commands:</p>
-<div id="566f3461" class="cell" data-execution_count="13">
+<div id="46dc3d7e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(df[<span class="st">"age"</span>] <span class="op">&gt;</span> <span class="dv">60</span>).<span class="bu">sum</span>()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"chol"</span>].median()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span>
