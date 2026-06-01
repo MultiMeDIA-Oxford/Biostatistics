@@ -94,14 +94,16 @@ The table format is useful because it makes the structure of the data explicit: 
 
 import matplotlib.pyplot as plt
 
-fig, ax = plt.subplots(figsize=(8, 4))
+fig, ax = plt.subplots(figsize=(8.5, 4.8))
 ax.axis("off")
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
 
 boxes = [
     (0.15, 0.50, "Patients"),
-    (0.50, 0.75, "Variables\nAge\nBP\nCholesterol"),
-    (0.50, 0.50, "Symptoms\nChest Pain\nECG"),
-    (0.50, 0.25, "Outcome\nHeart Disease")
+    (0.62, 0.72, "Variables\nAge\nBP\nCholesterol"),
+    (0.62, 0.50, "Symptoms\nChest Pain\nECG"),
+    (0.62, 0.28, "Outcome\nHeart Disease")
 ]
 
 for x, y, text in boxes:
@@ -109,20 +111,20 @@ for x, y, text in boxes:
         x, y, text,
         ha="center",
         va="center",
-        fontsize=12,
+        fontsize=11.5,
         bbox=dict(
-            boxstyle="round,pad=0.5",
+            boxstyle="round,pad=0.35",
             fc="white",
             ec=OXFORD_BLUE,
             lw=1.6
         )
     )
 
-for y in [0.75, 0.50, 0.25]:
+for y in [0.72, 0.50, 0.28]:
     ax.annotate(
         "",
-        xy=(0.38, y),
-        xytext=(0.23, 0.50),
+        xy=(0.53, y),
+        xytext=(0.22, 0.50),
         arrowprops=dict(
             arrowstyle="->",
             lw=1.6,
@@ -160,18 +162,33 @@ ages = np.array([63, 67, 67, 37, 41, 56, 57, 62, 54, 59])
 
 fig, ax = plt.subplots(figsize=(8, 2.5))
 ax.axis("off")
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
 
-ax.text(
-    0.08,
+numbers = ax.text(
+    0.03,
     0.5,
     ", ".join(map(str, ages)),
-    fontsize=12
+    fontsize=12,
+    va="center",
+    ha="left",
+    transform=ax.transAxes
 )
+
+# 先渲染一次，才能拿到文字的实际边界
+fig.canvas.draw()
+renderer = fig.canvas.get_renderer()
+bbox = numbers.get_window_extent(renderer=renderer)
+
+# 把“数字文本右边缘”转换成 axes 坐标
+x_end, _ = ax.transAxes.inverted().transform((bbox.x1, bbox.y0))
 
 ax.annotate(
     "",
-    xy=(0.68, 0.5),
-    xytext=(0.50, 0.5),
+    xy=(0.80, 0.5),
+    xycoords="axes fraction",
+    xytext=(x_end + 0.02, 0.5),
+    textcoords="axes fraction",
     arrowprops=dict(
         arrowstyle="->",
         lw=1.8,
@@ -180,12 +197,13 @@ ax.annotate(
 )
 
 ax.text(
-    0.84,
+    0.9,
     0.5,
     f"Mean Age\n{ages.mean():.1f} years",
     ha="center",
     va="center",
     fontsize=13,
+    transform=ax.transAxes,
     bbox=dict(
         boxstyle="round,pad=0.55",
         fc="white",
