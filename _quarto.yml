@@ -30,6 +30,7 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+    include-after-body: includes/feedback-qr.html
     execute:
       warning: false
       message: false

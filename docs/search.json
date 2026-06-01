@@ -39,7 +39,7 @@
     "href": "why-biostatistics.html#statistics-compresses-information",
     "title": "Why Biostatistics?",
     "section": "Statistics Compresses Information",
-    "text": "Statistics Compresses Information\nOne of the most common summary statistics is the sample mean:\n[ {x} = _{i=1}^{n} x_i ]\nwhere:\n\n(x_i) is an observation,\n(n) is the number of observations.\n\nThe mean provides a useful description of the centre of a dataset. However, averages do not tell the whole story."
+    "text": "Statistics Compresses Information\nOne of the most common summary statistics is the sample mean:\n\\[\n\\bar{x}\n=\n\\frac{1}{n}\n\\sum_{i=1}^{n}\nx_i\n\\]\nwhere:\n\n\\(x_i\\) is an observation,\n\\(n\\) is the number of observations.\n\nThe mean provides a useful description of the centre of a dataset. However, averages do not tell the whole story."
   },
   {
     "objectID": "why-biostatistics.html#why-averages-are-not-enough",

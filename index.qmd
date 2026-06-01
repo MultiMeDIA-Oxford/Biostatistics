@@ -77,7 +77,7 @@ df = pd.read_csv(url, header=None, names=columns, na_values="?")
 df["heart_disease"] = np.where(df["num"] == 0, "No heart disease", "Heart disease")
 
 n_patients = df.shape[0]
-n_features = df.shape[1] - 1
+n_features = 13
 n_disease = int((df["num"] > 0).sum())
 n_no_disease = int((df["num"] == 0).sum())
 

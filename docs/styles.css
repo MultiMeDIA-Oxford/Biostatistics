@@ -151,26 +151,44 @@ body::before {
   margin-bottom: 1rem;
 }
 
-.team-name {
+.feedback-qr-float {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 150px;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #dddddd;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  z-index: 1200;
   text-align: center;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0.5rem 0 0.75rem 0;
-  color: #002147;
 }
 
-.home-button {
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
+.feedback-qr-float img {
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: 0.5rem;
-  background: #002147;
-  color: white !important;
-  text-decoration: none;
-  font-weight: 600;
 }
 
-.home-button:hover {
-  background: #3A7CA5;
-  color: white !important;
-  text-decoration: none;
+.feedback-qr-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #002147;
+  margin-bottom: 0.45rem;
+}
+
+@media (max-width: 992px) {
+  .feedback-qr-float {
+    width: 120px;
+    right: 0.7rem;
+    bottom: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .feedback-qr-float {
+    display: none;
+  }
 }

@@ -203,18 +203,18 @@ plt.show()
 
 One of the most common summary statistics is the sample mean:
 
-\[
+$$
 \bar{x}
 =
 \frac{1}{n}
 \sum_{i=1}^{n}
 x_i
-\]
+$$
 
 where:
 
-- \(x_i\) is an observation,
-- \(n\) is the number of observations.
+- $x_i$ is an observation,
+- $n$ is the number of observations.
 
 The mean provides a useful description of the centre of a dataset. However, averages do not tell the whole story.
 
