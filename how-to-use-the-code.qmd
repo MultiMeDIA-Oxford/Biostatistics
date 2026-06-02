@@ -58,9 +58,8 @@ If you already have a Kaggle account, click **Sign In**.
 Within Kaggle:
 
 1. Click on the **Copy & Edit**.
-2. Select **Class Worksheet** and click **Copy and Edit in Kaggle Notebooks**.
 ![](image/code.png){fig-align="center" width="80%"}
-3. Wait for Kaggle to initialise.
+2. Wait for Kaggle to initialise.
 
 ## Step 3: Run the code
 
