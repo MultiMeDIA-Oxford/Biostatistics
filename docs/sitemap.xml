@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://multimedia-oxford.github.io/Biostatistics/why-biostatistics.html</loc>
-    <lastmod>2026-06-01T15:33:05.466Z</lastmod>
+    <lastmod>2026-06-02T09:44:58.666Z</lastmod>
   </url>
   <url>
     <loc>https://multimedia-oxford.github.io/Biostatistics/meet-the-dataset.html</loc>
@@ -13,16 +13,20 @@
     <lastmod>2026-06-01T14:30:58.369Z</lastmod>
   </url>
   <url>
-    <loc>https://multimedia-oxford.github.io/Biostatistics/correlation-regression.html</loc>
-    <lastmod>2026-06-01T14:30:58.301Z</lastmod>
-  </url>
-  <url>
     <loc>https://multimedia-oxford.github.io/Biostatistics/descriptive-statistics.html</loc>
     <lastmod>2026-06-01T14:30:58.301Z</lastmod>
   </url>
   <url>
+    <loc>https://multimedia-oxford.github.io/Biostatistics/correlation-regression.html</loc>
+    <lastmod>2026-06-01T14:30:58.301Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimedia-oxford.github.io/Biostatistics/how-to-use-the-code.html</loc>
+    <lastmod>2026-06-02T10:30:42.792Z</lastmod>
+  </url>
+  <url>
     <loc>https://multimedia-oxford.github.io/Biostatistics/index.html</loc>
-    <lastmod>2026-06-01T14:19:28.102Z</lastmod>
+    <lastmod>2026-06-02T09:30:18.727Z</lastmod>
   </url>
   <url>
     <loc>https://multimedia-oxford.github.io/Biostatistics/meet-the-team.html</loc>

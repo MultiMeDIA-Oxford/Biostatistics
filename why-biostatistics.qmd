@@ -491,6 +491,11 @@ Examples:
 ---
 
 <div class="page-navigation">
-  <a class="nav-button previous" href="index.html">← Previous: Home</a>
-  <a class="nav-button next" href="meet-the-dataset.html">Next: The Dataset →</a>
+  <a class="nav-button previous" href="how-to-use-the-code.html">
+    ← Previous: How to Use the Course Code
+  </a>
+
+  <a class="nav-button next" href="meet-the-dataset.html">
+    Next: Meet the Dataset →
+  </a>
 </div>

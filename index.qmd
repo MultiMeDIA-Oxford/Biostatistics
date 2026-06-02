@@ -143,5 +143,5 @@ This course is delivered by the MultiMeDIA (Multimodal Medical Data Integration 
 ---
 
 <div class="page-navigation">
-  <a class="nav-button next" href="why-biostatistics.html">Start: Why Biostatistics? →</a>
+  <a class="nav-button next" href="how-to-use-the-code.html">Start: How to Use the Course Code →</a>
 </div>

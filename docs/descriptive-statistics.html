@@ -166,6 +166,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./how-to-use-the-code.html"> 
+<span class="menu-text">Code</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./why-biostatistics.html"> 
 <span class="menu-text">Why Biostatistics?</span></a>
   </li>  
@@ -281,7 +285,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="why-summarise-data">Why Summarise Data?</h2>
 <p>Consider the ages of all 303 patients in the Cleveland Heart Disease dataset.</p>
 <p>Rather than inspecting hundreds of individual values, we can summarise the overall patient population using a few representative numbers.</p>
-<div id="6cfe85e7" class="cell" data-execution_count="1">
+<div id="f16cda79" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -312,14 +316,14 @@ window.Quarto = {
 </ul>
 <section id="example-mean-age" class="level3">
 <h3 class="anchored" data-anchor-id="example-mean-age">Example: Mean Age</h3>
-<div id="3d047524" class="cell" data-execution_count="2">
+<div id="56da3e1a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mean_age <span class="op">=</span> df[<span class="st">"age"</span>].mean()</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean age = </span><span class="sc">{</span>mean_age<span class="sc">:.2f}</span><span class="ss"> years"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Mean age = 54.44 years</code></pre>
 </div>
 </div>
-<div id="9ddd9472" class="cell" data-execution_count="3">
+<div id="9969ebe3" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -351,14 +355,14 @@ window.Quarto = {
 <p>Unlike the mean, the median is less affected by extreme values.</p>
 <section id="example-median-age" class="level3">
 <h3 class="anchored" data-anchor-id="example-median-age">Example: Median Age</h3>
-<div id="b6dd4592" class="cell" data-execution_count="4">
+<div id="52408a67" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>median_age <span class="op">=</span> df[<span class="st">"age"</span>].median()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median age = </span><span class="sc">{</span>median_age<span class="sc">:.2f}</span><span class="ss"> years"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Median age = 56.00 years</code></pre>
 </div>
 </div>
-<div id="c1463ffc" class="cell" data-execution_count="5">
+<div id="070800b2" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -390,14 +394,14 @@ window.Quarto = {
 <p>The mode is especially useful for categorical variables.</p>
 <section id="example-chest-pain-type" class="level3">
 <h3 class="anchored" data-anchor-id="example-chest-pain-type">Example: Chest Pain Type</h3>
-<div id="cd124988" class="cell" data-execution_count="6">
+<div id="03082646" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mode_cp <span class="op">=</span> df[<span class="st">"cp"</span>].mode()[<span class="dv">0</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mode of chest pain type = </span><span class="sc">{</span><span class="bu">int</span>(mode_cp)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Mode of chest pain type = 4</code></pre>
 </div>
 </div>
-<div id="fba05270" class="cell" data-execution_count="7">
+<div id="3854bd1e" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -578,7 +582,7 @@ window.Quarto = {
 <section id="applying-measures-of-central-tendency" class="level2">
 <h2 class="anchored" data-anchor-id="applying-measures-of-central-tendency">Applying Measures of Central Tendency</h2>
 <p>Let us compare the mean and median of several variables.</p>
-<div id="1a43783b" class="cell" data-execution_count="8">
+<div id="978d1bf5" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mean"</span>: [</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"age"</span>].mean(),</span>
@@ -682,7 +686,7 @@ window.Quarto = {
 <p>Two patient groups can have the same mean but very different variability.</p>
 <section id="same-mean-different-spread" class="level3">
 <h3 class="anchored" data-anchor-id="same-mean-different-spread">Same Mean, Different Spread</h3>
-<div id="8106d852" class="cell" data-execution_count="9">
+<div id="08b093a2" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -722,7 +726,7 @@ window.Quarto = {
 <p>The range tells us the total spread between the smallest and largest observations.</p>
 <section id="example-age-range-in-the-cleveland-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="example-age-range-in-the-cleveland-dataset">Example: Age Range in the Cleveland Dataset</h3>
-<div id="05d7c467" class="cell" data-execution_count="10">
+<div id="f1bdb343" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>age_min <span class="op">=</span> df[<span class="st">"age"</span>].<span class="bu">min</span>()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>age_max <span class="op">=</span> df[<span class="st">"age"</span>].<span class="bu">max</span>()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>age_range <span class="op">=</span> age_max <span class="op">-</span> age_min</span>
@@ -839,7 +843,7 @@ updateSDDemo();
 </section>
 <section id="example-standard-deviation-of-age" class="level3">
 <h3 class="anchored" data-anchor-id="example-standard-deviation-of-age">Example: Standard Deviation of Age</h3>
-<div id="c543fd07" class="cell" data-execution_count="11">
+<div id="67ad20d0" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>age_mean <span class="op">=</span> df[<span class="st">"age"</span>].mean()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>age_sd <span class="op">=</span> df[<span class="st">"age"</span>].std()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -850,7 +854,7 @@ updateSDDemo();
 Standard deviation = 9.04 years</code></pre>
 </div>
 </div>
-<div id="9bb91456" class="cell" data-execution_count="12">
+<div id="de0f01e2" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -877,7 +881,7 @@ IQR = Q_3 - Q_1
 <p>Unlike the range, the IQR is less sensitive to extreme values.</p>
 <section id="example-iqr-of-age" class="level3">
 <h3 class="anchored" data-anchor-id="example-iqr-of-age">Example: IQR of Age</h3>
-<div id="bed2321b" class="cell" data-execution_count="13">
+<div id="4c17ce52" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="op">=</span> df[<span class="st">"age"</span>].quantile(<span class="fl">0.25</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>q3 <span class="op">=</span> df[<span class="st">"age"</span>].quantile(<span class="fl">0.75</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> q3 <span class="op">-</span> q1</span>
@@ -891,7 +895,7 @@ Q3 = 61 years
 IQR = 13 years</code></pre>
 </div>
 </div>
-<div id="9ee5e474" class="cell" data-execution_count="14">
+<div id="c07754bf" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -945,7 +949,7 @@ IQR = 13 years</code></pre>
 </section>
 <section id="summary-of-centre-and-spread" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-centre-and-spread">Summary of Centre and Spread</h2>
-<div id="faaeac74" class="cell" data-execution_count="15">
+<div id="aac36645" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df[[<span class="st">"age"</span>, <span class="st">"trestbps"</span>, <span class="st">"chol"</span>, <span class="st">"thalach"</span>]].agg(</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"mean"</span>, <span class="st">"median"</span>, <span class="st">"std"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>]</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
@@ -1050,7 +1054,7 @@ IQR = 13 years</code></pre>
 <p>A histogram groups observations into intervals (bins) and counts how many observations fall into each interval.</p>
 <section id="example-age-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="example-age-distribution">Example: Age Distribution</h3>
-<div id="8d5ff8e4" class="cell" data-execution_count="16">
+<div id="ed669273" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1086,7 +1090,7 @@ IQR = 13 years</code></pre>
 <h2 class="anchored" data-anchor-id="density-curves">Density Curves</h2>
 <p>A density curve provides a smoothed representation of a distribution.</p>
 <p>Rather than counting observations within bins, it estimates the underlying shape of the data.</p>
-<div id="6960be29" class="cell" data-execution_count="17">
+<div id="f3b7a2bb" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1110,7 +1114,7 @@ IQR = 13 years</code></pre>
 <li>Interquartile range (IQR)</li>
 </ul>
 <p>A boxplot combines all of these quantities into a single visualisation.</p>
-<div id="953bbddf" class="cell" data-execution_count="18">
+<div id="bd49d1bb" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1128,7 +1132,7 @@ IQR = 13 years</code></pre>
 <p>Visualisation becomes particularly useful when comparing groups.</p>
 <p>For example:</p>
 <p>Do patients with heart disease tend to be older?</p>
-<div id="d0beb06b" class="cell" data-execution_count="19">
+<div id="e2fc595b" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1151,7 +1155,7 @@ IQR = 13 years</code></pre>
 <li>a density estimate.</li>
 </ul>
 <p>The width of the violin indicates where observations are concentrated.</p>
-<div id="c96c0fa9" class="cell" data-execution_count="20">
+<div id="6065fa99" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1261,9 +1265,23 @@ IQR = 13 years</code></pre>
 
 
 
-    <div class="feedback-qr-text">
 
-        Scan to submit feedback
+
+    <div class="feedback-qr-link">
+
+        <a href="https://forms.office.com/e/cGmBbTxPtE" target="_blank" rel="noopener noreferrer">
+
+            Open the Feedback Survey
+
+        </a>
+
+    </div>
+
+
+
+    <div class="feedback-qr-note">
+
+        <strong>We would greatly appreciate your feedback.</strong>
 
     </div>
 

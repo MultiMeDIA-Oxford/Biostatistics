@@ -192,3 +192,27 @@ body::before {
     display: none;
   }
 }
+
+
+.feedback-qr-link {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.feedback-qr-link a {
+  font-weight: 700;
+  color: #002147;
+  text-decoration: underline;
+}
+
+.feedback-qr-link a:hover {
+  text-decoration: none;
+}
+
+.feedback-qr-note {
+  margin-top: 0.45rem;
+  font-size: 0.8rem;
+  line-height: 1.25;
+  color: #002147;
+}

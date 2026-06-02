@@ -67,7 +67,7 @@
     "href": "why-biostatistics.html#three-levels-of-statistical-reasoning",
     "title": "Why Biostatistics?",
     "section": "Three Levels of Statistical Reasoning",
-    "text": "Three Levels of Statistical Reasoning\n\n1. Describe\nWhat does the dataset look like?\nExamples:\n\nmeans,\nmedians,\nstandard deviations,\nhistograms,\nboxplots.\n\n\n\n2. Compare\nAre groups different?\nExamples:\n\nconfidence intervals,\np-values,\nt-tests,\nnon-parametric tests.\n\n\n\n3. Model\nHow are variables related?\nExamples:\n\ncorrelation,\nregression,\nprediction.\n\n\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nStatistics transforms measurements into evidence.\nClinical datasets consist of patients, variables, and outcomes.\nSummary statistics help us understand large amounts of data.\nDifferent datasets can have the same mean but very different variability.\nStatistical methods help us determine whether observed differences are meaningful.\nThe rest of this module uses the processed Cleveland Heart Disease dataset as the main running example.\n\n\n\n\n\n← Previous: Home Next: The Dataset →"
+    "text": "Three Levels of Statistical Reasoning\n\n1. Describe\nWhat does the dataset look like?\nExamples:\n\nmeans,\nmedians,\nstandard deviations,\nhistograms,\nboxplots.\n\n\n\n2. Compare\nAre groups different?\nExamples:\n\nconfidence intervals,\np-values,\nt-tests,\nnon-parametric tests.\n\n\n\n3. Model\nHow are variables related?\nExamples:\n\ncorrelation,\nregression,\nprediction.\n\n\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nStatistics transforms measurements into evidence.\nClinical datasets consist of patients, variables, and outcomes.\nSummary statistics help us understand large amounts of data.\nDifferent datasets can have the same mean but very different variability.\nStatistical methods help us determine whether observed differences are meaningful.\nThe rest of this module uses the processed Cleveland Heart Disease dataset as the main running example.\n\n\n\n\n\n ← Previous: How to Use the Course Code \n Next: Meet the Dataset →"
   },
   {
     "objectID": "meet-the-dataset.html",
@@ -385,6 +385,174 @@
     "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nCompare cholesterol between patients with and without heart disease.\nCompare resting blood pressure between patients with and without heart disease.\nPerform ANOVA using maximum heart rate across chest pain categories.\nInvestigate whether chest pain category is associated with heart disease using a Chi-square test.\nInterpret each result in both statistical and clinical terms.\n\n\n\n\n\n← Previous: Descriptive Statistics Next: Correlation and Regression →"
   },
   {
+    "objectID": "descriptive-statistics.html",
+    "href": "descriptive-statistics.html",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "",
+    "text": "NoteClinical Question\n\n\n\nWhat is a typical patient in our dataset?\nIn the previous section, we explored the Cleveland Heart Disease dataset and visualised several variables.\nHowever, visual inspection alone is often insufficient.\nWe frequently want to summarise a large collection of observations using a small number of interpretable statistics.\nMeasures of central tendency help us describe the centre of a dataset."
+  },
+  {
+    "objectID": "descriptive-statistics.html#why-summarise-data",
+    "href": "descriptive-statistics.html#why-summarise-data",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Why Summarise Data?",
+    "text": "Why Summarise Data?\nConsider the ages of all 303 patients in the Cleveland Heart Disease dataset.\nRather than inspecting hundreds of individual values, we can summarise the overall patient population using a few representative numbers.\n\n\n\n\n\nAge distribution in the Cleveland Heart Disease dataset.\n\n\n\n\nA natural question is:\n\nWhere is the centre of this distribution?"
+  },
+  {
+    "objectID": "descriptive-statistics.html#the-mean",
+    "href": "descriptive-statistics.html#the-mean",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "The Mean",
+    "text": "The Mean\nThe mean (or average) is one of the most commonly used summary statistics.\nIt is calculated by adding all observations and dividing by the number of observations.\n\\[\n\\bar{x} = \\frac{1}{n}\\sum_{i=1}^{n} x_i\n\\]\nwhere:\n\n\\(x_i\\) is the i-th observation,\n\\(n\\) is the number of observations,\n\\(\\bar{x}\\) is the sample mean.\n\n\nExample: Mean Age\n\nmean_age = df[\"age\"].mean()\nprint(f\"Mean age = {mean_age:.2f} years\")\n\nMean age = 54.44 years\n\n\n\n\n\n\n\nMean age in the Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nThe mean age represents the average age of all patients in the dataset."
+  },
+  {
+    "objectID": "descriptive-statistics.html#the-median",
+    "href": "descriptive-statistics.html#the-median",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "The Median",
+    "text": "The Median\nThe median is the middle observation after sorting the data.\nUnlike the mean, the median is less affected by extreme values.\n\nExample: Median Age\n\nmedian_age = df[\"age\"].median()\nprint(f\"Median age = {median_age:.2f} years\")\n\nMedian age = 56.00 years\n\n\n\n\n\n\n\nMean and median age in the Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nWhen the mean and median are similar, the distribution is often approximately symmetric."
+  },
+  {
+    "objectID": "descriptive-statistics.html#the-mode",
+    "href": "descriptive-statistics.html#the-mode",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "The Mode",
+    "text": "The Mode\nThe mode is the most frequently occurring value.\nThe mode is especially useful for categorical variables.\n\nExample: Chest Pain Type\n\nmode_cp = df[\"cp\"].mode()[0]\nprint(f\"Mode of chest pain type = {int(mode_cp)}\")\n\nMode of chest pain type = 4\n\n\n\n\n\n\n\nDistribution of chest pain type.\n\n\n\n\nThe category with the highest bar corresponds to the mode."
+  },
+  {
+    "objectID": "descriptive-statistics.html#comparing-mean-median-and-mode",
+    "href": "descriptive-statistics.html#comparing-mean-median-and-mode",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Comparing Mean, Median and Mode",
+    "text": "Comparing Mean, Median and Mode\nEach measure describes the centre of a distribution in a slightly different way.\n\n\n\nStatistic\nDescription\n\n\n\n\nMean\nArithmetic average\n\n\nMedian\nMiddle value\n\n\nMode\nMost frequent value\n\n\n\nThe best choice depends on the type of data and the shape of the distribution."
+  },
+  {
+    "objectID": "descriptive-statistics.html#mean-versus-median",
+    "href": "descriptive-statistics.html#mean-versus-median",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Mean versus Median",
+    "text": "Mean versus Median\nConsider a distribution containing a few unusually large values.\nThe mean is pulled towards those extreme observations, whereas the median remains relatively stable.\n\nInteractive Demonstration: Mean versus Median\nMove the final observation and observe how the mean and median respond.\n\nviewof extreme_value = Inputs.range(\n  [20, 120],\n  {\n    value: 80,\n    step: 1,\n    label: \"Final observation\"\n  }\n)\n\n\n\n\n\n\n\ndata_values = [45, 50, 55, 60, extreme_value]\n\nmean_value = d3.mean(data_values)\n\nmedian_value = d3.median(data_values)\n\nPlot.plot({\n  width: 700,\n  height: 180,\n  marginLeft: 50,\n  x: {\n    domain: [20, 120],\n    label: \"Observed value\"\n  },\n  y: {\n    domain: [0, 1],\n    axis: null\n  },\n  marks: [\n    Plot.ruleY([0.5], {stroke: \"#cccccc\"}),\n    Plot.dot(data_values, {\n      x: d =&gt; d,\n      y: 0.5,\n      r: 8,\n      fill: \"#3A7CA5\"\n    }),\n    Plot.ruleX([mean_value], {\n      stroke: \"#C73E3A\",\n      strokeWidth: 3\n    }),\n    Plot.ruleX([median_value], {\n      stroke: \"#002147\",\n      strokeWidth: 3,\n      strokeDasharray: \"5,5\"\n    }),\n    Plot.text(\n      [`Mean = ${mean_value.toFixed(1)}`],\n      {\n        x: mean_value,\n        y: 0.82,\n        fill: \"#C73E3A\",\n        fontSize: 14\n      }\n    ),\n    Plot.text(\n      [`Median = ${median_value.toFixed(1)}`],\n      {\n        x: median_value,\n        y: 0.18,\n        fill: \"#002147\",\n        fontSize: 14\n      }\n    )\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipWhat to notice\n\n\n\nAs the final observation becomes more extreme, the mean moves more strongly than the median. This is why the median is often preferred for skewed clinical measurements.\n\n\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nThe median is generally more robust to extreme values than the mean."
+  },
+  {
+    "objectID": "descriptive-statistics.html#applying-measures-of-central-tendency",
+    "href": "descriptive-statistics.html#applying-measures-of-central-tendency",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Applying Measures of Central Tendency",
+    "text": "Applying Measures of Central Tendency\nLet us compare the mean and median of several variables.\n\nsummary = pd.DataFrame({\n    \"Mean\": [\n        df[\"age\"].mean(),\n        df[\"chol\"].mean(),\n        df[\"trestbps\"].mean(),\n        df[\"thalach\"].mean()\n    ],\n    \"Median\": [\n        df[\"age\"].median(),\n        df[\"chol\"].median(),\n        df[\"trestbps\"].median(),\n        df[\"thalach\"].median()\n    ]\n},\nindex=[\n    \"Age\",\n    \"Cholesterol\",\n    \"Blood Pressure\",\n    \"Maximum Heart Rate\"\n])\n\nsummary.round(2)\n\n\n\n\n\n\n\n\nMean\nMedian\n\n\n\n\nAge\n54.44\n56.0\n\n\nCholesterol\n246.69\n241.0\n\n\nBlood Pressure\n131.69\n130.0\n\n\nMaximum Heart Rate\n149.61\n153.0\n\n\n\n\n\n\n\nWhich variables show the largest difference between the mean and median?\nWhat might this tell us about their distributions?"
+  },
+  {
+    "objectID": "descriptive-statistics.html#try-it-yourself",
+    "href": "descriptive-statistics.html#try-it-yourself",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry it yourself\n\n\n\nUsing the Cleveland dataset:\n\nCalculate the mean cholesterol level.\nCalculate the median maximum heart rate.\nFind the mode of chest pain type.\nFind the mode of sex.\n\n\n\nSuggested commands:\ndf[\"chol\"].mean()\n\ndf[\"thalach\"].median()\n\ndf[\"cp\"].mode()[0]\n\ndf[\"sex\"].mode()[0]"
+  },
+  {
+    "objectID": "descriptive-statistics.html#measures-of-variability",
+    "href": "descriptive-statistics.html#measures-of-variability",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Measures of Variability",
+    "text": "Measures of Variability\nMeasures of central tendency tell us where the centre of a distribution is.\nHowever, they do not tell us how spread out the data are.\nTwo patient groups can have the same mean but very different variability.\n\nSame Mean, Different Spread\n\n\n\n\n\nTwo groups can have the same mean but very different variability.\n\n\n\n\nBoth groups have the same mean:\n\\[\n\\bar{x}=50\n\\]\nbut Group B is much more variable.\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA measure of centre is not enough. We also need a measure of spread."
+  },
+  {
+    "objectID": "descriptive-statistics.html#range",
+    "href": "descriptive-statistics.html#range",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Range",
+    "text": "Range\nThe simplest measure of variability is the range:\n\\[\n\\text{Range} = \\text{Maximum} - \\text{Minimum}\n\\]\nThe range tells us the total spread between the smallest and largest observations.\n\nExample: Age Range in the Cleveland Dataset\n\nage_min = df[\"age\"].min()\nage_max = df[\"age\"].max()\nage_range = age_max - age_min\n\nprint(f\"Minimum age = {age_min:.0f} years\")\nprint(f\"Maximum age = {age_max:.0f} years\")\nprint(f\"Range = {age_range:.0f} years\")\n\nMinimum age = 29 years\nMaximum age = 77 years\nRange = 48 years\n\n\nThe range is easy to understand, but it depends only on two observations: the minimum and the maximum."
+  },
+  {
+    "objectID": "descriptive-statistics.html#standard-deviation",
+    "href": "descriptive-statistics.html#standard-deviation",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Standard Deviation",
+    "text": "Standard Deviation\nThe standard deviation describes how far observations typically lie from the mean.\nA small standard deviation means the observations are tightly clustered around the mean. A large standard deviation means the observations are more spread out.\nFor a sample, the variance is:\n\\[\ns^2 = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2\n\\]\nThe standard deviation is the square root of the variance:\n\\[\ns = \\sqrt{s^2}\n\\]\nwhere:\n\n\\(s^2\\) is the sample variance,\n\\(s\\) is the sample standard deviation,\n\\(x_i-\\bar{x}\\) is the distance between an observation and the mean.\n\n\nInteractive Demonstration: Changing Variability\nMove the slider and observe how the mean and standard deviation change.\n\n\nMove the final patient value: 80\n\n\n\nMean:  Standard deviation: \n\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nAs the final value moves further away from the others, the standard deviation increases.\n\n\n\n\nExample: Standard Deviation of Age\n\nage_mean = df[\"age\"].mean()\nage_sd = df[\"age\"].std()\n\nprint(f\"Mean age = {age_mean:.2f} years\")\nprint(f\"Standard deviation = {age_sd:.2f} years\")\n\nMean age = 54.44 years\nStandard deviation = 9.04 years\n\n\n\n\n\n\n\nMean and standard deviation of age in the Cleveland dataset."
+  },
+  {
+    "objectID": "descriptive-statistics.html#interquartile-range",
+    "href": "descriptive-statistics.html#interquartile-range",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Interquartile Range",
+    "text": "Interquartile Range\nThe interquartile range focuses on the middle 50% of observations.\n\\[\nIQR = Q_3 - Q_1\n\\]\nwhere:\n\n\\(Q_1\\) is the 25th percentile,\n\\(Q_3\\) is the 75th percentile.\n\nUnlike the range, the IQR is less sensitive to extreme values.\n\nExample: IQR of Age\n\nq1 = df[\"age\"].quantile(0.25)\nq3 = df[\"age\"].quantile(0.75)\niqr = q3 - q1\n\nprint(f\"Q1 = {q1:.0f} years\")\nprint(f\"Q3 = {q3:.0f} years\")\nprint(f\"IQR = {iqr:.0f} years\")\n\nQ1 = 48 years\nQ3 = 61 years\nIQR = 13 years\n\n\n\n\n\n\n\nBoxplot showing the median and interquartile range of age.\n\n\n\n\nThe box shows the middle 50% of the data. The red line shows the median."
+  },
+  {
+    "objectID": "descriptive-statistics.html#try-it-yourself-1",
+    "href": "descriptive-statistics.html#try-it-yourself-1",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry It Yourself\n\n\n\nUsing the Cleveland dataset:\n\nCalculate the range of cholesterol.\nCalculate the standard deviation of resting blood pressure.\nCalculate the interquartile range (IQR) of maximum heart rate.\nWhich variable appears most variable:\n\nage\ncholesterol\nresting blood pressure\nmaximum heart rate\n\nWhy might the IQR sometimes be preferred over the range?\n\n\n\nSuggested commands:\nchol_range = df[\"chol\"].max() - df[\"chol\"].min()\n\ndf[\"trestbps\"].std()\n\nq1 = df[\"thalach\"].quantile(0.25)\nq3 = df[\"thalach\"].quantile(0.75)\n\nq3 - q1"
+  },
+  {
+    "objectID": "descriptive-statistics.html#summary-of-centre-and-spread",
+    "href": "descriptive-statistics.html#summary-of-centre-and-spread",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Summary of Centre and Spread",
+    "text": "Summary of Centre and Spread\n\nsummary = df[[\"age\", \"trestbps\", \"chol\", \"thalach\"]].agg(\n    [\"mean\", \"median\", \"std\", \"min\", \"max\"]\n).round(2)\n\nsummary\n\n\n\n\n\n\n\n\nage\ntrestbps\nchol\nthalach\n\n\n\n\nmean\n54.44\n131.69\n246.69\n149.61\n\n\nmedian\n56.00\n130.00\n241.00\n153.00\n\n\nstd\n9.04\n17.60\n51.78\n22.88\n\n\nmin\n29.00\n94.00\n126.00\n71.00\n\n\nmax\n77.00\n200.00\n564.00\n202.00\n\n\n\n\n\n\n\nThis table combines measures of central tendency and variability.\nAlthough numerical summaries are useful, they cannot reveal the full shape of a distribution.\nTo understand skewness, multimodality, and potential outliers, we need visualisation."
+  },
+  {
+    "objectID": "descriptive-statistics.html#visualising-distributions",
+    "href": "descriptive-statistics.html#visualising-distributions",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Visualising Distributions",
+    "text": "Visualising Distributions\nSo far, we have summarised the Cleveland dataset using numerical measures such as:\n\nMean\nMedian\nMode\nStandard deviation\nInterquartile range\n\nThese summaries are useful, but they do not tell the whole story.\nFor example:\n\nIs the distribution symmetric?\nIs it skewed?\nAre there multiple peaks?\nAre there unusual observations?\n\nTo answer these questions, we need visualisation.\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA good statistician always looks at the data before performing formal analyses."
+  },
+  {
+    "objectID": "descriptive-statistics.html#histograms",
+    "href": "descriptive-statistics.html#histograms",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Histograms",
+    "text": "Histograms\nA histogram groups observations into intervals (bins) and counts how many observations fall into each interval.\n\nExample: Age Distribution\n\n\n\n\n\nHistogram of age in the Cleveland Heart Disease dataset.\n\n\n\n\nFrom this histogram we can immediately identify:\n\nthe centre of the distribution,\nthe spread,\nthe overall shape."
+  },
+  {
+    "objectID": "descriptive-statistics.html#reading-histograms",
+    "href": "descriptive-statistics.html#reading-histograms",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Reading Histograms",
+    "text": "Reading Histograms\nWhen looking at a histogram, ask yourself:\n\nWhere is the centre?\nHow wide is the distribution?\nIs the distribution symmetric?\nAre there multiple peaks?\nAre there possible outliers?\n\nThese questions provide valuable insight before any formal statistical testing."
+  },
+  {
+    "objectID": "descriptive-statistics.html#density-curves",
+    "href": "descriptive-statistics.html#density-curves",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Density Curves",
+    "text": "Density Curves\nA density curve provides a smoothed representation of a distribution.\nRather than counting observations within bins, it estimates the underlying shape of the data.\n\n\n\n\n\nHistogram with density estimate.\n\n\n\n\nThe smooth curve highlights the overall shape of the distribution while reducing sensitivity to the exact choice of bins."
+  },
+  {
+    "objectID": "descriptive-statistics.html#boxplots",
+    "href": "descriptive-statistics.html#boxplots",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Boxplots",
+    "text": "Boxplots\nA boxplot provides a compact summary of a distribution.\nRecall the concepts introduced earlier:\n\nMedian\nFirst quartile (Q1)\nThird quartile (Q3)\nInterquartile range (IQR)\n\nA boxplot combines all of these quantities into a single visualisation.\n\n\n\n\n\nBoxplot of age.\n\n\n\n\nThe box represents the middle 50% of observations, while the line inside the box represents the median."
+  },
+  {
+    "objectID": "descriptive-statistics.html#comparing-groups-visually",
+    "href": "descriptive-statistics.html#comparing-groups-visually",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Comparing Groups Visually",
+    "text": "Comparing Groups Visually\nVisualisation becomes particularly useful when comparing groups.\nFor example:\nDo patients with heart disease tend to be older?\n\n\n\n\n\nAge distribution by heart disease status.\n\n\n\n\nThe two groups appear different.\nPatients with heart disease appear to be slightly older on average.\nHowever, visual differences alone are not enough."
+  },
+  {
+    "objectID": "descriptive-statistics.html#beyond-boxplots-violin-plots",
+    "href": "descriptive-statistics.html#beyond-boxplots-violin-plots",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Beyond Boxplots: Violin Plots",
+    "text": "Beyond Boxplots: Violin Plots\nA violin plot combines:\n\na boxplot,\na density estimate.\n\nThe width of the violin indicates where observations are concentrated.\n\n\n\n\n\nViolin plot of age by heart disease status.\n\n\n\n\nViolin plots provide more information about the shape of a distribution than boxplots alone."
+  },
+  {
+    "objectID": "descriptive-statistics.html#try-it-yourself-2",
+    "href": "descriptive-statistics.html#try-it-yourself-2",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry It Yourself\n\n\n\nUsing the Cleveland dataset:\n\nCreate a histogram of cholesterol.\nCreate a histogram of maximum heart rate.\nCreate a boxplot of resting blood pressure.\nCompare cholesterol distributions between heart disease and non-heart disease patients.\nWhich visualisation do you find most informative?\n\n\n\nSuggested commands:\nplt.hist(df[\"chol\"], bins=15)\n\nplt.hist(df[\"thalach\"], bins=15)\n\nsns.boxplot(x=df[\"trestbps\"])\n\nsns.boxplot(\n    data=df,\n    x=\"heart_disease\",\n    y=\"chol\"\n)\n\n\n\n\n\n\n\nImportantTransition to Hypothesis Testing\n\n\n\nThe visualisations suggest that some characteristics differ between patients with and without heart disease.\nHowever, visual differences alone do not tell us whether those differences are likely to reflect genuine population differences or random sampling variation.\nStatistical hypothesis testing provides a formal framework for answering this question."
+  },
+  {
+    "objectID": "descriptive-statistics.html#key-takeaways",
+    "href": "descriptive-statistics.html#key-takeaways",
+    "title": "Descriptive Statistics and Visualisation",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nDescriptive statistics help summarise clinical datasets.\nMeasures of central tendency describe the centre of a distribution.\nMeasures of variability describe how spread out the data are.\nHistograms show the shape of numerical distributions.\nBoxplots and violin plots help compare distributions between groups.\nVisual differences are useful, but they do not prove statistical significance.\n\n\n\n\n\n← Previous: The Dataset Next: Hypothesis Testing →"
+  },
+  {
     "objectID": "correlation-regression.html",
     "href": "correlation-regression.html",
     "title": "Correlation and Regression",
@@ -567,172 +735,95 @@
     "text": "Try It Yourself\n\n\n\n\n\n\nTipExercises\n\n\n\nUsing the Cleveland dataset:\n\nFit a multiple linear regression model using age, cholesterol, and blood pressure to predict maximum heart rate.\nCompare the \\(R^2\\) values of the simple and multiple regression models.\nFit a logistic regression model to predict heart disease.\nInterpret the predicted probabilities for several patients.\n\n\n\n\n\n← Previous: Hypothesis Testing"
   },
   {
-    "objectID": "descriptive-statistics.html",
-    "href": "descriptive-statistics.html",
-    "title": "Descriptive Statistics and Visualisation",
+    "objectID": "how-to-use-the-code.html",
+    "href": "how-to-use-the-code.html",
+    "title": "How to Use the Course Code",
     "section": "",
-    "text": "NoteClinical Question\n\n\n\nWhat is a typical patient in our dataset?\nIn the previous section, we explored the Cleveland Heart Disease dataset and visualised several variables.\nHowever, visual inspection alone is often insufficient.\nWe frequently want to summarise a large collection of observations using a small number of interpretable statistics.\nMeasures of central tendency help us describe the centre of a dataset."
+    "text": "This course includes practical coding exercises that allow you to apply the biostatistics concepts introduced throughout the course.\nYou can access and run the course code in two different ways:\n\nKaggle (Recommended)\nGoogle Colab\n\nBoth platforms run entirely in your web browser, so you do not need to install Python or any special software on your computer."
   },
   {
-    "objectID": "descriptive-statistics.html#why-summarise-data",
-    "href": "descriptive-statistics.html#why-summarise-data",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Why Summarise Data?",
-    "text": "Why Summarise Data?\nConsider the ages of all 303 patients in the Cleveland Heart Disease dataset.\nRather than inspecting hundreds of individual values, we can summarise the overall patient population using a few representative numbers.\n\n\n\n\n\nAge distribution in the Cleveland Heart Disease dataset.\n\n\n\n\nA natural question is:\n\nWhere is the centre of this distribution?"
+    "objectID": "how-to-use-the-code.html#why-use-kaggle",
+    "href": "how-to-use-the-code.html#why-use-kaggle",
+    "title": "How to Use the Course Code",
+    "section": "Why use Kaggle?",
+    "text": "Why use Kaggle?\nKaggle is the easiest option for beginners because:\n\nYou can create an account using any email address.\nNo software installation is required.\nThe coding environment is already prepared for you.\nYour work is saved online.\nMost students can start coding within a few minutes.\n\nFor this reason, we recommend that all students start with Kaggle unless they already have experience using Google Colab."
   },
   {
-    "objectID": "descriptive-statistics.html#the-mean",
-    "href": "descriptive-statistics.html#the-mean",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "The Mean",
-    "text": "The Mean\nThe mean (or average) is one of the most commonly used summary statistics.\nIt is calculated by adding all observations and dividing by the number of observations.\n\\[\n\\bar{x} = \\frac{1}{n}\\sum_{i=1}^{n} x_i\n\\]\nwhere:\n\n\\(x_i\\) is the i-th observation,\n\\(n\\) is the number of observations,\n\\(\\bar{x}\\) is the sample mean.\n\n\nExample: Mean Age\n\nmean_age = df[\"age\"].mean()\nprint(f\"Mean age = {mean_age:.2f} years\")\n\nMean age = 54.44 years\n\n\n\n\n\n\n\nMean age in the Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nThe mean age represents the average age of all patients in the dataset."
+    "objectID": "how-to-use-the-code.html#step-1-create-a-kaggle-account",
+    "href": "how-to-use-the-code.html#step-1-create-a-kaggle-account",
+    "title": "How to Use the Course Code",
+    "section": "Step 1: Create a Kaggle account",
+    "text": "Step 1: Create a Kaggle account\nOpen the course competition page:\n👉 Biostatistics CWM TT 26 CVD Prediction Competition\nIf you do not already have a Kaggle account:\n\nClick Register.\nSign up using any email address.\nVerify your email if requested.\nSign in to Kaggle.\n\nIf you already have a Kaggle account, click Sign In."
   },
   {
-    "objectID": "descriptive-statistics.html#the-median",
-    "href": "descriptive-statistics.html#the-median",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "The Median",
-    "text": "The Median\nThe median is the middle observation after sorting the data.\nUnlike the mean, the median is less affected by extreme values.\n\nExample: Median Age\n\nmedian_age = df[\"age\"].median()\nprint(f\"Median age = {median_age:.2f} years\")\n\nMedian age = 56.00 years\n\n\n\n\n\n\n\nMean and median age in the Cleveland dataset.\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nWhen the mean and median are similar, the distribution is often approximately symmetric."
+    "objectID": "how-to-use-the-code.html#step-2-open-a-notebook",
+    "href": "how-to-use-the-code.html#step-2-open-a-notebook",
+    "title": "How to Use the Course Code",
+    "section": "Step 2: Open a notebook",
+    "text": "Step 2: Open a notebook\nWithin Kaggle:\n\nClick on the code.\nSelect Class Worksheet and click Copy and Edit in Kaggle Notebooks. \nWait for Kaggle to initialise."
   },
   {
-    "objectID": "descriptive-statistics.html#the-mode",
-    "href": "descriptive-statistics.html#the-mode",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "The Mode",
-    "text": "The Mode\nThe mode is the most frequently occurring value.\nThe mode is especially useful for categorical variables.\n\nExample: Chest Pain Type\n\nmode_cp = df[\"cp\"].mode()[0]\nprint(f\"Mode of chest pain type = {int(mode_cp)}\")\n\nMode of chest pain type = 4\n\n\n\n\n\n\n\nDistribution of chest pain type.\n\n\n\n\nThe category with the highest bar corresponds to the mode."
+    "objectID": "how-to-use-the-code.html#step-3-run-the-code",
+    "href": "how-to-use-the-code.html#step-3-run-the-code",
+    "title": "How to Use the Course Code",
+    "section": "Step 3: Run the code",
+    "text": "Step 3: Run the code\nThe notebook is divided into small sections called cells. A cell may contain code, instructions, explanations, or outputs. You can run each code cell individually, allowing you to execute and understand the notebook step by step.\nTo run a code cell:\n\nClick on the cell.\nPress the Run button.\nWait for the output to appear.\n\nDo not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course."
   },
   {
-    "objectID": "descriptive-statistics.html#comparing-mean-median-and-mode",
-    "href": "descriptive-statistics.html#comparing-mean-median-and-mode",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Comparing Mean, Median and Mode",
-    "text": "Comparing Mean, Median and Mode\nEach measure describes the centre of a distribution in a slightly different way.\n\n\n\nStatistic\nDescription\n\n\n\n\nMean\nArithmetic average\n\n\nMedian\nMiddle value\n\n\nMode\nMost frequent value\n\n\n\nThe best choice depends on the type of data and the shape of the distribution."
+    "objectID": "how-to-use-the-code.html#tips-for-beginners",
+    "href": "how-to-use-the-code.html#tips-for-beginners",
+    "title": "How to Use the Course Code",
+    "section": "Tips for beginners",
+    "text": "Tips for beginners\n✅ Run cells from top to bottom.\n✅ Read all instructions before running code.\n✅ Save your work regularly.\n✅ If an error occurs, check whether all previous cells have been run.\n❌ Do not delete cell unless instructed to do so."
   },
   {
-    "objectID": "descriptive-statistics.html#mean-versus-median",
-    "href": "descriptive-statistics.html#mean-versus-median",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Mean versus Median",
-    "text": "Mean versus Median\nConsider a distribution containing a few unusually large values.\nThe mean is pulled towards those extreme observations, whereas the median remains relatively stable.\n\nInteractive Demonstration: Mean versus Median\nMove the final observation and observe how the mean and median respond.\n\nviewof extreme_value = Inputs.range(\n  [20, 120],\n  {\n    value: 80,\n    step: 1,\n    label: \"Final observation\"\n  }\n)\n\n\n\n\n\n\n\ndata_values = [45, 50, 55, 60, extreme_value]\n\nmean_value = d3.mean(data_values)\n\nmedian_value = d3.median(data_values)\n\nPlot.plot({\n  width: 700,\n  height: 180,\n  marginLeft: 50,\n  x: {\n    domain: [20, 120],\n    label: \"Observed value\"\n  },\n  y: {\n    domain: [0, 1],\n    axis: null\n  },\n  marks: [\n    Plot.ruleY([0.5], {stroke: \"#cccccc\"}),\n    Plot.dot(data_values, {\n      x: d =&gt; d,\n      y: 0.5,\n      r: 8,\n      fill: \"#3A7CA5\"\n    }),\n    Plot.ruleX([mean_value], {\n      stroke: \"#C73E3A\",\n      strokeWidth: 3\n    }),\n    Plot.ruleX([median_value], {\n      stroke: \"#002147\",\n      strokeWidth: 3,\n      strokeDasharray: \"5,5\"\n    }),\n    Plot.text(\n      [`Mean = ${mean_value.toFixed(1)}`],\n      {\n        x: mean_value,\n        y: 0.82,\n        fill: \"#C73E3A\",\n        fontSize: 14\n      }\n    ),\n    Plot.text(\n      [`Median = ${median_value.toFixed(1)}`],\n      {\n        x: median_value,\n        y: 0.18,\n        fill: \"#002147\",\n        fontSize: 14\n      }\n    )\n  ]\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipWhat to notice\n\n\n\nAs the final observation becomes more extreme, the mean moves more strongly than the median. This is why the median is often preferred for skewed clinical measurements.\n\n\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nThe median is generally more robust to extreme values than the mean."
+    "objectID": "how-to-use-the-code.html#when-should-i-use-colab",
+    "href": "how-to-use-the-code.html#when-should-i-use-colab",
+    "title": "How to Use the Course Code",
+    "section": "When should I use Colab?",
+    "text": "When should I use Colab?\nGoogle Colab is another online coding environment.\nYou may prefer Colab if:\n\nYou already use Google Drive frequently.\nYou want to save notebooks directly to your Google account.\nYou have previous experience using Colab."
   },
   {
-    "objectID": "descriptive-statistics.html#applying-measures-of-central-tendency",
-    "href": "descriptive-statistics.html#applying-measures-of-central-tendency",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Applying Measures of Central Tendency",
-    "text": "Applying Measures of Central Tendency\nLet us compare the mean and median of several variables.\n\nsummary = pd.DataFrame({\n    \"Mean\": [\n        df[\"age\"].mean(),\n        df[\"chol\"].mean(),\n        df[\"trestbps\"].mean(),\n        df[\"thalach\"].mean()\n    ],\n    \"Median\": [\n        df[\"age\"].median(),\n        df[\"chol\"].median(),\n        df[\"trestbps\"].median(),\n        df[\"thalach\"].median()\n    ]\n},\nindex=[\n    \"Age\",\n    \"Cholesterol\",\n    \"Blood Pressure\",\n    \"Maximum Heart Rate\"\n])\n\nsummary.round(2)\n\n\n\n\n\n\n\n\nMean\nMedian\n\n\n\n\nAge\n54.44\n56.0\n\n\nCholesterol\n246.69\n241.0\n\n\nBlood Pressure\n131.69\n130.0\n\n\nMaximum Heart Rate\n149.61\n153.0\n\n\n\n\n\n\n\nWhich variables show the largest difference between the mean and median?\nWhat might this tell us about their distributions?"
+    "objectID": "how-to-use-the-code.html#important-requirement",
+    "href": "how-to-use-the-code.html#important-requirement",
+    "title": "How to Use the Course Code",
+    "section": "Important requirement",
+    "text": "Important requirement\nUnlike Kaggle, Google Colab requires a Google account.\nYou cannot use a non-Google email address to sign in."
   },
   {
-    "objectID": "descriptive-statistics.html#try-it-yourself",
-    "href": "descriptive-statistics.html#try-it-yourself",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Try It Yourself",
-    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry it yourself\n\n\n\nUsing the Cleveland dataset:\n\nCalculate the mean cholesterol level.\nCalculate the median maximum heart rate.\nFind the mode of chest pain type.\nFind the mode of sex.\n\n\n\nSuggested commands:\ndf[\"chol\"].mean()\n\ndf[\"thalach\"].median()\n\ndf[\"cp\"].mode()[0]\n\ndf[\"sex\"].mode()[0]"
+    "objectID": "how-to-use-the-code.html#step-1-open-google-colab",
+    "href": "how-to-use-the-code.html#step-1-open-google-colab",
+    "title": "How to Use the Course Code",
+    "section": "Step 1: Open Google Colab",
+    "text": "Step 1: Open Google Colab\nGo to:\n👉 Google Colab\nSign in using your Google account."
   },
   {
-    "objectID": "descriptive-statistics.html#measures-of-variability",
-    "href": "descriptive-statistics.html#measures-of-variability",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Measures of Variability",
-    "text": "Measures of Variability\nMeasures of central tendency tell us where the centre of a distribution is.\nHowever, they do not tell us how spread out the data are.\nTwo patient groups can have the same mean but very different variability.\n\nSame Mean, Different Spread\n\n\n\n\n\nTwo groups can have the same mean but very different variability.\n\n\n\n\nBoth groups have the same mean:\n\\[\n\\bar{x}=50\n\\]\nbut Group B is much more variable.\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA measure of centre is not enough. We also need a measure of spread."
+    "objectID": "how-to-use-the-code.html#step-2-access-the-course-code",
+    "href": "how-to-use-the-code.html#step-2-access-the-course-code",
+    "title": "How to Use the Course Code",
+    "section": "Step 2: Access the course code",
+    "text": "Step 2: Access the course code\nThe course code is hosted on GitHub:\n👉 Biostatistics Course GitHub Repository\nYou can browse the repository and view all notebooks and supporting files."
   },
   {
-    "objectID": "descriptive-statistics.html#range",
-    "href": "descriptive-statistics.html#range",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Range",
-    "text": "Range\nThe simplest measure of variability is the range:\n\\[\n\\text{Range} = \\text{Maximum} - \\text{Minimum}\n\\]\nThe range tells us the total spread between the smallest and largest observations.\n\nExample: Age Range in the Cleveland Dataset\n\nage_min = df[\"age\"].min()\nage_max = df[\"age\"].max()\nage_range = age_max - age_min\n\nprint(f\"Minimum age = {age_min:.0f} years\")\nprint(f\"Maximum age = {age_max:.0f} years\")\nprint(f\"Range = {age_range:.0f} years\")\n\nMinimum age = 29 years\nMaximum age = 77 years\nRange = 48 years\n\n\nThe range is easy to understand, but it depends only on two observations: the minimum and the maximum."
+    "objectID": "how-to-use-the-code.html#step-3-import-notebooks-into-colab",
+    "href": "how-to-use-the-code.html#step-3-import-notebooks-into-colab",
+    "title": "How to Use the Course Code",
+    "section": "Step 3: Import notebooks into Colab",
+    "text": "Step 3: Import notebooks into Colab\nWithin Colab:\n\nClick File → Open Notebook.\nSelect the GitHub tab.\nPaste the repository URL: https://github.com/MultiMeDIA-Oxford/Biostatistics_code\nChoose the notebook you would like to open.\nOpen it in Colab."
   },
   {
-    "objectID": "descriptive-statistics.html#standard-deviation",
-    "href": "descriptive-statistics.html#standard-deviation",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Standard Deviation",
-    "text": "Standard Deviation\nThe standard deviation describes how far observations typically lie from the mean.\nA small standard deviation means the observations are tightly clustered around the mean. A large standard deviation means the observations are more spread out.\nFor a sample, the variance is:\n\\[\ns^2 = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^2\n\\]\nThe standard deviation is the square root of the variance:\n\\[\ns = \\sqrt{s^2}\n\\]\nwhere:\n\n\\(s^2\\) is the sample variance,\n\\(s\\) is the sample standard deviation,\n\\(x_i-\\bar{x}\\) is the distance between an observation and the mean.\n\n\nInteractive Demonstration: Changing Variability\nMove the slider and observe how the mean and standard deviation change.\n\n\nMove the final patient value: 80\n\n\n\nMean:  Standard deviation: \n\n\n\n\n\n\n\n\n\n\n\nTipInterpretation\n\n\n\nAs the final value moves further away from the others, the standard deviation increases.\n\n\n\n\nExample: Standard Deviation of Age\n\nage_mean = df[\"age\"].mean()\nage_sd = df[\"age\"].std()\n\nprint(f\"Mean age = {age_mean:.2f} years\")\nprint(f\"Standard deviation = {age_sd:.2f} years\")\n\nMean age = 54.44 years\nStandard deviation = 9.04 years\n\n\n\n\n\n\n\nMean and standard deviation of age in the Cleveland dataset."
+    "objectID": "how-to-use-the-code.html#step-4-save-your-own-copy",
+    "href": "how-to-use-the-code.html#step-4-save-your-own-copy",
+    "title": "How to Use the Course Code",
+    "section": "Step 4: Save your own copy",
+    "text": "Step 4: Save your own copy\nBefore making changes:\n\nClick File → Save a copy in Drive.\nWork on your own copy rather than editing the original notebook."
   },
   {
-    "objectID": "descriptive-statistics.html#interquartile-range",
-    "href": "descriptive-statistics.html#interquartile-range",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Interquartile Range",
-    "text": "Interquartile Range\nThe interquartile range focuses on the middle 50% of observations.\n\\[\nIQR = Q_3 - Q_1\n\\]\nwhere:\n\n\\(Q_1\\) is the 25th percentile,\n\\(Q_3\\) is the 75th percentile.\n\nUnlike the range, the IQR is less sensitive to extreme values.\n\nExample: IQR of Age\n\nq1 = df[\"age\"].quantile(0.25)\nq3 = df[\"age\"].quantile(0.75)\niqr = q3 - q1\n\nprint(f\"Q1 = {q1:.0f} years\")\nprint(f\"Q3 = {q3:.0f} years\")\nprint(f\"IQR = {iqr:.0f} years\")\n\nQ1 = 48 years\nQ3 = 61 years\nIQR = 13 years\n\n\n\n\n\n\n\nBoxplot showing the median and interquartile range of age.\n\n\n\n\nThe box shows the middle 50% of the data. The red line shows the median."
-  },
-  {
-    "objectID": "descriptive-statistics.html#try-it-yourself-1",
-    "href": "descriptive-statistics.html#try-it-yourself-1",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Try It Yourself",
-    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry It Yourself\n\n\n\nUsing the Cleveland dataset:\n\nCalculate the range of cholesterol.\nCalculate the standard deviation of resting blood pressure.\nCalculate the interquartile range (IQR) of maximum heart rate.\nWhich variable appears most variable:\n\nage\ncholesterol\nresting blood pressure\nmaximum heart rate\n\nWhy might the IQR sometimes be preferred over the range?\n\n\n\nSuggested commands:\nchol_range = df[\"chol\"].max() - df[\"chol\"].min()\n\ndf[\"trestbps\"].std()\n\nq1 = df[\"thalach\"].quantile(0.25)\nq3 = df[\"thalach\"].quantile(0.75)\n\nq3 - q1"
-  },
-  {
-    "objectID": "descriptive-statistics.html#summary-of-centre-and-spread",
-    "href": "descriptive-statistics.html#summary-of-centre-and-spread",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Summary of Centre and Spread",
-    "text": "Summary of Centre and Spread\n\nsummary = df[[\"age\", \"trestbps\", \"chol\", \"thalach\"]].agg(\n    [\"mean\", \"median\", \"std\", \"min\", \"max\"]\n).round(2)\n\nsummary\n\n\n\n\n\n\n\n\nage\ntrestbps\nchol\nthalach\n\n\n\n\nmean\n54.44\n131.69\n246.69\n149.61\n\n\nmedian\n56.00\n130.00\n241.00\n153.00\n\n\nstd\n9.04\n17.60\n51.78\n22.88\n\n\nmin\n29.00\n94.00\n126.00\n71.00\n\n\nmax\n77.00\n200.00\n564.00\n202.00\n\n\n\n\n\n\n\nThis table combines measures of central tendency and variability.\nAlthough numerical summaries are useful, they cannot reveal the full shape of a distribution.\nTo understand skewness, multimodality, and potential outliers, we need visualisation."
-  },
-  {
-    "objectID": "descriptive-statistics.html#visualising-distributions",
-    "href": "descriptive-statistics.html#visualising-distributions",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Visualising Distributions",
-    "text": "Visualising Distributions\nSo far, we have summarised the Cleveland dataset using numerical measures such as:\n\nMean\nMedian\nMode\nStandard deviation\nInterquartile range\n\nThese summaries are useful, but they do not tell the whole story.\nFor example:\n\nIs the distribution symmetric?\nIs it skewed?\nAre there multiple peaks?\nAre there unusual observations?\n\nTo answer these questions, we need visualisation.\n\n\n\n\n\n\nImportantKey Idea\n\n\n\nA good statistician always looks at the data before performing formal analyses."
-  },
-  {
-    "objectID": "descriptive-statistics.html#histograms",
-    "href": "descriptive-statistics.html#histograms",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Histograms",
-    "text": "Histograms\nA histogram groups observations into intervals (bins) and counts how many observations fall into each interval.\n\nExample: Age Distribution\n\n\n\n\n\nHistogram of age in the Cleveland Heart Disease dataset.\n\n\n\n\nFrom this histogram we can immediately identify:\n\nthe centre of the distribution,\nthe spread,\nthe overall shape."
-  },
-  {
-    "objectID": "descriptive-statistics.html#reading-histograms",
-    "href": "descriptive-statistics.html#reading-histograms",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Reading Histograms",
-    "text": "Reading Histograms\nWhen looking at a histogram, ask yourself:\n\nWhere is the centre?\nHow wide is the distribution?\nIs the distribution symmetric?\nAre there multiple peaks?\nAre there possible outliers?\n\nThese questions provide valuable insight before any formal statistical testing."
-  },
-  {
-    "objectID": "descriptive-statistics.html#density-curves",
-    "href": "descriptive-statistics.html#density-curves",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Density Curves",
-    "text": "Density Curves\nA density curve provides a smoothed representation of a distribution.\nRather than counting observations within bins, it estimates the underlying shape of the data.\n\n\n\n\n\nHistogram with density estimate.\n\n\n\n\nThe smooth curve highlights the overall shape of the distribution while reducing sensitivity to the exact choice of bins."
-  },
-  {
-    "objectID": "descriptive-statistics.html#boxplots",
-    "href": "descriptive-statistics.html#boxplots",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Boxplots",
-    "text": "Boxplots\nA boxplot provides a compact summary of a distribution.\nRecall the concepts introduced earlier:\n\nMedian\nFirst quartile (Q1)\nThird quartile (Q3)\nInterquartile range (IQR)\n\nA boxplot combines all of these quantities into a single visualisation.\n\n\n\n\n\nBoxplot of age.\n\n\n\n\nThe box represents the middle 50% of observations, while the line inside the box represents the median."
-  },
-  {
-    "objectID": "descriptive-statistics.html#comparing-groups-visually",
-    "href": "descriptive-statistics.html#comparing-groups-visually",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Comparing Groups Visually",
-    "text": "Comparing Groups Visually\nVisualisation becomes particularly useful when comparing groups.\nFor example:\nDo patients with heart disease tend to be older?\n\n\n\n\n\nAge distribution by heart disease status.\n\n\n\n\nThe two groups appear different.\nPatients with heart disease appear to be slightly older on average.\nHowever, visual differences alone are not enough."
-  },
-  {
-    "objectID": "descriptive-statistics.html#beyond-boxplots-violin-plots",
-    "href": "descriptive-statistics.html#beyond-boxplots-violin-plots",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Beyond Boxplots: Violin Plots",
-    "text": "Beyond Boxplots: Violin Plots\nA violin plot combines:\n\na boxplot,\na density estimate.\n\nThe width of the violin indicates where observations are concentrated.\n\n\n\n\n\nViolin plot of age by heart disease status.\n\n\n\n\nViolin plots provide more information about the shape of a distribution than boxplots alone."
-  },
-  {
-    "objectID": "descriptive-statistics.html#try-it-yourself-2",
-    "href": "descriptive-statistics.html#try-it-yourself-2",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Try It Yourself",
-    "text": "Try It Yourself\n\n\n\n\n\n\nTipTry It Yourself\n\n\n\nUsing the Cleveland dataset:\n\nCreate a histogram of cholesterol.\nCreate a histogram of maximum heart rate.\nCreate a boxplot of resting blood pressure.\nCompare cholesterol distributions between heart disease and non-heart disease patients.\nWhich visualisation do you find most informative?\n\n\n\nSuggested commands:\nplt.hist(df[\"chol\"], bins=15)\n\nplt.hist(df[\"thalach\"], bins=15)\n\nsns.boxplot(x=df[\"trestbps\"])\n\nsns.boxplot(\n    data=df,\n    x=\"heart_disease\",\n    y=\"chol\"\n)\n\n\n\n\n\n\n\nImportantTransition to Hypothesis Testing\n\n\n\nThe visualisations suggest that some characteristics differ between patients with and without heart disease.\nHowever, visual differences alone do not tell us whether those differences are likely to reflect genuine population differences or random sampling variation.\nStatistical hypothesis testing provides a formal framework for answering this question."
-  },
-  {
-    "objectID": "descriptive-statistics.html#key-takeaways",
-    "href": "descriptive-statistics.html#key-takeaways",
-    "title": "Descriptive Statistics and Visualisation",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways\n\n\n\n\n\n\nImportantKey Takeaways\n\n\n\n\nDescriptive statistics help summarise clinical datasets.\nMeasures of central tendency describe the centre of a distribution.\nMeasures of variability describe how spread out the data are.\nHistograms show the shape of numerical distributions.\nBoxplots and violin plots help compare distributions between groups.\nVisual differences are useful, but they do not prove statistical significance.\n\n\n\n\n\n← Previous: The Dataset Next: Hypothesis Testing →"
+    "objectID": "how-to-use-the-code.html#step-5-run-the-notebook",
+    "href": "how-to-use-the-code.html#step-5-run-the-notebook",
+    "title": "How to Use the Course Code",
+    "section": "Step 5: Run the notebook",
+    "text": "Step 5: Run the notebook\nRun the notebook from top to bottom, just as you would in Kaggle."
   },
   {
     "objectID": "index.html",
@@ -788,7 +879,7 @@
     "href": "index.html#learning-workflow",
     "title": "Biostatistics with Python",
     "section": "Learning Workflow",
-    "text": "Learning Workflow\nThroughout the module, we will follow the same analysis pattern:\n\nAsk a clinical question.\nInspect and visualise the data.\nCompute an appropriate statistical summary or test.\nInterpret the result.\nRelate the finding back to the biomedical context.\n\n\nTeaching Team\nThis course is delivered by the MultiMeDIA (Multimodal Medical Data Integration & Analysis) Lab in the Department of Engineering Science, University of Oxford.\n\n Meet the Team → \n\n\n\nStart: Why Biostatistics? →"
+    "text": "Learning Workflow\nThroughout the module, we will follow the same analysis pattern:\n\nAsk a clinical question.\nInspect and visualise the data.\nCompute an appropriate statistical summary or test.\nInterpret the result.\nRelate the finding back to the biomedical context.\n\n\nTeaching Team\nThis course is delivered by the MultiMeDIA (Multimodal Medical Data Integration & Analysis) Lab in the Department of Engineering Science, University of Oxford.\n\n Meet the Team → \n\n\n\nStart: How to Use the Course Code →"
   },
   {
     "objectID": "meet-the-team.html",

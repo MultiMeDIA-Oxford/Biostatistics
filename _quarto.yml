@@ -9,6 +9,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: how-to-use-the-code.qmd
+        text: Code
       - href: why-biostatistics.qmd
         text: Why Biostatistics?
       - href: meet-the-dataset.qmd

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biostatistics with Python</title>
+<title>How to Use the Course Code – Biostatistics with Python</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -93,11 +93,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./how-to-use-the-code.html"> 
+    <a class="nav-link active" href="./how-to-use-the-code.html" aria-current="page"> 
 <span class="menu-text">Code</span></a>
   </li>  
   <li class="nav-item">
@@ -137,104 +137,235 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a></li>
+  <li><a href="#option-1-kaggle-recommended" id="toc-option-1-kaggle-recommended" class="nav-link" data-scroll-target="#option-1-kaggle-recommended">Option 1: Kaggle (Recommended)</a>
+  <ul class="collapse">
+  <li><a href="#why-use-kaggle" id="toc-why-use-kaggle" class="nav-link" data-scroll-target="#why-use-kaggle">Why use Kaggle?</a></li>
+  <li><a href="#step-1-create-a-kaggle-account" id="toc-step-1-create-a-kaggle-account" class="nav-link" data-scroll-target="#step-1-create-a-kaggle-account">Step 1: Create a Kaggle account</a></li>
+  <li><a href="#step-2-open-a-notebook" id="toc-step-2-open-a-notebook" class="nav-link" data-scroll-target="#step-2-open-a-notebook">Step 2: Open a notebook</a></li>
+  <li><a href="#step-3-run-the-code" id="toc-step-3-run-the-code" class="nav-link" data-scroll-target="#step-3-run-the-code">Step 3: Run the code</a></li>
+  <li><a href="#tips-for-beginners" id="toc-tips-for-beginners" class="nav-link" data-scroll-target="#tips-for-beginners">Tips for beginners</a></li>
+  </ul></li>
+  <li><a href="#option-2-google-colab" id="toc-option-2-google-colab" class="nav-link" data-scroll-target="#option-2-google-colab">Option 2: Google Colab</a>
+  <ul class="collapse">
+  <li><a href="#when-should-i-use-colab" id="toc-when-should-i-use-colab" class="nav-link" data-scroll-target="#when-should-i-use-colab">When should I use Colab?</a></li>
+  <li><a href="#important-requirement" id="toc-important-requirement" class="nav-link" data-scroll-target="#important-requirement">Important requirement</a></li>
+  <li><a href="#step-1-open-google-colab" id="toc-step-1-open-google-colab" class="nav-link" data-scroll-target="#step-1-open-google-colab">Step 1: Open Google Colab</a></li>
+  <li><a href="#step-2-access-the-course-code" id="toc-step-2-access-the-course-code" class="nav-link" data-scroll-target="#step-2-access-the-course-code">Step 2: Access the course code</a></li>
+  <li><a href="#step-3-import-notebooks-into-colab" id="toc-step-3-import-notebooks-into-colab" class="nav-link" data-scroll-target="#step-3-import-notebooks-into-colab">Step 3: Import notebooks into Colab</a></li>
+  <li><a href="#step-4-save-your-own-copy" id="toc-step-4-save-your-own-copy" class="nav-link" data-scroll-target="#step-4-save-your-own-copy">Step 4: Save your own copy</a></li>
+  <li><a href="#step-5-run-the-notebook" id="toc-step-5-run-the-notebook" class="nav-link" data-scroll-target="#step-5-run-the-notebook">Step 5: Run the notebook</a></li>
+  </ul></li>
+  <li><a href="#optional-kaggle-extension-challenge" id="toc-optional-kaggle-extension-challenge" class="nav-link" data-scroll-target="#optional-kaggle-extension-challenge">Optional Kaggle Extension Challenge</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">How to Use the Course Code</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="biostatistics-with-python" class="level1 hero-banner">
-<h1>Biostatistics with Python</h1>
-<section id="learning-statistics-through-cardiovascular-data" class="level2">
-<h2 class="anchored" data-anchor-id="learning-statistics-through-cardiovascular-data">Learning Statistics Through Cardiovascular Data</h2>
-<p>Using the UCI Cleveland Heart Disease dataset, this module introduces practical statistical reasoning for biomedical data analysis.</p>
-<p>We will move from raw clinical measurements to visual summaries, statistical comparisons, and interpretable models.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="welcome" class="level1">
+<h1>Welcome</h1>
+<p>This course includes practical coding exercises that allow you to apply the biostatistics concepts introduced throughout the course.</p>
+<p>You can access and run the course code in <strong>two different ways</strong>:</p>
+<ol type="1">
+<li><strong>Kaggle (Recommended)</strong></li>
+<li><strong>Google Colab</strong></li>
+</ol>
+<p>Both platforms run entirely in your web browser, so you do <strong>not</strong> need to install Python or any special software on your computer.</p>
+<hr>
+</section>
+<section id="option-1-kaggle-recommended" class="level1">
+<h1>Option 1: Kaggle (Recommended)</h1>
+<p>Kaggle serves two purposes in this course:</p>
+<ol type="1">
+<li>It provides an online environment where you can run the course code directly in your browser.</li>
+<li>It hosts an optional extension challenge for students who would like to explore predictive modelling beyond the core course material.</li>
+</ol>
+<p>Most students will primarily use Kaggle as a platform for running the course notebooks and completing practical exercises.</p>
+<section id="why-use-kaggle" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-kaggle">Why use Kaggle?</h2>
+<p>Kaggle is the easiest option for beginners because:</p>
+<ul>
+<li>You can create an account using <strong>any email address</strong>.</li>
+<li>No software installation is required.</li>
+<li>The coding environment is already prepared for you.</li>
+<li>Your work is saved online.</li>
+<li>Most students can start coding within a few minutes.</li>
+</ul>
+<p>For this reason, <strong>we recommend that all students start with Kaggle unless they already have experience using Google Colab.</strong></p>
+</section>
+<section id="step-1-create-a-kaggle-account" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-create-a-kaggle-account">Step 1: Create a Kaggle account</h2>
+<p>Open the course competition page:</p>
+<p>👉 <strong><a href="https://www.kaggle.com/competitions/biostatistics-cwm-tt-26-cvd-prediction">Biostatistics CWM TT 26 CVD Prediction Competition</a></strong></p>
+<p>If you do not already have a Kaggle account:</p>
+<ol type="1">
+<li>Click <strong>Register</strong>.</li>
+<li>Sign up using any email address.</li>
+<li>Verify your email if requested.</li>
+<li>Sign in to Kaggle.</li>
+</ol>
+<p>If you already have a Kaggle account, click <strong>Sign In</strong>.</p>
+</section>
+<section id="step-2-open-a-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-open-a-notebook">Step 2: Open a notebook</h2>
+<p>Within Kaggle:</p>
+<ol type="1">
+<li>Click on the <strong>code</strong>.</li>
+<li>Select <strong>Class Worksheet</strong> and click <strong>Copy and Edit in Kaggle Notebooks</strong>. <img src="image/code.png" class="img-fluid quarto-figure quarto-figure-center" style="width:80.0%"></li>
+<li>Wait for Kaggle to initialise.</li>
+</ol>
+</section>
+<section id="step-3-run-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-run-the-code">Step 3: Run the code</h2>
+<p>The notebook is divided into small sections called <strong>cells</strong>. A cell may contain code, instructions, explanations, or outputs. You can run each code cell individually, allowing you to execute and understand the notebook step by step.</p>
+<p>To run a code cell:</p>
+<ol type="1">
+<li>Click on the cell.</li>
+<li>Press the <strong>Run</strong> button.</li>
+<li>Wait for the output to appear.</li>
+</ol>
+<p>Do not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course.</p>
+</section>
+<section id="tips-for-beginners" class="level2">
+<h2 class="anchored" data-anchor-id="tips-for-beginners">Tips for beginners</h2>
+<p>✅ Run cells from top to bottom.</p>
+<p>✅ Read all instructions before running code.</p>
+<p>✅ Save your work regularly.</p>
+<p>✅ If an error occurs, check whether all previous cells have been run.</p>
+<p>❌ Do not delete cell unless instructed to do so.</p>
+<hr>
 </section>
 </section>
-<div class="callout callout-style-default callout-note callout-titled" title="Core question">
+<section id="option-2-google-colab" class="level1">
+<h1>Option 2: Google Colab</h1>
+<section id="when-should-i-use-colab" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-i-use-colab">When should I use Colab?</h2>
+<p>Google Colab is another online coding environment.</p>
+<p>You may prefer Colab if:</p>
+<ul>
+<li>You already use Google Drive frequently.</li>
+<li>You want to save notebooks directly to your Google account.</li>
+<li>You have previous experience using Colab.</li>
+</ul>
+</section>
+<section id="important-requirement" class="level2">
+<h2 class="anchored" data-anchor-id="important-requirement">Important requirement</h2>
+<p>Unlike Kaggle, <strong>Google Colab requires a Google account</strong>.</p>
+<p>You cannot use a non-Google email address to sign in.</p>
+</section>
+<section id="step-1-open-google-colab" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-open-google-colab">Step 1: Open Google Colab</h2>
+<p>Go to:</p>
+<p>👉 <strong><a href="https://colab.research.google.com/">Google Colab</a></strong></p>
+<p>Sign in using your Google account.</p>
+</section>
+<section id="step-2-access-the-course-code" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-access-the-course-code">Step 2: Access the course code</h2>
+<p>The course code is hosted on GitHub:</p>
+<p>👉 <strong><a href="https://github.com/MultiMeDIA-Oxford/Biostatistics_code">Biostatistics Course GitHub Repository</a></strong></p>
+<p>You can browse the repository and view all notebooks and supporting files.</p>
+</section>
+<section id="step-3-import-notebooks-into-colab" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-import-notebooks-into-colab">Step 3: Import notebooks into Colab</h2>
+<p>Within Colab:</p>
+<ol type="1">
+<li><p>Click <strong>File → Open Notebook</strong>.</p></li>
+<li><p>Select the <strong>GitHub</strong> tab.</p></li>
+<li><p>Paste the repository URL: https://github.com/MultiMeDIA-Oxford/Biostatistics_code</p></li>
+<li><p>Choose the notebook you would like to open.</p></li>
+<li><p>Open it in Colab.</p></li>
+</ol>
+</section>
+<section id="step-4-save-your-own-copy" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-save-your-own-copy">Step 4: Save your own copy</h2>
+<p>Before making changes:</p>
+<ol type="1">
+<li>Click <strong>File → Save a copy in Drive</strong>.</li>
+<li>Work on your own copy rather than editing the original notebook.</li>
+</ol>
+</section>
+<section id="step-5-run-the-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-run-the-notebook">Step 5: Run the notebook</h2>
+<p>Run the notebook from top to bottom, just as you would in Kaggle.</p>
+<hr>
+</section>
+</section>
+<section id="optional-kaggle-extension-challenge" class="level1">
+<h1>Optional Kaggle Extension Challenge</h1>
+<p>After completing the core course activities, you may wish to take part in the optional Kaggle Extension Challenge.</p>
+<p>Participation is completely voluntary and is <strong>not required</strong> for completing the course.</p>
+<p>The challenge is designed for students who would like to explore data analysis and predictive modelling in greater depth.</p>
+<section id="what-is-the-challenge-about" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-the-challenge-about">What is the challenge about?</h3>
+<p>The Extension Challenge builds upon the concepts introduced in the <strong>Meet the Dataset</strong> section of the course.</p>
+<p>Rather than focusing only on descriptive statistics, participants are encouraged to investigate relationships within the data and develop predictive models using real-world biostatistical indicators.</p>
+<p>Students will have the opportunity to:</p>
+<ul>
+<li>Explore the dataset independently</li>
+<li>Formulate their own analytical questions</li>
+<li>Experiment with predictive modelling approaches</li>
+<li>Compare the performance of different methods</li>
+<li>Gain experience with a realistic biomedical data science workflow</li>
+</ul>
+</section>
+<section id="who-should-participate" class="level3">
+<h3 class="anchored" data-anchor-id="who-should-participate">Who should participate?</h3>
+<p>The challenge is intended for students who:</p>
+<ul>
+<li>Enjoy working with data</li>
+<li>Would like additional practice beyond the course exercises</li>
+<li>Are interested in machine learning or predictive modelling</li>
+<li>Want to further develop their programming and analytical skills</li>
+</ul>
+</section>
+<section id="how-do-i-join" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-i-join">How do I join?</h3>
+<p>The challenge is hosted on the same Kaggle competition page used throughout the course:</p>
+<p>👉 <a href="https://www.kaggle.com/competitions/biostatistics-cwm-tt-26-cvd-prediction">Biostatistics CWM TT 26 CVD Prediction Competition</a></p>
+<p>You may participate at any time after registering for Kaggle.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Core question
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>How can we use statistics to turn patient-level cardiovascular data into evidence?</p>
+<p>The Extension Challenge is optional. You do not need to participate in order to complete the course.</p>
 </div>
 </div>
-<section id="module-overview" class="level2">
-<h2 class="anchored" data-anchor-id="module-overview">Module Overview</h2>
-<div class="grid">
-<div class="g-col-4">
-<section id="part-i" class="level3">
-<h3 class="anchored" data-anchor-id="part-i">Part I</h3>
-</section>
-<section id="descriptive-statistics" class="level2">
-<h2 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h2>
-<p>Explore the dataset, summarise patient variables, and visualise distributions.</p>
-</section>
-</div>
-<div class="g-col-4">
-<section id="part-ii" class="level3">
-<h3 class="anchored" data-anchor-id="part-ii">Part II</h3>
-</section>
-<section id="hypothesis-testing" class="level2">
-<h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis Testing</h2>
-<p>Compare patient groups and decide whether observed differences are likely to reflect meaningful effects.</p>
-</section>
-</div>
-<div class="g-col-4">
-<section id="part-iii" class="level3">
-<h3 class="anchored" data-anchor-id="part-iii">Part III</h3>
-</section>
-<section id="correlation-and-regression" class="level2">
-<h2 class="anchored" data-anchor-id="correlation-and-regression">Correlation and Regression</h2>
-<p>Study relationships between clinical variables and learn how simple models support interpretation.</p>
-</section>
-</div>
-</div>
-<hr>
-</section>
-<section id="dataset-at-a-glance" class="level2">
-<h2 class="anchored" data-anchor-id="dataset-at-a-glance">Dataset at a Glance</h2>
-<p>The module uses the <strong>processed Cleveland database</strong> from the UCI Heart Disease dataset. The UCI repository describes the Heart Disease dataset as containing four databases, with Cleveland being the processed database most commonly used in machine learning studies.</p>
-<div id="1b6ac9db" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-2-output-1.png" width="763" height="389" class="figure-img"></p>
-<figcaption>Summary of the processed Cleveland Heart Disease dataset used throughout the module.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-</section>
-<section id="learning-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="learning-workflow">Learning Workflow</h2>
-<p>Throughout the module, we will follow the same analysis pattern:</p>
-<ol type="1">
-<li>Ask a clinical question.</li>
-<li>Inspect and visualise the data.</li>
-<li>Compute an appropriate statistical summary or test.</li>
-<li>Interpret the result.</li>
-<li>Relate the finding back to the biomedical context.</li>
-</ol>
-<section id="teaching-team" class="level3">
-<h3 class="anchored" data-anchor-id="teaching-team">Teaching Team</h3>
-<p>This course is delivered by the MultiMeDIA (Multimodal Medical Data Integration &amp; Analysis) Lab in the Department of Engineering Science, University of Oxford.</p>
-<div style="margin-top: 1rem;">
-<p><a class="home-button" href="meet-the-team.html"> Meet the Team → </a></p>
-</div>
-<hr>
-<div class="page-navigation column-page">
-<p><a class="nav-button next" href="how-to-use-the-code.html">Start: How to Use the Course Code →</a></p>
+<div class="page-navigation">
+<p><a class="nav-button previous" href="index.html">← Return to Home</a> <a class="nav-button next" href="why-biostatistics.html">Next: Why Biostatistics? →</a></p>
 </div>
 
 
