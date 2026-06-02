@@ -781,7 +781,7 @@ p \ge 0.05
 </section>
 <section id="visualising-a-confidence-interval" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-a-confidence-interval">Visualising a Confidence Interval</h2>
-<div id="f7d81f06" class="cell" data-execution_count="2">
+<div id="d4faa484" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1016,7 +1016,7 @@ p \ge 0.05
 <h2 class="anchored" data-anchor-id="q-q-plots">Q-Q Plots</h2>
 <p>A Quantile–Quantile (Q-Q) plot compares the observed data against the theoretical quantiles of a normal distribution.</p>
 <p>If the points approximately follow a straight line, the data are reasonably consistent with normality.</p>
-<div id="b7e67dd5" class="cell" data-execution_count="3">
+<div id="511bc597" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1051,7 +1051,7 @@ p \ge 0.05
 </section>
 <section id="example-age" class="level3">
 <h3 class="anchored" data-anchor-id="example-age">Example: Age</h3>
-<div id="566d2cb0" class="cell" data-execution_count="4">
+<div id="a5dee9ed" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> shapiro</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stat, p <span class="op">=</span> shapiro(df[<span class="st">"age"</span>].dropna())</span>
@@ -1115,7 +1115,7 @@ p-value = 0.006</code></pre>
 <section id="example-1" class="level3">
 <h3 class="anchored" data-anchor-id="example-1">Example</h3>
 <p>Suppose we wish to compare age between patients with and without heart disease.</p>
-<div id="518c0850" class="cell" data-execution_count="5">
+<div id="1a801f04" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> levene</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>group1 <span class="op">=</span> df[df[<span class="st">"heart_disease"</span>] <span class="op">==</span> <span class="st">"Heart Disease"</span>][<span class="st">"age"</span>]</span>
@@ -1321,7 +1321,7 @@ H_A:\mu_{HD}\neq\mu_{NoHD}
 </section>
 <section id="visual-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="visual-comparison">Visual Comparison</h3>
-<div id="a40ebabb" class="cell" data-execution_count="6">
+<div id="52c663d0" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1337,7 +1337,7 @@ H_A:\mu_{HD}\neq\mu_{NoHD}
 </section>
 <section id="performing-the-test" class="level3">
 <h3 class="anchored" data-anchor-id="performing-the-test">Performing the Test</h3>
-<div id="c0784a83" class="cell" data-execution_count="7">
+<div id="777bafc3" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_ind</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1457,7 +1457,7 @@ H_A:\text{Not all means are equal}
 </section>
 <section id="visual-comparison-1" class="level3">
 <h3 class="anchored" data-anchor-id="visual-comparison-1">Visual Comparison</h3>
-<div id="b2156498" class="cell" data-execution_count="8">
+<div id="b355f798" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1471,7 +1471,7 @@ H_A:\text{Not all means are equal}
 </section>
 <section id="performing-anova" class="level3">
 <h3 class="anchored" data-anchor-id="performing-anova">Performing ANOVA</h3>
-<div id="f4ba9508" class="cell" data-execution_count="9">
+<div id="7e1ed494" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [</span>
@@ -1549,7 +1549,7 @@ p-value = 0.01908</code></pre>
 </section>
 <section id="contingency-table" class="level3">
 <h3 class="anchored" data-anchor-id="contingency-table">Contingency Table</h3>
-<div id="81653edc" class="cell" data-execution_count="10">
+<div id="9a1f5cee" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> pd.crosstab(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"sex"</span>],</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"heart_disease"</span>]</span>
@@ -1594,7 +1594,7 @@ p-value = 0.01908</code></pre>
 </section>
 <section id="performing-the-test-1" class="level3">
 <h3 class="anchored" data-anchor-id="performing-the-test-1">Performing the Test</h3>
-<div id="8dd3be5d" class="cell" data-execution_count="11">
+<div id="1dd11456" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2_contingency</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>chi2, p_value, dof, expected <span class="op">=</span> chi2_contingency(table)</span>
@@ -1622,7 +1622,7 @@ p-value = 0.00000</code></pre>
 </section>
 <section id="visualising-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="visualising-the-data">Visualising the Data</h3>
-<div id="f9e12433" class="cell" data-execution_count="12">
+<div id="27159e97" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

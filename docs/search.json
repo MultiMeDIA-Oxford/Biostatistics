@@ -753,21 +753,21 @@
     "href": "how-to-use-the-code.html#step-1-create-a-kaggle-account",
     "title": "How to Use the Course Code",
     "section": "Step 1: Create a Kaggle account",
-    "text": "Step 1: Create a Kaggle account\nOpen the course competition page:\n👉 Biostatistics CWM TT 26 CVD Prediction Competition\nIf you do not already have a Kaggle account:\n\nClick Register.\nSign up using any email address.\nVerify your email if requested.\nSign in to Kaggle.\n\nIf you already have a Kaggle account, click Sign In."
+    "text": "Step 1: Create a Kaggle account\nOpen the course code (class worksheet) page:\n👉 Class Worksheet\nIf you do not already have a Kaggle account:\n\nClick Register.\nSign up using any email address.\nVerify your email if requested.\nSign in to Kaggle.\n\nIf you already have a Kaggle account, click Sign In."
   },
   {
     "objectID": "how-to-use-the-code.html#step-2-open-a-notebook",
     "href": "how-to-use-the-code.html#step-2-open-a-notebook",
     "title": "How to Use the Course Code",
     "section": "Step 2: Open a notebook",
-    "text": "Step 2: Open a notebook\nWithin Kaggle:\n\nClick on the code.\nSelect Class Worksheet and click Copy and Edit in Kaggle Notebooks. \nWait for Kaggle to initialise."
+    "text": "Step 2: Open a notebook\nWithin Kaggle:\n\nClick on the Copy & Edit. \nWait for Kaggle to initialise."
   },
   {
     "objectID": "how-to-use-the-code.html#step-3-run-the-code",
     "href": "how-to-use-the-code.html#step-3-run-the-code",
     "title": "How to Use the Course Code",
     "section": "Step 3: Run the code",
-    "text": "Step 3: Run the code\nThe notebook is divided into small sections called cells. A cell may contain code, instructions, explanations, or outputs. You can run each code cell individually, allowing you to execute and understand the notebook step by step.\nTo run a code cell:\n\nClick on the cell.\nPress the Run button.\nWait for the output to appear.\n\nDo not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course."
+    "text": "Step 3: Run the code\nThe notebook is divided into small sections called cells. A cell may contain code, instructions, explanations, or outputs. You can run each code cell individually, allowing you to execute and understand the notebook step by step.\nTo run a code cell:\n\nClick on the cell.\nPress the Run current cell button. Or click the triangle icon next to the cell.\nWait for the output to appear.\n\nDo not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course."
   },
   {
     "objectID": "how-to-use-the-code.html#tips-for-beginners",
@@ -823,7 +823,14 @@
     "href": "how-to-use-the-code.html#step-5-run-the-notebook",
     "title": "How to Use the Course Code",
     "section": "Step 5: Run the notebook",
-    "text": "Step 5: Run the notebook\nRun the notebook from top to bottom, just as you would in Kaggle."
+    "text": "Step 5: Run the notebook\nThe notebook is divided into small sections called cells. A cell may contain code, instructions, explanations, or outputs. You can run each code cell individually, allowing you to execute and understand the notebook step by step.\nTo run a code cell:\n\nClick on the cell.\nClick the triangle icon in the cell.\nWait for the output to appear.\n\nDo not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course."
+  },
+  {
+    "objectID": "how-to-use-the-code.html#tips-for-beginners-1",
+    "href": "how-to-use-the-code.html#tips-for-beginners-1",
+    "title": "How to Use the Course Code",
+    "section": "Tips for beginners",
+    "text": "Tips for beginners\n✅ Run cells from top to bottom.\n✅ Read all instructions before running code.\n✅ Save your work regularly.\n✅ If an error occurs, check whether all previous cells have been run.\n❌ Do not delete cell unless instructed to do so."
   },
   {
     "objectID": "index.html",
