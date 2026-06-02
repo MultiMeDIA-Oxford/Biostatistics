@@ -40,9 +40,9 @@ For this reason, **we recommend that all students start with Kaggle unless they 
 
 ## Step 1: Create a Kaggle account
 
-Open the course competition page:
+Open the course code (class worksheet) page:
 
-👉 **[Biostatistics CWM TT 26 CVD Prediction Competition](https://www.kaggle.com/competitions/biostatistics-cwm-tt-26-cvd-prediction)**
+👉 **[Class Worksheet](https://www.kaggle.com/code/adriandmcintosh/class-worksheet)**
 
 If you do not already have a Kaggle account:
 
@@ -57,7 +57,7 @@ If you already have a Kaggle account, click **Sign In**.
 
 Within Kaggle:
 
-1. Click on the **code**.
+1. Click on the **Copy & Edit**.
 2. Select **Class Worksheet** and click **Copy and Edit in Kaggle Notebooks**.
 ![](image/code.png){fig-align="center" width="80%"}
 3. Wait for Kaggle to initialise.
@@ -69,7 +69,7 @@ The notebook is divided into small sections called **cells**. A cell may contain
 To run a code cell:
 
 1. Click on the cell.
-2. Press the **Run** button.
+2. Press the **Run current cell** button. Or click the **triangle icon** next to the cell.
 3. Wait for the output to appear.
 
 Do not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course.
@@ -144,7 +144,27 @@ Before making changes:
 
 ## Step 5: Run the notebook
 
-Run the notebook from top to bottom, just as you would in Kaggle.
+The notebook is divided into small sections called **cells**. A cell may contain code, instructions, explanations, or outputs. You can run each code cell individually, allowing you to execute and understand the notebook step by step.
+
+To run a code cell:
+
+1. Click on the cell.
+2. Click the **triangle icon** in the cell.
+3. Wait for the output to appear.
+
+Do not worry if you do not understand every line of code immediately. The goal is to learn gradually throughout the course.
+
+## Tips for beginners
+
+✅ Run cells from top to bottom.
+
+✅ Read all instructions before running code.
+
+✅ Save your work regularly.
+
+✅ If an error occurs, check whether all previous cells have been run.
+
+❌ Do not delete cell unless instructed to do so.
 
 ---
 
@@ -187,6 +207,8 @@ The challenge is hosted on the same Kaggle competition page used throughout the 
 👉 [Biostatistics CWM TT 26 CVD Prediction Competition](https://www.kaggle.com/competitions/biostatistics-cwm-tt-26-cvd-prediction)
 
 You may participate at any time after registering for Kaggle.
+
+For further details about the challenge, please visit the website.
 
 ::: {.callout-note}
 The Extension Challenge is optional. You do not need to participate in order to complete the course.
