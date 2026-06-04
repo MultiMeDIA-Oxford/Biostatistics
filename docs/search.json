@@ -739,7 +739,7 @@
     "href": "how-to-use-the-code.html",
     "title": "How to Use the Course Code",
     "section": "",
-    "text": "This course includes practical coding exercises that allow you to apply the biostatistics concepts introduced throughout the course.\nYou can access and run the course code in two different ways:\n\nKaggle (Recommended)\nGoogle Colab\n\nBoth platforms run entirely in your web browser, so you do not need to install Python or any special software on your computer."
+    "text": "This course includes practical coding exercises that allow you to apply the biostatistics concepts introduced throughout the course.\nYou can access and run the course code in two different ways:\n\nKaggle (Recommended)\nGoogle Colab\n\nBoth platforms run entirely in your web browser, so you do not need to install Python or any special software on your computer.\nData importing for the course is already included in the code. Detailed variable names and their meanings can be found on the dataset webpage."
   },
   {
     "objectID": "how-to-use-the-code.html#why-use-kaggle",

@@ -15,6 +15,8 @@ You can access and run the course code in **two different ways**:
 
 Both platforms run entirely in your web browser, so you do **not** need to install Python or any special software on your computer.
 
+Data importing for the course is already included in the code. **Detailed variable names and their meanings can be found on the dataset webpage**.
+
 ---
 
 # Option 1: Kaggle (Recommended)
