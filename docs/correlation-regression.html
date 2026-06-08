@@ -352,7 +352,7 @@ window.Quarto = {
 <p>Before calculating any statistic, we should first look at the data.</p>
 <p>A scatter plot is one of the simplest ways to visualise the relationship between two numerical variables.</p>
 <p>Each point represents one patient.</p>
-<div id="dec26557" class="cell" data-execution_count="2">
+<div id="ad6cf5da" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -550,7 +550,7 @@ drawCorrelation();
 <p>Mathematically, Pearson correlation is precisely the correlation coefficient <span class="math inline">\(r\)</span> defined above.</p>
 <p>It measures how closely the data follow a straight-line relationship.</p>
 <p>For the Cleveland dataset, we can quantify the relationship between age and maximum heart rate.</p>
-<div id="bd1e7926" class="cell" data-execution_count="3">
+<div id="15bebb03" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>r, p <span class="op">=</span> pearsonr(</span>
@@ -616,7 +616,7 @@ R(Y)
 \right)
 \]</span></p>
 <p>This makes Spearman correlation less sensitive to outliers and departures from linearity.</p>
-<div id="1f15e18b" class="cell" data-execution_count="4">
+<div id="00b28914" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> spearmanr</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>rho, p <span class="op">=</span> spearmanr(</span>
@@ -1020,7 +1020,7 @@ drawRegression();
 <section id="fitting-a-regression-model" class="level2">
 <h2 class="anchored" data-anchor-id="fitting-a-regression-model">Fitting a Regression Model</h2>
 <p>Using the Cleveland dataset, we can model maximum heart rate as a function of age.</p>
-<div id="d994060d" class="cell" data-execution_count="5">
+<div id="5de10a7c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"age"</span>]]</span>
@@ -1049,7 +1049,7 @@ Slope = -1.00</code></pre>
 </section>
 <section id="visualising-the-regression-line" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-the-regression-line">Visualising the Regression Line</h2>
-<div id="a56bfbab" class="cell" data-execution_count="6">
+<div id="2cb9f85e" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1099,7 +1099,7 @@ Slope = -1.00</code></pre>
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p>Once the model has been fitted, we can use it to make predictions.</p>
 <p>For example, what maximum heart rate would we predict for a 60-year-old patient?</p>
-<div id="2f645ed6" class="cell" data-execution_count="7">
+<div id="b86baa9c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>predicted_hr <span class="op">=</span> model.predict([[<span class="dv">60</span>]])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Predicted maximum heart rate = </span><span class="sc">{</span>predicted_hr[<span class="dv">0</span>]<span class="sc">:.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1134,7 +1134,7 @@ y_i
 </section>
 <section id="visualising-residuals" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-residuals">Visualising Residuals</h2>
-<div id="c6bc479f" class="cell" data-execution_count="8">
+<div id="15285f78" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1171,7 +1171,7 @@ R^2
 <li><span class="math inline">\(R^2 = 0\)</span> indicates no explanatory power;</li>
 <li><span class="math inline">\(R^2 = 1\)</span> indicates perfect prediction.</li>
 </ul>
-<div id="22c17707" class="cell" data-execution_count="9">
+<div id="3c9c266d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> model.score(X, y)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R² = </span><span class="sc">{</span>r2<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1276,7 +1276,7 @@ y
 <li>cholesterol;</li>
 <li>resting blood pressure.</li>
 </ul>
-<div id="8600178e" class="cell" data-execution_count="10">
+<div id="555ae291" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"age"</span>, <span class="st">"chol"</span>, <span class="st">"trestbps"</span>]]</span>
@@ -1378,7 +1378,7 @@ BIC = k\log(n) - 2\log(L)
 </section>
 <section id="comparing-several-models" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-several-models">Comparing Several Models</h2>
-<div id="e7fc77ce" class="cell" data-execution_count="11">
+<div id="dbf61ac6" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>candidate_models <span class="op">=</span> {</span>
@@ -1486,7 +1486,7 @@ BIC = k\log(n) - 2\log(L)
 <section id="which-variables-appear-most-important" class="level3">
 <h3 class="anchored" data-anchor-id="which-variables-appear-most-important">Which Variables Appear Most Important?</h3>
 <p>One simple way to assess importance is to examine the fitted coefficients.</p>
-<div id="9b298eb1" class="cell" data-execution_count="12">
+<div id="e6778da7" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
@@ -1827,7 +1827,7 @@ drawSigmoid();
 <li>resting blood pressure;</li>
 <li>maximum heart rate.</li>
 </ul>
-<div id="962ad6af" class="cell" data-execution_count="13">
+<div id="e5cd8a40" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"age"</span>, <span class="st">"chol"</span>, <span class="st">"trestbps"</span>, <span class="st">"thalach"</span>]]</span>
@@ -1861,7 +1861,7 @@ drawSigmoid();
 <li><strong>Accuracy</strong>: proportion of correct predictions.</li>
 <li><strong>Area Under the ROC Curve (AUC)</strong>: measures how well the model separates the two classes across all decision thresholds.</li>
 </ul>
-<div id="8305b132" class="cell" data-execution_count="14">
+<div id="6f84641f" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    accuracy_score,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    roc_auc_score</span>

@@ -15,7 +15,7 @@ You can access and run the course code in **two different ways**:
 
 Both platforms run entirely in your web browser, so you do **not** need to install Python or any special software on your computer.
 
-Data importing for the course is already included in the code. **Detailed variable names and their meanings can be found on the dataset webpage**.
+Data importing for the course is already included in the code. **Detailed variable names and their meanings can be found on the [dataset webpage](meet-the-dataset.html#understanding-the-variables)**.
 
 ---
 
@@ -44,7 +44,7 @@ For this reason, **we recommend that all students start with Kaggle unless they 
 
 Open the course code (class worksheet) page:
 
-👉 **[Class Worksheet](https://www.kaggle.com/code/adriandmcintosh/class-worksheet)**
+👉 **[Class Worksheet](https://www.kaggle.com/code/adriandmcintosh/class-worksheet){target="_blank" rel="noopener noreferrer"}**
 
 If you do not already have a Kaggle account:
 
@@ -112,7 +112,7 @@ You cannot use a non-Google email address to sign in.
 
 Go to:
 
-👉 **[Google Colab](https://colab.research.google.com/)**
+👉 **[Google Colab](https://colab.research.google.com/){target="_blank" rel="noopener noreferrer"}**
 
 Sign in using your Google account.
 
@@ -120,7 +120,7 @@ Sign in using your Google account.
 
 The course code is hosted on GitHub:
 
-👉 **[Biostatistics Course GitHub Repository](https://github.com/MultiMeDIA-Oxford/Biostatistics_code)**
+👉 **[Biostatistics Course GitHub Repository](https://github.com/MultiMeDIA-Oxford/Biostatistics_code){target="_blank" rel="noopener noreferrer"}**
 
 You can browse the repository and view all notebooks and supporting files.
 
@@ -205,7 +205,7 @@ The challenge is intended for students who:
 
 The challenge is hosted on the same Kaggle competition page used throughout the course:
 
-👉 [Biostatistics CWM TT 26 CVD Prediction Competition](https://www.kaggle.com/competitions/biostatistics-cwm-tt-26-cvd-prediction)
+👉 [Biostatistics CWM TT 26 CVD Prediction Competition](https://www.kaggle.com/competitions/biostatistics-cwm-tt-26-cvd-prediction){target="_blank" rel="noopener noreferrer"}
 
 You may participate at any time after registering for Kaggle.
 
